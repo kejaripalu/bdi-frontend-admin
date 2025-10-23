@@ -52,6 +52,8 @@ import { PenkumluhkumComponent } from "./register/penkumluhkum/penkumluhkum.comp
 import { PenkumluhkumListComponent } from "./register/penkumluhkum/penkumluhkum-list/penkumluhkum-list.component";
 import { PenkumluhkumFormComponent } from "./register/penkumluhkum/penkumluhkum-form/penkumluhkum-form.component";
 import { PenkumluhkumDetailComponent } from "./register/penkumluhkum/penkumluhkum-detail/penkumluhkum-detail.component";
+import { DataPetaComponent } from "./peta/data-peta/data-peta.component";
+import { DataPetaListComponent } from "./peta/data-peta/data-peta-list/data-peta-list.component";
 
 const appRoutes: Routes = [
     { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
@@ -176,6 +178,15 @@ const appRoutes: Routes = [
         { path: 'luhkum/:id/form', component: PenkumluhkumFormComponent },
         { path: 'luhkum/:id/detail', component: PenkumluhkumDetailComponent }
      ]},
+     { path: 'data-peta', component: DataPetaComponent, 
+        canActivate: [AuthGuard],
+        children:[
+        { path: '', redirectTo: '/data-peta/list', pathMatch: 'full' },
+        { path: 'list', component: DataPetaListComponent },
+        // { path: 'list/form', component: DataPetaFormComponent },
+        // { path: 'list/:id/form', component: DataPetaFormComponent },
+        // { path: 'list/:id/detail', component: DataPetaDetailComponent }
+    ]},
     { path: 'page-not-found', component: PageNotFoundComponent, canActivate: [AuthGuard] },
     { path: '**', redirectTo: 'page-not-found', pathMatch: 'full' }
 ];

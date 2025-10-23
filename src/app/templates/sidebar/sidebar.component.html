@@ -107,8 +107,6 @@
                     <nav class="sb-sidenav-menu-nested nav">
                         <a class="nav-link" routerLinkActive="active" 
                             [routerLink]="['/pphppm', 'list']">Register Tamu</a>                      
-                        <!-- <a class="nav-link"  
-                            href="/page-not-found">Informasi Publik</a> -->
                     </nav>
                 </div>
                 <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapsePenkumLuhkum" aria-expanded="false" aria-controls="collapsePPMPPH">
@@ -123,6 +121,22 @@
                             [queryParams]="{ jenisKegiatan: 'PENERANGAN_HUKUM' }">Register Kegiatan</a>                      
                         <!-- <a class="nav-link"  
                             href="/page-not-found">Informasi Publik</a> -->
+                    </nav>
+                </div>
+                <div class="sb-sidenav-menu-heading">Data & Grafik</div>
+                <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapsePetaGrafik" aria-expanded="false" aria-controls="collapsePetaGrafik">
+                    <div class="sb-nav-link-icon"><i class="bi bi-geo-alt-fill"></i></div>
+                    Peta
+                    <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                </a>
+                <div class="collapse" id="collapsePetaGrafik" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
+                    <nav class="sb-sidenav-menu-nested nav">
+                        <a class="nav-link" routerLinkActive="active" 
+                            [routerLink]="['/data-peta', 'list']"
+                            [queryParams]="{ bidang: 'IPOLHANKAM' }">Data Peta</a>
+                        <a class="nav-link" routerLinkActive="active" 
+                            [routerLink]="['/surat-keluar', 'biasa']"
+                            [queryParams]="{ jenisSurat: 'B' }">Peta & Simbol</a>
                     </nav>
                 </div>
                 <!-- <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapsePages" aria-expanded="false" aria-controls="collapsePages">

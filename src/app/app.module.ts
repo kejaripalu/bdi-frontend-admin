@@ -85,6 +85,9 @@ import { CustomMinValidatorDirective } from './shared/custom-directive/custom-mi
 import { PenkumluhkumDetailComponent } from './register/penkumluhkum/penkumluhkum-detail/penkumluhkum-detail.component';
 import { PenkumluhkumHelpComponent } from './register/penkumluhkum/penkumluhkum-help/penkumluhkum-help.component';
 import { DeleteModalComponent } from './shared/delete-modal/delete-modal.component';
+import { DataPetaComponent } from './peta/data-peta/data-peta.component';
+import { DataPetaListComponent } from './peta/data-peta/data-peta-list/data-peta-list.component';
+import { DataPetaHelpComponent } from './peta/data-peta/data-peta-help/data-peta-help.component';
 
 @NgModule({
   declarations: [
@@ -165,7 +168,10 @@ import { DeleteModalComponent } from './shared/delete-modal/delete-modal.compone
     CustomMinValidatorDirective,
     PenkumluhkumDetailComponent,
     PenkumluhkumHelpComponent,
-    DeleteModalComponent
+    DeleteModalComponent,
+    DataPetaComponent,
+    DataPetaListComponent,
+    DataPetaHelpComponent
   ],
   imports: [
     BrowserModule,
