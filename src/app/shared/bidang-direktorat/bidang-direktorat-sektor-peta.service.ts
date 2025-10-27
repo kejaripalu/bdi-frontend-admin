@@ -4,7 +4,7 @@ import { BidangDirektorat, BidangDirektoratLabel } from "./bidang-direktorat";
 import { Sektor } from "./sektor";
 
 @Injectable({ providedIn: 'root' })
-export class BidangDirektoratSektorService {
+export class BidangDirektoratSektorPetaService {
     
     getBidangDirektori() {
         const bidang: Bidang[] = [
@@ -21,23 +21,22 @@ export class BidangDirektoratSektorService {
         const sektor: Sektor[] = [
             // Ideologi, Politik, Pertahanan dan Keamanan
             { namaSektor: 'PENGAMANAN_PANCASILA', deskripsiSektor: 'Pengamanan Pancasila', bidangDirektorat: BidangDirektorat[BidangDirektorat.IPOLHANKAM] },
-            { namaSektor: 'KESATUAN_PERSATUAN_BANGSA', deskripsiSektor: 'Kesatuan dan Persatuan Bangsa', bidangDirektorat: BidangDirektorat[BidangDirektorat.IPOLHANKAM] },
+            { namaSektor: 'PERSATUAN_KESATUAN_BANGSA', deskripsiSektor: 'Persatuan dan Kesatuan Bangsa', bidangDirektorat: BidangDirektorat[BidangDirektorat.IPOLHANKAM] },
             { namaSektor: 'GERAKAN_SEPARATIS', deskripsiSektor: 'Gerakan Separatis', bidangDirektorat: BidangDirektorat[BidangDirektorat.IPOLHANKAM] },
             { namaSektor: 'PENYELENGGARAAN_PEMERINTAHAN', deskripsiSektor: 'Penyelenggaraan Pemerintahan', bidangDirektorat: BidangDirektorat[BidangDirektorat.IPOLHANKAM] },
-            { namaSektor: 'PARPOL', deskripsiSektor: 'Partai Politik', bidangDirektorat: BidangDirektorat[BidangDirektorat.IPOLHANKAM] },
-            { namaSektor: 'PEMILU_PILKADA', deskripsiSektor: 'Pemilihan Umum dan Pemilihan Kepala Daerah', bidangDirektorat: BidangDirektorat[BidangDirektorat.IPOLHANKAM] },
-            { namaSektor: 'GERAKAN_TERORIS_RADIKAL', deskripsiSektor: 'Gerakan Teroris dan Radikal', bidangDirektorat: BidangDirektorat[BidangDirektorat.IPOLHANKAM] },
-            { namaSektor: 'PENGAMANAN_WILAYAH_TERITORIAL', deskripsiSektor: 'Pengamanan wilayah Teritorial', bidangDirektorat: BidangDirektorat[BidangDirektorat.IPOLHANKAM] },
+            { namaSektor: 'PARPOL_PEMILU_PILKADA', deskripsiSektor: 'Partai Politik, Pemilu dan Pilkada', bidangDirektorat: BidangDirektorat[BidangDirektorat.IPOLHANKAM] },
+            { namaSektor: 'GERAKAN_TERORIS_RADIKAL', deskripsiSektor: 'Gerakan Terorisme dan Radikalisme', bidangDirektorat: BidangDirektorat[BidangDirektorat.IPOLHANKAM] },
+            { namaSektor: 'PENGAWASAN_WILAYAH_TERITORIAL', deskripsiSektor: 'Pengawasan wilayah Teritorial', bidangDirektorat: BidangDirektorat[BidangDirektorat.IPOLHANKAM] },
             { namaSektor: 'KEJAHATAN_SIBER', deskripsiSektor: 'Kejahatan Siber', bidangDirektorat: BidangDirektorat[BidangDirektorat.IPOLHANKAM] },
-            { namaSektor: 'CEGAH_TANGKAL', deskripsiSektor: 'Cegah Tangkal', bidangDirektorat: BidangDirektorat[BidangDirektorat.IPOLHANKAM] },
+            { namaSektor: 'CEKAL', deskripsiSektor: 'CEKAL', bidangDirektorat: BidangDirektorat[BidangDirektorat.IPOLHANKAM] },
             { namaSektor: 'PENGAWASAN_ORANG_ASING', deskripsiSektor: 'Pengawasan Orang Asing', bidangDirektorat: BidangDirektorat[BidangDirektorat.IPOLHANKAM] },
             { namaSektor: 'PENGAMANAN_SUMBER_DAYA_ORGANISASI_KEJAKSAAN', deskripsiSektor: 'Pengamanan Sumber Daya Organisasi Kejaksaan', bidangDirektorat: BidangDirektorat[BidangDirektorat.IPOLHANKAM] },
             { namaSektor: 'PENGAMANAN_PENANGANAN_PERKARA', deskripsiSektor: 'Pengamanan Penanganan Perkara', bidangDirektorat: BidangDirektorat[BidangDirektorat.IPOLHANKAM] },
         
             // Sosial, Budaya, dan Kemasyarakatan
             { namaSektor: 'PENGAWASAN_BARCET_DALAM_NEGERI', deskripsiSektor: 'Pengawasan Peredaran Barang Cetakan Dalam Negeri', bidangDirektorat: BidangDirektorat[BidangDirektorat.SOSBUDMAS] },
-            { namaSektor: 'PENGAWASAN_BARCET_IMPORT', deskripsiSektor: 'Pengawasan Peredaran Import Barang Cetakan', bidangDirektorat: BidangDirektorat[BidangDirektorat.SOSBUDMAS] },
-            { namaSektor: 'PENGAWASAN_SISTEM_PEMBUKUAN', deskripsiSektor: 'Pengawasan Sistem Pembukuan', bidangDirektorat: BidangDirektorat[BidangDirektorat.SOSBUDMAS] },
+            { namaSektor: 'PENGAWASAN_BARCET_IMPORT', deskripsiSektor: 'Pengawasan Peredaran Import Barang Cetakan Dalam Negeri', bidangDirektorat: BidangDirektorat[BidangDirektorat.SOSBUDMAS] },
+            { namaSektor: 'PENGAWASAN_SISTEM_PERBUKUAN', deskripsiSektor: 'Pengawasan Sistem Perbukuan', bidangDirektorat: BidangDirektorat[BidangDirektorat.SOSBUDMAS] },
             { namaSektor: 'PENGAWASAN_MEDIA_KOMUNIKASI', deskripsiSektor: 'Pengawasan Media Komunikasi', bidangDirektorat: BidangDirektorat[BidangDirektorat.SOSBUDMAS] },
             { namaSektor: 'PAKEM', deskripsiSektor: 'Pengawasan Aliran Kepercayaan dan Keagamaan dalam Masyarakat', bidangDirektorat: BidangDirektorat[BidangDirektorat.SOSBUDMAS] },
             { namaSektor: 'PENCEGAHAN_PENYALAHGUNAAN_PENODAAN_AGAMA', deskripsiSektor: 'Pencegahan Penyalahgunaan dan/atau Penodaan Agama', bidangDirektorat: BidangDirektorat[BidangDirektorat.SOSBUDMAS] },
