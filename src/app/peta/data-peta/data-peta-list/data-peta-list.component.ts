@@ -3,12 +3,12 @@ import { Message } from 'src/app/shared/message';
 import { DataPeta } from '../data-peta.model';
 import { Month } from 'src/app/shared/month';
 import { Subscription } from 'rxjs';
-import { BidangDirektoratSektorService } from 'src/app/shared/bidang-direktorat/bidang-direktorat-sektor.service';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { DataPetaService } from '../data-peta.service';
 import { ToastService } from 'src/app/shared/toast.service';
 import { NotificationService } from 'src/app/shared/notification.service';
 import { ConfirmDeleteService } from 'src/app/shared/delete-modal/confirm-delete.service';
+import { BidangDirektoratSektorPetaService } from 'src/app/shared/bidang-direktorat/bidang-direktorat-sektor-peta.service';
 
 @Component({
   selector: 'app-data-peta-list',
@@ -40,7 +40,7 @@ export class DataPetaListComponent implements OnInit, OnDestroy {
   constructor(
     private router: Router,
     private route: ActivatedRoute,
-    private bidangDirektoratSektorService: BidangDirektoratSektorService,
+    private sektorPeta: BidangDirektoratSektorPetaService,
     private dataPetaService: DataPetaService,
     public toastService: ToastService,
     private notificationStatusService: NotificationService,
@@ -53,7 +53,7 @@ export class DataPetaListComponent implements OnInit, OnDestroy {
     this.getYear();
     this.dataPetaQueryParamSub = this.route.queryParams
       .subscribe((queryParams) => {
-        this.indexBidang = this.bidangDirektoratSektorService.getBidangDirektori()
+        this.indexBidang = this.sektorPeta.getBidangDirektori()
           .findIndex(obj => {
             return obj.namaBidang === queryParams['bidang'];
           });
@@ -61,7 +61,7 @@ export class DataPetaListComponent implements OnInit, OnDestroy {
         if (this.indexBidang < 0) {
           this.indexBidang = 0;
         }
-        this.namaBidang = this.bidangDirektoratSektorService.getBidangDirektori()[this.indexBidang].namaBidang!;
+        this.namaBidang = this.sektorPeta.getBidangDirektori()[this.indexBidang].namaBidang!;
         this.fetchDataPeta();
       });
   }
