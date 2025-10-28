@@ -13,15 +13,6 @@
         <div class="p-2 w-100 bd-highlight">
             <div class="row">
                 <div class="col-md-6 col-sm-6 mb-1">
-                    <select
-                        *ngIf="!isSearching"
-                        (change)="updateMonthSelected($any($event.target).value)" 
-                        class="form-select" 
-                        aria-label=".form-select-sm example">
-                            <option 
-                                *ngFor="let m of month; index as i;" 
-                                [value]="i + 1" [selected]="(i + 1) === (currentMonth)">{{ m }}</option>
-                    </select>
                     <div *ngIf="isSearching" class="input-group">
                         <input #searchData
                             type="text"
@@ -36,7 +27,7 @@
                     <select (change)="updateYearSelected($any($event.target).value)" class="form-select" aria-label=".form-select-sm example">
                         <option 
                             *ngFor="let y of year | reverse; index as i;" 
-                            [value]="y" [selected]="currentYear === y">{{ y }}</option>
+                            [value]="y" [selected]="currentYear === y">Tahun {{ y }}</option>
                     </select>
                 </div>
                 <div class="col-md-2 col-sm-2">
@@ -64,8 +55,11 @@
             <tbody>
                 <tr *ngFor="let d of dataPeta; let i = index">
                     <td class="align-top">{{ i + 1 }}</td>
-                    <td class="align-top"><img src="assets/images/simbol-sektor/{{ d.sektor}}.png" class="mx-auto d-block img-fluid"/> {{ d.sektor}}</td>
-                    <td class="align-top">Bahwa pada {{ d.tanggal }} {{ d.siapa}} {{ d.apa }} {{ d.mengapa }} {{ d.bagaimana }}.</td>
+                    <td class="align-top text-center">
+                        <img src="assets/images/simbol-sektor/{{ d.sektor }}.png" class="mx-auto d-block img-fluid img-thumbnail"/>
+                        <p class="font-weight-bold">{{ sektorMap[d.sektor] || d.sektor }}</p>
+                    </td>
+                    <td class="align-top">Bahwa pada tanggal {{ d.tanggal | date:'dd-MM-yyyy' }}, {{ d.siapa}}, {{ d.apa }}, {{ d.mengapa }}, {{ d.bagaimana }}.</td>
                     <td class="align-top">{{ d.keterangan }}</td>
                     <td class="align-top">
                         <a class="dropdown-item text-primary"

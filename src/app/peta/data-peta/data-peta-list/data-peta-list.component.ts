@@ -21,8 +21,9 @@ export class DataPetaListComponent implements OnInit, OnDestroy {
   private message: Message = new Message();
   dataPeta: DataPeta[] = [];
   title?: string;
+  sektorList: any[] = [];
+  sektorMap: { [key: string]: string } = {};
   month = Object.keys(Month).filter((v) => isNaN(Number(v)));
-  currentMonth = new Date().getMonth() + 1; // get current month
   currentYear = new Date().getFullYear(); // get current year
   year: number[] = [];
   indexBidang!: number;
@@ -51,6 +52,13 @@ export class DataPetaListComponent implements OnInit, OnDestroy {
     this.error = false as any;
     this.isLoading = true;
     this.getYear();
+    // prepare sektor lookup map so template can show deskripsiSektor
+    this.sektorList = this.sektorPeta.getSektor();
+    this.sektorList.forEach(s => {
+      if (s && s.namaSektor) {
+        this.sektorMap[s.namaSektor] = s.deskripsiSektor;
+      }
+    });
     this.dataPetaQueryParamSub = this.route.queryParams
       .subscribe((queryParams) => {
         this.indexBidang = this.sektorPeta.getBidangDirektori()
@@ -72,7 +80,6 @@ export class DataPetaListComponent implements OnInit, OnDestroy {
       this.pageNumber - 1,
       this.pageSize,
       this.namaBidang,
-      +this.currentMonth,
       this.currentYear.toString())
       .subscribe({
         next: (response) => {
@@ -189,12 +196,12 @@ export class DataPetaListComponent implements OnInit, OnDestroy {
       });
   }
 
-  updateMonthSelected(month: number) {
-    this.currentMonth = +month;
-    this.pageNumber = 1;
-    this.isLoading = true;
-    this.fetchDataPeta();
-  }
+  // updateMonthSelected(month: number) {
+  //   this.currentMonth = +month;
+  //   this.pageNumber = 1;
+  //   this.isLoading = true;
+  //   this.fetchDataPeta();
+  // }
 
   onNotificationStatusChange(status: boolean) {
     this.notificationStatusService.changeNotificationStatus(status);
