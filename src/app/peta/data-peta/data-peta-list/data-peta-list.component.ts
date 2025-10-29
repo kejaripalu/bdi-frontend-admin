@@ -69,6 +69,7 @@ export class DataPetaListComponent implements OnInit, OnDestroy {
         if (this.indexBidang < 0) {
           this.indexBidang = 0;
         }
+        this.title = this.sektorPeta.getBidangDirektori()[this.indexBidang].deskripsiBidang;
         this.namaBidang = this.sektorPeta.getBidangDirektori()[this.indexBidang].namaBidang!;
         this.fetchDataPeta();
       });
@@ -195,13 +196,6 @@ export class DataPetaListComponent implements OnInit, OnDestroy {
         }
       });
   }
-
-  // updateMonthSelected(month: number) {
-  //   this.currentMonth = +month;
-  //   this.pageNumber = 1;
-  //   this.isLoading = true;
-  //   this.fetchDataPeta();
-  // }
 
   onNotificationStatusChange(status: boolean) {
     this.notificationStatusService.changeNotificationStatus(status);
