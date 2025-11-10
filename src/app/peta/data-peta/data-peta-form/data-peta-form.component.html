@@ -1,1 +1,292 @@
-<p>data-peta-form works!</p>
+<div *ngIf="isLoadingEditForm && isEditMode" class="mt-4" style="text-align: center;">
+    <app-loading-spinner></app-loading-spinner>
+</div>
+<div class="alert alert-danger mt-4" *ngIf="editModeError && isEditMode" role="alert">
+    {{ error }} 
+    <br>
+    <a 
+        [routerLink]="['/data-peta', 'list']"
+        [queryParams]="{bidang: namaBidang}" 
+        class="alert-link">Kembali</a>
+</div>
+<div class="mt-4" style="margin-bottom: 50px;" *ngIf="!isLoadingEditForm && !editModeError">
+    <div class="row">
+        <div class="col-sm-10 col-md-8 col-xl-8 offset-sm-2 col-md-2 offset-xl-2">
+            <strong class="text-success">Bidang: {{ title }}</strong>
+            <hr>
+            <form [formGroup]="petaForm" (ngSubmit)="onSubmit()">
+                <div class="row">
+                    <div class="col-sm-auto">
+                        <div class="form-group">
+                            <label for="sektor">Sektor:</label>
+                                <div class="input-group">
+                                    <div class="col-sm-auto mb-3">
+                                        <select (change)="onSektorChange($any($event.target).value)" class="form-select">
+                                            <option
+                                                *ngFor="let s of sektorList" 
+                                                [value]="s.namaSektor" 
+                                                [selected]="s.namaSektor === namaSektorSelected">{{ s.deskripsiSektor }}</option>
+                                        </select>
+                                    </div>
+                                </div>                        
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-auto">
+                        <div class="form-group">
+                            <label for="tanggal">Tanggal:</label>
+                                <div class="input-group">
+                                    <input
+                                        type="text"
+                                        name="tanggal"
+                                        class="form-control"
+                                        placeholder="yyyy-mm-dd"
+                                        formControlName="tanggal"
+                                        #dps="ngbDatepicker"
+                                        ngbDatepicker
+                                        (dateSelect)="onDateSelect($event)">
+                                    <button class="btn btn-outline-secondary" type="button" (click)="dps.toggle()">
+                                        <i class="bi bi-calendar3"></i>
+                                    </button>
+                                </div>                        
+                        </div>
+                        <small 
+                            class="text-alert" 
+                            *ngIf="petaForm.get('tanggal')?.errors?.['required'] && 
+                                   petaForm.get('tanggal')?.touched">
+                                Wajib diisi!!!</small>
+                        <small 
+                            class="text-alert" 
+                            *ngIf="petaForm.get('tanggal')?.errors?.['minlength'] && 
+                                    petaForm.get('tanggal')?.touched">
+                                Minimal 10 karakter dengan format "yyyy-MM-dd" !!!</small>
+                    </div>                    
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="form-group">
+                            <label for="siapa">Siapa yang terlibat:</label>
+                            <textarea
+                                rows="2"
+                                type="text" 
+                                name="siapa" 
+                                class="form-control"
+                                formControlName="siapa"
+                                placement="top" ngbTooltip="Diisi nama yang terlibat"></textarea>
+                        </div>
+                        <small 
+                            class="text-alert" 
+                            *ngIf="petaForm.get('siapa')?.errors?.['required'] && 
+                                    petaForm.get('siapa')?.touched">
+                                Wajib diisi!!!</small>
+                        <small 
+                            class="text-alert" 
+                            *ngIf="petaForm.get('siapa')?.errors?.['minlength'] && 
+                                   petaForm.get('siapa')?.touched">
+                                Minimal 5 karakter!!!</small>
+                        <small 
+                            class="text-alert" 
+                            *ngIf="petaForm.get('siapa')?.errors?.['maxlength'] && 
+                                    petaForm.get('siapa')?.touched">
+                                Tidak boleh lebih dari 255 karakter!!!</small>
+                    </div>                  
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="form-group">
+                            <label for="apa">Apa yang terjadi:</label>
+                            <textarea
+                                rows="2"
+                                type="text" 
+                                name="apa" 
+                                class="form-control"
+                                formControlName="apa"
+                                placement="top" ngbTooltip="Diisi dengan apa yang terjadi"></textarea>
+                        </div>
+                        <small 
+                            class="text-alert" 
+                            *ngIf="petaForm.get('apa')?.errors?.['required'] && 
+                                    petaForm.get('apa')?.touched">
+                                Wajib diisi!!!</small>
+                        <small 
+                            class="text-alert" 
+                            *ngIf="petaForm.get('apa')?.errors?.['minlength'] && 
+                                   petaForm.get('apa')?.touched">
+                                Minimal 5 karakter!!!</small>
+                        <small 
+                            class="text-alert" 
+                            *ngIf="petaForm.get('apa')?.errors?.['maxlength'] && 
+                                    petaForm.get('apa')?.touched">
+                                Tidak boleh lebih dari 255 karakter!!!</small>
+                    </div>                  
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="form-group">
+                            <label for="apa">Mengapa itu terjadi:</label>
+                            <textarea
+                                rows="2"
+                                type="text" 
+                                name="apa" 
+                                class="form-control"
+                                formControlName="mengapa"
+                                placement="top" ngbTooltip="Diisi dengan mengapa peristiwa ini terjadi"></textarea>
+                        </div>
+                        <small 
+                            class="text-alert" 
+                            *ngIf="petaForm.get('mengapa')?.errors?.['required'] && 
+                                    petaForm.get('mengapa')?.touched">
+                                Wajib diisi!!!</small>
+                        <small 
+                            class="text-alert" 
+                            *ngIf="petaForm.get('mengapa')?.errors?.['minlength'] && 
+                                   petaForm.get('mengapa')?.touched">
+                                Minimal 5 karakter!!!</small>
+                        <small 
+                            class="text-alert" 
+                            *ngIf="petaForm.get('mengapa')?.errors?.['maxlength'] && 
+                                    petaForm.get('mengapa')?.touched">
+                                Tidak boleh lebih dari 255 karakter!!!</small>
+                    </div>                  
+                </div>              
+                <div class="form-group">
+                    <label for="bagaimana">Bagaimana itu terjadi:</label>
+                    <textarea
+                        rows="3"
+                        name="bagaimana" 
+                        class="form-control"
+                        formControlName="bagaimana"
+                        placement="top" ngbTooltip='Diisi uraian bagaimana peristiwa ini terjadi.'></textarea>
+                </div>
+                <small 
+                    class="text-alert" 
+                    *ngIf="petaForm.get('bagaimana')?.errors?.['required'] && 
+                            petaForm.get('bagaimana')?.touched">
+                        Wajib diisi!!!</small>
+                <small 
+                    class="text-alert" 
+                    *ngIf="petaForm.get('bagaimana')?.errors?.['minlength'] && 
+                            petaForm.get('bagaimana')?.touched">
+                        Minimal 10 karakter!!!</small>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="form-group">
+                            <label for="lokasi">Lokasi:</label>
+                            <textarea
+                                rows="2"
+                                type="text" 
+                                name="lokasi" 
+                                class="form-control"
+                                formControlName="lokasi"
+                                placement="top" ngbTooltip="Diisi nama jalan atau daerah"></textarea>
+                        </div>
+                        <small 
+                            class="text-alert" 
+                            *ngIf="petaForm.get('lokasi')?.errors?.['required'] && 
+                                    petaForm.get('lokasi')?.touched">
+                                Wajib diisi!!!</small>
+                        <small 
+                            class="text-alert" 
+                            *ngIf="petaForm.get('lokasi')?.errors?.['minlength'] && 
+                                   petaForm.get('lokasi')?.touched">
+                                Minimal 5 karakter!!!</small>
+                        <small 
+                            class="text-alert" 
+                            *ngIf="petaForm.get('lokasi')?.errors?.['maxlength'] && 
+                                    petaForm.get('lokasi')?.touched">
+                                Tidak boleh lebih dari 255 karakter!!!</small>
+                    </div>                  
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label for="latitude">Latitude:</label>
+                            <input 
+                                type="text" 
+                                name="latitude" 
+                                class="form-control"
+                                formControlName="latitude">
+                        </div>
+                        <small 
+                            class="text-alert" 
+                            *ngIf="petaForm.get('latitude')?.errors?.['required'] && 
+                                    petaForm.get('latitude')?.touched">
+                                Wajib diisi!!!</small>
+                        <small 
+                            class="text-alert" 
+                            *ngIf="petaForm.get('latitude')?.errors?.['pattern'] && 
+                                petaForm.get('latitude')?.touched">
+                                Latitude harus berupa angka, dapat negatif atau desimal!!!</small>
+                        <small 
+                            class="text-alert" 
+                            *ngIf="petaForm.get('latitude')?.errors?.['invalidLatitude'] && 
+                                petaForm.get('latitude')?.touched">
+                                Format tidak valid!!! latitude tidak sesuai!!!</small>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label for="longitude">Longitude:</label>
+                            <input 
+                                type="text" 
+                                name="longitude" 
+                                class="form-control"
+                                formControlName="longitude">
+                        </div>
+                        <small 
+                            class="text-alert" 
+                            *ngIf="petaForm.get('longitude')?.errors?.['required'] && 
+                                    petaForm.get('longitude')?.touched">
+                                Wajib diisi!!!</small>
+                        <small 
+                            class="text-alert" 
+                            *ngIf="petaForm.get('longitude')?.errors?.['pattern'] && 
+                                petaForm.get('longitude')?.touched">
+                                Longitude harus berupa angka, dapat negatif atau desimal!!!</small>
+                        <small 
+                            class="text-alert" 
+                            *ngIf="petaForm.get('longitude')?.errors?.['invalidLongitude'] && 
+                                petaForm.get('longitude')?.touched">
+                                Format tidak valid!!! longitude tidak sesuai!!!</small>
+                    </div>
+                </div>              
+                <div class="form-group">
+                    <label for="keterangan">Keterangan:</label>
+                    <textarea
+                        rows="1"
+                        name="keterangan" 
+                        class="form-control"
+                        formControlName="keterangan"
+                        placement="top" ngbTooltip='Diisi keterangan tambahan jika ada'></textarea>
+                </div>
+                <small 
+                    class="text-alert" 
+                    *ngIf="petaForm.get('keterangan')?.errors?.['maxlength'] && 
+                            petaForm.get('keterangan')?.touched">
+                        Tidak boleh lebih dari 255 karakter!!!</small>
+                <app-danger-alert [message]="error" *ngIf="error"></app-danger-alert>
+                <div class="mt-4" *ngIf="isLoading">
+                    <app-loading-spinner></app-loading-spinner>
+                </div>
+                <div *ngIf="!isLoading">
+                    <div class="d-flex justify-content-between">
+                        <div class="p-2">
+                            <button
+                                class="btn btn-success"
+                                type="submit"
+                                [disabled]="!petaForm.valid"
+                                style="margin-top: 20px;"><i class="bi bi-save-fill"></i> Simpan</button>
+                        </div>
+                        <div class="p-2">
+                            <button
+                                class="btn btn-danger"
+                                type="button"
+                                (click)="onCancel()"
+                                style="margin-top: 20px;"><i class="bi bi-backspace-fill"></i> Batal</button>  
+                        </div>
+                    </div> 
+                </div>       
+            </form>
+        </div>
+    </div>
+</div>

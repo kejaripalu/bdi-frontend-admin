@@ -1,0 +1,15 @@
+label {
+    margin-top: 10px;
+    margin-bottom: 3px;
+}
+
+input.ng-invalid.ng-touched,
+textarea.ng-invalid.ng-touched {
+    border: 1px solid red;
+}
+
+.text-alert {
+    --bs-text-opacity: 1;
+    color: red;
+    font-size: 0.875em;
+}
