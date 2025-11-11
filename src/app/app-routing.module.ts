@@ -185,7 +185,7 @@ const appRoutes: Routes = [
         { path: '', redirectTo: '/data-peta/list', pathMatch: 'full' },
         { path: 'list', component: DataPetaListComponent },
         { path: 'list/form', component: DataPetaFormComponent },
-        // { path: 'list/:id/form', component: DataPetaFormComponent },
+        { path: 'list/:id/form', component: DataPetaFormComponent },
         // { path: 'list/:id/detail', component: DataPetaDetailComponent }
     ]},
     { path: 'page-not-found', component: PageNotFoundComponent, canActivate: [AuthGuard] },

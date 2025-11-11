@@ -79,7 +79,7 @@ export class DataPetaFormComponent implements OnInit, OnDestroy {
   }
 
   private initForm() {
-    this.petaForm = new FormGroup({
+     this.petaForm = new FormGroup({
       'tanggal': new FormControl(this.date, [Validators.required, Validators.minLength(10)]),
       'lokasi': new FormControl(null as any, [Validators.required, Validators.minLength(5), Validators.maxLength(255)]),
       'latitude': new FormControl(null as any, [Validators.required, Validators.pattern(/^-?\d*\.?\d*$/), latitudeRangeValidator()]),
@@ -152,6 +152,7 @@ export class DataPetaFormComponent implements OnInit, OnDestroy {
           this.namaSektorSelected = this.sektorList[0].namaSektor!;
           this.deskripsiSektorSelected = this.sektorList[0].deskripsiSektor!;
         };
+      }
 
       if (this.isEditMode) {
         this.isLoadingEditForm = true;
@@ -186,7 +187,6 @@ export class DataPetaFormComponent implements OnInit, OnDestroy {
           }   
         });
       }
-    }
   }  
 
   onSubmit() {
