@@ -88,6 +88,7 @@ import { DeleteModalComponent } from './shared/delete-modal/delete-modal.compone
 import { DataPetaComponent } from './peta/data-peta/data-peta.component';
 import { DataPetaListComponent } from './peta/data-peta/data-peta-list/data-peta-list.component';
 import { DataPetaHelpComponent } from './peta/data-peta/data-peta-help/data-peta-help.component';
+import { DataPetaFormComponent } from './peta/data-peta/data-peta-form/data-peta-form.component';
 
 @NgModule({
   declarations: [
@@ -171,7 +172,8 @@ import { DataPetaHelpComponent } from './peta/data-peta/data-peta-help/data-peta
     DeleteModalComponent,
     DataPetaComponent,
     DataPetaListComponent,
-    DataPetaHelpComponent
+    DataPetaHelpComponent,
+    DataPetaFormComponent
   ],
   imports: [
     BrowserModule,

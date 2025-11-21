@@ -16,9 +16,9 @@ export class DataPetaService {
     private http: HttpClient,
     private monthConverterService: MonthConverterService) { }
 
-    getAll(page: number, size: number, bidang: string, bulan: number, tahun: string) {
-        const startDate = this.monthConverterService.getStartDate(bulan, tahun);        
-        const endDate = this.monthConverterService.getEndDate(bulan, tahun);    
+    getAll(page: number, size: number, bidang: string, tahun: string) {
+        const startDate = this.monthConverterService.getStartDate(1, tahun);        
+        const endDate = this.monthConverterService.getEndDate(12, tahun);    
         const getEndPoint = `${this.endPoint}?pages=${page}&sizes=${size}&bidangDirektorat=${bidang}&` +
             `startDate=${startDate}&endDate=${endDate}`;        
         
