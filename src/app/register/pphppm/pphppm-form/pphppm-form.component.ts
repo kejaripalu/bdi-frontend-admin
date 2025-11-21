@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { RegisterPPHPPM } from '../pphppm.model';
 import { NgbCalendar, NgbDate, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
@@ -14,7 +14,7 @@ import { NotificationService } from 'src/app/shared/notification.service';
   styleUrls: ['./pphppm-form.component.css']
 })
 export class PphppmFormComponent implements OnInit, OnDestroy {
-  pphppmForm!: FormGroup;
+  pphppmForm!: UntypedFormGroup;
   isEditMode: boolean = false;
   isLoading: boolean = false;
   isLoadingEditForm: boolean = false;
@@ -64,23 +64,23 @@ export class PphppmFormComponent implements OnInit, OnDestroy {
   initForm() {
     let jam = this.currentDateTimeService.getCurrentTime();
 
-    this.pphppmForm = new FormGroup({
-      'namaPetugasPenerima': new FormControl(null as any, [Validators.required, Validators.minLength(3), Validators.maxLength(255)]),
-      'tanggal': new FormControl(this.modelDateTanggal, [Validators.required, Validators.minLength(10)]),
-      'jam': new FormControl(jam, [Validators.required, Validators.minLength(5)]),
-      'namaTamu': new FormControl(null as any, [Validators.required, Validators.minLength(3), Validators.maxLength(255)]),
-      'tempatLahirTamu': new FormControl(null as any, Validators.maxLength(255)),
-      'tanggalLahirTamu': new FormControl(this.modelDateTanggalLahirTamu, [Validators.required, Validators.minLength(10)]),
-      'alamat': new FormControl(null as any, Validators.maxLength(255)),
-      'nomorHandphone': new FormControl(null as any, [Validators.maxLength(13), Validators.pattern('^[0-9]*$')]),
-      'email': new FormControl(null as any, [Validators.maxLength(50), Validators.email]),
-      'pekerjaan': new FormControl(null as any, Validators.maxLength(255)),
-      'nomorIdentitas': new FormControl(null as any, Validators.maxLength(16)),
-      'namaOrganisasi': new FormControl(null as any, Validators.maxLength(255)),
-      'informasiYangDisampaikan': new FormControl(null as any, Validators.required),
-      'dokumenYangDisampaikan': new FormControl(null as any, Validators.maxLength(255)),
-      'keterangan': new FormControl(null as any, Validators.maxLength(255)),
-      'urlFile': new FormControl(null as any)
+    this.pphppmForm = new UntypedFormGroup({
+      'namaPetugasPenerima': new UntypedFormControl(null as any, [Validators.required, Validators.minLength(3), Validators.maxLength(255)]),
+      'tanggal': new UntypedFormControl(this.modelDateTanggal, [Validators.required, Validators.minLength(10)]),
+      'jam': new UntypedFormControl(jam, [Validators.required, Validators.minLength(5)]),
+      'namaTamu': new UntypedFormControl(null as any, [Validators.required, Validators.minLength(3), Validators.maxLength(255)]),
+      'tempatLahirTamu': new UntypedFormControl(null as any, Validators.maxLength(255)),
+      'tanggalLahirTamu': new UntypedFormControl(this.modelDateTanggalLahirTamu, [Validators.required, Validators.minLength(10)]),
+      'alamat': new UntypedFormControl(null as any, Validators.maxLength(255)),
+      'nomorHandphone': new UntypedFormControl(null as any, [Validators.maxLength(13), Validators.pattern('^[0-9]*$')]),
+      'email': new UntypedFormControl(null as any, [Validators.maxLength(50), Validators.email]),
+      'pekerjaan': new UntypedFormControl(null as any, Validators.maxLength(255)),
+      'nomorIdentitas': new UntypedFormControl(null as any, Validators.maxLength(16)),
+      'namaOrganisasi': new UntypedFormControl(null as any, Validators.maxLength(255)),
+      'informasiYangDisampaikan': new UntypedFormControl(null as any, Validators.required),
+      'dokumenYangDisampaikan': new UntypedFormControl(null as any, Validators.maxLength(255)),
+      'keterangan': new UntypedFormControl(null as any, Validators.maxLength(255)),
+      'urlFile': new UntypedFormControl(null as any)
     });
 
     if (this.isEditMode) {
@@ -98,23 +98,23 @@ export class PphppmFormComponent implements OnInit, OnDestroy {
             day: +pphppm.tanggalLahirTamu.slice(8, 10)
           };
 
-          this.pphppmForm = new FormGroup({
-            'namaPetugasPenerima': new FormControl(pphppm.namaPetugasPenerima, [Validators.required, Validators.minLength(3), Validators.maxLength(255)]),
-            'tanggal': new FormControl(this.modelDateTanggal, [Validators.required, Validators.minLength(10)]),
-            'jam': new FormControl(pphppm.jam, [Validators.required, Validators.minLength(5)]),
-            'namaTamu': new FormControl(pphppm.namaTamu, [Validators.required, Validators.minLength(3), Validators.maxLength(255)]),
-            'tempatLahirTamu': new FormControl(pphppm.tempatLahirTamu, Validators.maxLength(255)),
-            'tanggalLahirTamu': new FormControl(this.modelDateTanggalLahirTamu, [Validators.required, Validators.minLength(10)]),
-            'alamat': new FormControl(pphppm.alamat, Validators.maxLength(255)),
-            'nomorHandphone': new FormControl(pphppm.nomorHandphone, Validators.maxLength(13)),
-            'email': new FormControl(pphppm.email, Validators.maxLength(50)),
-            'pekerjaan': new FormControl(pphppm.pekerjaan, Validators.maxLength(255)),
-            'nomorIdentitas': new FormControl(pphppm.nomorIdentitas, Validators.maxLength(16)),
-            'namaOrganisasi': new FormControl(pphppm.namaOrganisasi, Validators.maxLength(255)),
-            'informasiYangDisampaikan': new FormControl(pphppm.informasiYangDisampaikan),
-            'dokumenYangDisampaikan': new FormControl(pphppm.dokumenYangDisampaikan, Validators.maxLength(255)),
-            'keterangan': new FormControl(pphppm.keterangan, Validators.maxLength(255)),
-            'urlFile': new FormControl(pphppm.urlFile)
+          this.pphppmForm = new UntypedFormGroup({
+            'namaPetugasPenerima': new UntypedFormControl(pphppm.namaPetugasPenerima, [Validators.required, Validators.minLength(3), Validators.maxLength(255)]),
+            'tanggal': new UntypedFormControl(this.modelDateTanggal, [Validators.required, Validators.minLength(10)]),
+            'jam': new UntypedFormControl(pphppm.jam, [Validators.required, Validators.minLength(5)]),
+            'namaTamu': new UntypedFormControl(pphppm.namaTamu, [Validators.required, Validators.minLength(3), Validators.maxLength(255)]),
+            'tempatLahirTamu': new UntypedFormControl(pphppm.tempatLahirTamu, Validators.maxLength(255)),
+            'tanggalLahirTamu': new UntypedFormControl(this.modelDateTanggalLahirTamu, [Validators.required, Validators.minLength(10)]),
+            'alamat': new UntypedFormControl(pphppm.alamat, Validators.maxLength(255)),
+            'nomorHandphone': new UntypedFormControl(pphppm.nomorHandphone, Validators.maxLength(13)),
+            'email': new UntypedFormControl(pphppm.email, Validators.maxLength(50)),
+            'pekerjaan': new UntypedFormControl(pphppm.pekerjaan, Validators.maxLength(255)),
+            'nomorIdentitas': new UntypedFormControl(pphppm.nomorIdentitas, Validators.maxLength(16)),
+            'namaOrganisasi': new UntypedFormControl(pphppm.namaOrganisasi, Validators.maxLength(255)),
+            'informasiYangDisampaikan': new UntypedFormControl(pphppm.informasiYangDisampaikan),
+            'dokumenYangDisampaikan': new UntypedFormControl(pphppm.dokumenYangDisampaikan, Validators.maxLength(255)),
+            'keterangan': new UntypedFormControl(pphppm.keterangan, Validators.maxLength(255)),
+            'urlFile': new UntypedFormControl(pphppm.urlFile)
           });
           this.isLoadingEditForm = false;
           this.editModeError = false;

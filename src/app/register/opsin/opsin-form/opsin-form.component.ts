@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { NgbCalendar, NgbDate, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import { Subscription } from 'rxjs';
 import { Sektor } from 'src/app/shared/bidang-direktorat/sektor';
@@ -16,7 +16,7 @@ import { NotificationService } from 'src/app/shared/notification.service';
   styleUrls: ['./opsin-form.component.css']
 })
 export class OpsinFormComponent implements OnInit, OnDestroy {
-  opsinForm!: FormGroup;
+  opsinForm!: UntypedFormGroup;
   isEditMode: boolean = false;
   isLoading: boolean = false;
   isLoadingEditForm: boolean = false;
@@ -75,14 +75,14 @@ export class OpsinFormComponent implements OnInit, OnDestroy {
 
   private initForm() {
 
-    this.opsinForm = new FormGroup({
-      'nomor': new FormControl(null as any, [Validators.required, Validators.minLength(5), Validators.maxLength(255)]),
-      'tanggal': new FormControl(this.modelDateTanggal, [Validators.required, Validators.minLength(10)]),
-      'perihal': new FormControl(null as any, [Validators.required, Validators.minLength(10), Validators.maxLength(255)]),
-      'namaPetugasPelaksana': new FormControl(null as any, [Validators.required, Validators.minLength(3)]),
-      'hasilPelaksanaanOperasi': new FormControl(null as any),
-      'keterangan': new FormControl(null as any, Validators.maxLength(255)),
-      'urlFile': new FormControl(null as any)
+    this.opsinForm = new UntypedFormGroup({
+      'nomor': new UntypedFormControl(null as any, [Validators.required, Validators.minLength(5), Validators.maxLength(255)]),
+      'tanggal': new UntypedFormControl(this.modelDateTanggal, [Validators.required, Validators.minLength(10)]),
+      'perihal': new UntypedFormControl(null as any, [Validators.required, Validators.minLength(10), Validators.maxLength(255)]),
+      'namaPetugasPelaksana': new UntypedFormControl(null as any, [Validators.required, Validators.minLength(3)]),
+      'hasilPelaksanaanOperasi': new UntypedFormControl(null as any),
+      'keterangan': new UntypedFormControl(null as any, Validators.maxLength(255)),
+      'urlFile': new UntypedFormControl(null as any)
     });
 
     if (this.namaBidang === 'IPOLHANKAM') {
@@ -142,14 +142,14 @@ export class OpsinFormComponent implements OnInit, OnDestroy {
             day: +opsin.tanggal.slice(8, 10)
           };
 
-          this.opsinForm = new FormGroup({
-            'nomor': new FormControl(opsin.nomor, [Validators.required, Validators.minLength(5), Validators.maxLength(255)]),
-            'tanggal': new FormControl(this.modelDateTanggal, [Validators.required, Validators.minLength(10)]),
-            'perihal': new FormControl(opsin.perihal, [Validators.required, Validators.minLength(10), Validators.maxLength(255)]),
-            'namaPetugasPelaksana': new FormControl(opsin.namaPetugasPelaksana, [Validators.required, Validators.minLength(3)]),
-            'hasilPelaksanaanOperasi': new FormControl(opsin.hasilPelaksanaanOperasi),
-            'keterangan': new FormControl(opsin.keterangan, Validators.maxLength(255)),
-            'urlFile': new FormControl(opsin.urlFile)
+          this.opsinForm = new UntypedFormGroup({
+            'nomor': new UntypedFormControl(opsin.nomor, [Validators.required, Validators.minLength(5), Validators.maxLength(255)]),
+            'tanggal': new UntypedFormControl(this.modelDateTanggal, [Validators.required, Validators.minLength(10)]),
+            'perihal': new UntypedFormControl(opsin.perihal, [Validators.required, Validators.minLength(10), Validators.maxLength(255)]),
+            'namaPetugasPelaksana': new UntypedFormControl(opsin.namaPetugasPelaksana, [Validators.required, Validators.minLength(3)]),
+            'hasilPelaksanaanOperasi': new UntypedFormControl(opsin.hasilPelaksanaanOperasi),
+            'keterangan': new UntypedFormControl(opsin.keterangan, Validators.maxLength(255)),
+            'urlFile': new UntypedFormControl(opsin.urlFile)
           });
 
           this.namaSektorSelected = opsin.sektor;

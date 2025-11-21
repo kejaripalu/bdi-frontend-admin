@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { NgbCalendar, NgbDate, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import { Subscription } from 'rxjs';
 import { PenkuluhkumService } from '../penkuluhkum.service';
@@ -14,7 +14,7 @@ import { RegisterPenkumLuhkum } from '../penkumluhkum.model';
   styleUrls: ['./penkumluhkum-form.component.css']
 })
 export class PenkumluhkumFormComponent implements OnInit, OnDestroy {
-  penkumluhkumForm!: FormGroup;
+  penkumluhkumForm!: UntypedFormGroup;
   isEditMode: boolean = false;
   isLoading: boolean = false;
   isLoadingEditForm: boolean = false;
@@ -70,19 +70,19 @@ export class PenkumluhkumFormComponent implements OnInit, OnDestroy {
   }
 
   private initForm() {
-    this.penkumluhkumForm = new FormGroup({
-      'nomorSuratPerintah': new FormControl(null as any, [Validators.required, Validators.minLength(5), Validators.maxLength(255)]),
-      'tanggalSuratPerintah': new FormControl(this.modelDateTanggalSuratPerintah, [Validators.required, Validators.minLength(10)]),
-      'tempat': new FormControl(null as any, [Validators.required, Validators.minLength(5), Validators.maxLength(255)]),
-      'tanggalKegiatan': new FormControl(this.modelDateTanggalKegiatan, [Validators.required, Validators.minLength(10)]),
-      'sasaranKegiatan': new FormControl(null as any, [Validators.required, Validators.minLength(5), Validators.maxLength(255)]),
-      'materi': new FormControl(null as any, [Validators.required, Validators.minLength(5), Validators.maxLength(255)]),
-      'jumlahPeserta': new FormControl(this.minNumber, [Validators.required, Validators.min(this.minNumber), Validators.max(this.maxNumber)]),
-      'keterangan': new FormControl(null as any, Validators.maxLength(255)),
-      'urlFoto1': new FormControl(null as any),
-      'urlFoto2': new FormControl(null as any),
-      'urlFoto3': new FormControl(null as any),
-      'urlFoto4': new FormControl(null as any)
+    this.penkumluhkumForm = new UntypedFormGroup({
+      'nomorSuratPerintah': new UntypedFormControl(null as any, [Validators.required, Validators.minLength(5), Validators.maxLength(255)]),
+      'tanggalSuratPerintah': new UntypedFormControl(this.modelDateTanggalSuratPerintah, [Validators.required, Validators.minLength(10)]),
+      'tempat': new UntypedFormControl(null as any, [Validators.required, Validators.minLength(5), Validators.maxLength(255)]),
+      'tanggalKegiatan': new UntypedFormControl(this.modelDateTanggalKegiatan, [Validators.required, Validators.minLength(10)]),
+      'sasaranKegiatan': new UntypedFormControl(null as any, [Validators.required, Validators.minLength(5), Validators.maxLength(255)]),
+      'materi': new UntypedFormControl(null as any, [Validators.required, Validators.minLength(5), Validators.maxLength(255)]),
+      'jumlahPeserta': new UntypedFormControl(this.minNumber, [Validators.required, Validators.min(this.minNumber), Validators.max(this.maxNumber)]),
+      'keterangan': new UntypedFormControl(null as any, Validators.maxLength(255)),
+      'urlFoto1': new UntypedFormControl(null as any),
+      'urlFoto2': new UntypedFormControl(null as any),
+      'urlFoto3': new UntypedFormControl(null as any),
+      'urlFoto4': new UntypedFormControl(null as any)
     });
 
     if (this.isEditMode) {
@@ -100,19 +100,19 @@ export class PenkumluhkumFormComponent implements OnInit, OnDestroy {
             day: +penkumluhkum.tanggalKegiatan.slice(8, 10)
           };
 
-          this.penkumluhkumForm = new FormGroup({
-            'nomorSuratPerintah': new FormControl(penkumluhkum.nomorSuratPerintah, [Validators.required, Validators.minLength(5), Validators.maxLength(255)]),
-            'tanggalSuratPerintah': new FormControl(this.modelDateTanggalSuratPerintah, [Validators.required, Validators.minLength(10)]),
-            'tempat': new FormControl(penkumluhkum.tempat, [Validators.required, Validators.minLength(5), Validators.maxLength(255)]),
-            'tanggalKegiatan': new FormControl(this.modelDateTanggalKegiatan, [Validators.required, Validators.minLength(10)]),
-            'sasaranKegiatan': new FormControl(penkumluhkum.sasaranKegiatan, [Validators.required, Validators.minLength(5), Validators.maxLength(255)]),
-            'materi': new FormControl(penkumluhkum.materi, [Validators.required, Validators.minLength(5), Validators.maxLength(255)]),
-            'jumlahPeserta': new FormControl(penkumluhkum.jumlahPeserta, [Validators.required, Validators.min(this.minNumber), Validators.max(this.maxNumber)]),
-            'keterangan': new FormControl(penkumluhkum.keterangan, Validators.maxLength(255)),
-            'urlFoto1': new FormControl(penkumluhkum.urlFoto1),
-            'urlFoto2': new FormControl(penkumluhkum.urlFoto2),
-            'urlFoto3': new FormControl(penkumluhkum.urlFoto3),
-            'urlFoto4': new FormControl(penkumluhkum.urlFoto4)
+          this.penkumluhkumForm = new UntypedFormGroup({
+            'nomorSuratPerintah': new UntypedFormControl(penkumluhkum.nomorSuratPerintah, [Validators.required, Validators.minLength(5), Validators.maxLength(255)]),
+            'tanggalSuratPerintah': new UntypedFormControl(this.modelDateTanggalSuratPerintah, [Validators.required, Validators.minLength(10)]),
+            'tempat': new UntypedFormControl(penkumluhkum.tempat, [Validators.required, Validators.minLength(5), Validators.maxLength(255)]),
+            'tanggalKegiatan': new UntypedFormControl(this.modelDateTanggalKegiatan, [Validators.required, Validators.minLength(10)]),
+            'sasaranKegiatan': new UntypedFormControl(penkumluhkum.sasaranKegiatan, [Validators.required, Validators.minLength(5), Validators.maxLength(255)]),
+            'materi': new UntypedFormControl(penkumluhkum.materi, [Validators.required, Validators.minLength(5), Validators.maxLength(255)]),
+            'jumlahPeserta': new UntypedFormControl(penkumluhkum.jumlahPeserta, [Validators.required, Validators.min(this.minNumber), Validators.max(this.maxNumber)]),
+            'keterangan': new UntypedFormControl(penkumluhkum.keterangan, Validators.maxLength(255)),
+            'urlFoto1': new UntypedFormControl(penkumluhkum.urlFoto1),
+            'urlFoto2': new UntypedFormControl(penkumluhkum.urlFoto2),
+            'urlFoto3': new UntypedFormControl(penkumluhkum.urlFoto3),
+            'urlFoto4': new UntypedFormControl(penkumluhkum.urlFoto4)
           });
           this.isLoadingEditForm = false;
           this.editModeError = false;

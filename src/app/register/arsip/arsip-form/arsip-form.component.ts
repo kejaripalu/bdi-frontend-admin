@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { NgbCalendar, NgbDate, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import { Subscription } from 'rxjs';
@@ -14,7 +14,7 @@ import { NotificationService } from 'src/app/shared/notification.service';
   styleUrls: ['./arsip-form.component.css']
 })
 export class ArsipFormComponent implements OnInit, OnDestroy {
-  arsipForm!: FormGroup;
+  arsipForm!: UntypedFormGroup;
   isEditMode: boolean = false;
   isLoading: boolean = false;
   isLoadingEditForm: boolean = false;
@@ -59,17 +59,17 @@ export class ArsipFormComponent implements OnInit, OnDestroy {
   initForm() {
     let jamPenerimaanArsip = this.currentDateTimeService.getCurrentTime();
 
-    this.arsipForm = new FormGroup({
-      'tanggalPenerimaanArsip': new FormControl(this.modelDateTanggalPenerimaanArsip, [Validators.required, Validators.minLength(10)]),
-      'jamPenerimaanArsip': new FormControl(jamPenerimaanArsip, [Validators.required, Validators.minLength(5)]),
-      'diterimaDari': new FormControl(null as any, [Validators.required, Validators.minLength(3), Validators.maxLength(255)]),
-      'nomorSurat': new FormControl(null as any, [Validators.required, Validators.maxLength(255)]),
-      'tanggalSurat': new FormControl(this.modelDateTanggalSurat, [Validators.required, Validators.minLength(10)]),
-      'perihal': new FormControl(null as any, [Validators.required, Validators.minLength(5), Validators.maxLength(255)]),
-      'lampiran': new FormControl(null as any, Validators.maxLength(255)),
-      'kodePenyimpanan': new FormControl(null as any, [Validators.required, Validators.maxLength(255)]),
-      'keterangan': new FormControl(null as any, Validators.maxLength(255)),
-      'urlFile': new FormControl(null as any)
+    this.arsipForm = new UntypedFormGroup({
+      'tanggalPenerimaanArsip': new UntypedFormControl(this.modelDateTanggalPenerimaanArsip, [Validators.required, Validators.minLength(10)]),
+      'jamPenerimaanArsip': new UntypedFormControl(jamPenerimaanArsip, [Validators.required, Validators.minLength(5)]),
+      'diterimaDari': new UntypedFormControl(null as any, [Validators.required, Validators.minLength(3), Validators.maxLength(255)]),
+      'nomorSurat': new UntypedFormControl(null as any, [Validators.required, Validators.maxLength(255)]),
+      'tanggalSurat': new UntypedFormControl(this.modelDateTanggalSurat, [Validators.required, Validators.minLength(10)]),
+      'perihal': new UntypedFormControl(null as any, [Validators.required, Validators.minLength(5), Validators.maxLength(255)]),
+      'lampiran': new UntypedFormControl(null as any, Validators.maxLength(255)),
+      'kodePenyimpanan': new UntypedFormControl(null as any, [Validators.required, Validators.maxLength(255)]),
+      'keterangan': new UntypedFormControl(null as any, Validators.maxLength(255)),
+      'urlFile': new UntypedFormControl(null as any)
     });
 
     if (this.isEditMode) {
@@ -87,17 +87,17 @@ export class ArsipFormComponent implements OnInit, OnDestroy {
             day: +arsip.tanggalSurat.slice(8, 10)
           };
 
-          this.arsipForm = new FormGroup({
-            'tanggalPenerimaanArsip': new FormControl(this.modelDateTanggalPenerimaanArsip, [Validators.required, Validators.minLength(10)]),
-            'jamPenerimaanArsip': new FormControl(arsip.jamPenerimaanArsip, [Validators.required, Validators.minLength(5)]),
-            'diterimaDari': new FormControl(arsip.diterimaDari, [Validators.required, Validators.minLength(3), Validators.maxLength(255)]),
-            'nomorSurat': new FormControl(arsip.nomorSurat, [Validators.required, Validators.maxLength(255)]),
-            'tanggalSurat': new FormControl(this.modelDateTanggalSurat, [Validators.required, Validators.minLength(10)]),
-            'perihal': new FormControl(arsip.perihal, [Validators.required, Validators.minLength(5), Validators.maxLength(255)]),
-            'lampiran': new FormControl(arsip.lampiran, Validators.maxLength(255)),
-            'kodePenyimpanan': new FormControl(arsip.kodePenyimpanan, Validators.maxLength(255)),
-            'keterangan': new FormControl(arsip.keterangan, Validators.maxLength(255)),
-            'urlFile': new FormControl(arsip.urlFile)
+          this.arsipForm = new UntypedFormGroup({
+            'tanggalPenerimaanArsip': new UntypedFormControl(this.modelDateTanggalPenerimaanArsip, [Validators.required, Validators.minLength(10)]),
+            'jamPenerimaanArsip': new UntypedFormControl(arsip.jamPenerimaanArsip, [Validators.required, Validators.minLength(5)]),
+            'diterimaDari': new UntypedFormControl(arsip.diterimaDari, [Validators.required, Validators.minLength(3), Validators.maxLength(255)]),
+            'nomorSurat': new UntypedFormControl(arsip.nomorSurat, [Validators.required, Validators.maxLength(255)]),
+            'tanggalSurat': new UntypedFormControl(this.modelDateTanggalSurat, [Validators.required, Validators.minLength(10)]),
+            'perihal': new UntypedFormControl(arsip.perihal, [Validators.required, Validators.minLength(5), Validators.maxLength(255)]),
+            'lampiran': new UntypedFormControl(arsip.lampiran, Validators.maxLength(255)),
+            'kodePenyimpanan': new UntypedFormControl(arsip.kodePenyimpanan, Validators.maxLength(255)),
+            'keterangan': new UntypedFormControl(arsip.keterangan, Validators.maxLength(255)),
+            'urlFile': new UntypedFormControl(arsip.urlFile)
           });
           this.isLoadingEditForm = false;
           this.editModeError = false;

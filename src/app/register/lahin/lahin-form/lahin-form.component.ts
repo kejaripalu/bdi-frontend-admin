@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { NgbCalendar, NgbDate, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import { Subscription } from 'rxjs';
 import { RegisterTelaahanIntelijenService } from '../lahin.service';
@@ -14,7 +14,7 @@ import { NotificationService } from 'src/app/shared/notification.service';
   styleUrls: ['./lahin-form.component.css']
 })
 export class LahinFormComponent implements OnInit, OnDestroy {
-  lahinForm!: FormGroup;
+  lahinForm!: UntypedFormGroup;
   isEditMode: boolean = false;
   isLoading: boolean = false;
   isLoadingEditForm: boolean = false;
@@ -55,15 +55,15 @@ export class LahinFormComponent implements OnInit, OnDestroy {
   }
 
   initForm() {
-    this.lahinForm = new FormGroup({
-      'nomor': new FormControl(null as any, [Validators.required, Validators.minLength(3), Validators.maxLength(255)]),
-      'tanggal': new FormControl(this.modelDateTanggalLahin, [Validators.required, Validators.minLength(10)]),
-      'pembuat': new FormControl(null as any, [Validators.required, Validators.minLength(3), Validators.maxLength(255)]),
-      'perihal': new FormControl(null as any, [Validators.required, Validators.minLength(5), Validators.maxLength(255)]),
-      'lampiran': new FormControl(null as any, Validators.maxLength(255)),
-      'tindakLanjut': new FormControl(null as any),
-      'keterangan': new FormControl(null as any, Validators.maxLength(255)),
-      'urlFile': new FormControl(null as any)
+    this.lahinForm = new UntypedFormGroup({
+      'nomor': new UntypedFormControl(null as any, [Validators.required, Validators.minLength(3), Validators.maxLength(255)]),
+      'tanggal': new UntypedFormControl(this.modelDateTanggalLahin, [Validators.required, Validators.minLength(10)]),
+      'pembuat': new UntypedFormControl(null as any, [Validators.required, Validators.minLength(3), Validators.maxLength(255)]),
+      'perihal': new UntypedFormControl(null as any, [Validators.required, Validators.minLength(5), Validators.maxLength(255)]),
+      'lampiran': new UntypedFormControl(null as any, Validators.maxLength(255)),
+      'tindakLanjut': new UntypedFormControl(null as any),
+      'keterangan': new UntypedFormControl(null as any, Validators.maxLength(255)),
+      'urlFile': new UntypedFormControl(null as any)
     });
 
     if (this.isEditMode) {
@@ -76,15 +76,15 @@ export class LahinFormComponent implements OnInit, OnDestroy {
             day: +lahin.tanggal.slice(8, 10)
           };
 
-          this.lahinForm = new FormGroup({
-            'nomor': new FormControl(lahin.nomor, [Validators.required, Validators.maxLength(255)]),
-            'tanggal': new FormControl(this.modelDateTanggalLahin, [Validators.required, Validators.minLength(10)]),
-            'pembuat': new FormControl(lahin.pembuat, [Validators.required, Validators.minLength(3), Validators.maxLength(255)]),
-            'perihal': new FormControl(lahin.perihal, [Validators.required, Validators.minLength(5), Validators.maxLength(255)]),
-            'lampiran': new FormControl(lahin.lampiran, Validators.maxLength(255)),
-            'tindakLanjut': new FormControl(lahin.tindakLanjut),
-            'keterangan': new FormControl(lahin.keterangan, Validators.maxLength(255)),
-            'urlFile': new FormControl(lahin.urlFile)
+          this.lahinForm = new UntypedFormGroup({
+            'nomor': new UntypedFormControl(lahin.nomor, [Validators.required, Validators.maxLength(255)]),
+            'tanggal': new UntypedFormControl(this.modelDateTanggalLahin, [Validators.required, Validators.minLength(10)]),
+            'pembuat': new UntypedFormControl(lahin.pembuat, [Validators.required, Validators.minLength(3), Validators.maxLength(255)]),
+            'perihal': new UntypedFormControl(lahin.perihal, [Validators.required, Validators.minLength(5), Validators.maxLength(255)]),
+            'lampiran': new UntypedFormControl(lahin.lampiran, Validators.maxLength(255)),
+            'tindakLanjut': new UntypedFormControl(lahin.tindakLanjut),
+            'keterangan': new UntypedFormControl(lahin.keterangan, Validators.maxLength(255)),
+            'urlFile': new UntypedFormControl(lahin.urlFile)
           });
           this.isLoadingEditForm = false;
           this.editModeError = false;

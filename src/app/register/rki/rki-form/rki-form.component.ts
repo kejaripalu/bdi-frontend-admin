@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { NgbCalendar, NgbDate, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import { Subscription } from 'rxjs';
@@ -16,7 +16,7 @@ import { NotificationService } from 'src/app/shared/notification.service';
   styleUrls: ['./rki-form.component.css']
 })
 export class RkiFormComponent implements OnInit, OnDestroy {
-  rkiForm!: FormGroup;
+  rkiForm!: UntypedFormGroup;
   isEditMode: boolean = false;
   isLoading: boolean = false;
   isLoadingEditForm: boolean = false;
@@ -85,16 +85,16 @@ export class RkiFormComponent implements OnInit, OnDestroy {
   private initForm() {
     let jamWaktuDiterima = this.currentDateTimeService.getCurrentTime();
 
-    this.rkiForm = new FormGroup({
-      'tanggalWaktuDiterima': new FormControl(this.modelDateTanggalWaktuDiterima, [Validators.required, Validators.minLength(10)]),
-      'jamWaktuDiterima': new FormControl(jamWaktuDiterima, [Validators.required, Validators.minLength(5)]),
-      'sumberBapul': new FormControl(null as any, [Validators.required, Validators.minLength(5), Validators.maxLength(255)]),
-      'uraianPeristiwaMasalah': new FormControl(null as any, [Validators.required, Validators.minLength(10)]),
-      'catatan': new FormControl(null as any, Validators.maxLength(255)),
-      'tindakLanjut': new FormControl(null as any, Validators.maxLength(255)),
-      'disposisiTindakan': new FormControl(null as any, Validators.maxLength(255)),
-      'keterangan': new FormControl(null as any, Validators.maxLength(255)),
-      'urlFile': new FormControl(null as any)
+    this.rkiForm = new UntypedFormGroup({
+      'tanggalWaktuDiterima': new UntypedFormControl(this.modelDateTanggalWaktuDiterima, [Validators.required, Validators.minLength(10)]),
+      'jamWaktuDiterima': new UntypedFormControl(jamWaktuDiterima, [Validators.required, Validators.minLength(5)]),
+      'sumberBapul': new UntypedFormControl(null as any, [Validators.required, Validators.minLength(5), Validators.maxLength(255)]),
+      'uraianPeristiwaMasalah': new UntypedFormControl(null as any, [Validators.required, Validators.minLength(10)]),
+      'catatan': new UntypedFormControl(null as any, Validators.maxLength(255)),
+      'tindakLanjut': new UntypedFormControl(null as any, Validators.maxLength(255)),
+      'disposisiTindakan': new UntypedFormControl(null as any, Validators.maxLength(255)),
+      'keterangan': new UntypedFormControl(null as any, Validators.maxLength(255)),
+      'urlFile': new UntypedFormControl(null as any)
     });
 
     if (this.namaBidang === 'IPOLHANKAM') {
@@ -159,16 +159,16 @@ export class RkiFormComponent implements OnInit, OnDestroy {
             day: +rki.tanggalWaktuDiterima.slice(8, 10)
           };
 
-          this.rkiForm = new FormGroup({
-            'tanggalWaktuDiterima': new FormControl(this.modelDateTanggalWaktuDiterima, [Validators.required, Validators.minLength(10)]),
-            'jamWaktuDiterima': new FormControl(rki.jamWaktuDiterima, [Validators.required, Validators.minLength(5)]),
-            'sumberBapul': new FormControl(rki.sumberBapul, [Validators.required, Validators.minLength(5), Validators.maxLength(255)]),
-            'uraianPeristiwaMasalah': new FormControl(rki.uraianPeristiwaMasalah, [Validators.required, Validators.minLength(10)]),
-            'catatan': new FormControl(rki.catatan, Validators.maxLength(255)),
-            'tindakLanjut': new FormControl(rki.tindakLanjut, Validators.maxLength(255)),
-            'disposisiTindakan': new FormControl(rki.disposisiTindakan, Validators.maxLength(255)),
-            'keterangan': new FormControl(rki.keterangan, Validators.maxLength(255)),
-            'urlFile': new FormControl(rki.urlFile)
+          this.rkiForm = new UntypedFormGroup({
+            'tanggalWaktuDiterima': new UntypedFormControl(this.modelDateTanggalWaktuDiterima, [Validators.required, Validators.minLength(10)]),
+            'jamWaktuDiterima': new UntypedFormControl(rki.jamWaktuDiterima, [Validators.required, Validators.minLength(5)]),
+            'sumberBapul': new UntypedFormControl(rki.sumberBapul, [Validators.required, Validators.minLength(5), Validators.maxLength(255)]),
+            'uraianPeristiwaMasalah': new UntypedFormControl(rki.uraianPeristiwaMasalah, [Validators.required, Validators.minLength(10)]),
+            'catatan': new UntypedFormControl(rki.catatan, Validators.maxLength(255)),
+            'tindakLanjut': new UntypedFormControl(rki.tindakLanjut, Validators.maxLength(255)),
+            'disposisiTindakan': new UntypedFormControl(rki.disposisiTindakan, Validators.maxLength(255)),
+            'keterangan': new UntypedFormControl(rki.keterangan, Validators.maxLength(255)),
+            'urlFile': new UntypedFormControl(rki.urlFile)
           });
 
           if (rki.tindakLanjut === 'Jadikan produk intelijen' ||

@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { NgbCalendar, NgbDate, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import { min, Subscription } from 'rxjs';
@@ -14,7 +14,7 @@ import { NotificationService } from 'src/app/shared/notification.service';
   styleUrls: ['./surat-masuk-form.component.css']
 })
 export class SuratMasukFormComponent implements OnInit, OnDestroy {
-  suratMasukForm!: FormGroup;
+  suratMasukForm!: UntypedFormGroup;
   isEditMode: boolean = false;
   isLoading: boolean = false;
   isLoadingEditForm: boolean = false;
@@ -130,17 +130,17 @@ export class SuratMasukFormComponent implements OnInit, OnDestroy {
   private initForm() {
     let jamPenerimaanSurat = this.currentDateTimeService.getCurrentTime();
     
-    this.suratMasukForm = new FormGroup({
-      'tanggalPenerimaanSurat': new FormControl(this.modelDateTanggalPenerimaanSurat, [Validators.required, Validators.minLength(10)]),
-      'jamPenerimaanSurat': new FormControl(jamPenerimaanSurat, [Validators.required, Validators.minLength(5)]),
-      'asal': new FormControl(null as any, [Validators.required, Validators.minLength(5), Validators.maxLength(255)]),
-      'nomorSurat': new FormControl(null as any, [Validators.required, Validators.maxLength(255)]),
-      'perihal': new FormControl(null as any, [Validators.required, Validators.minLength(5), Validators.maxLength(255)]),
-      'tanggalSurat': new FormControl(this.modelDateTanggalSurat, [Validators.required, Validators.minLength(10)]),
-      'isiDisposisi': new FormControl(null as any, Validators.maxLength(255)),
-      'tindakLanjutDisposisi': new FormControl(null as any, Validators.maxLength(255)),
-      'keterangan': new FormControl(null as any, Validators.maxLength(255)),
-      'urlFile': new FormControl(null as any)
+    this.suratMasukForm = new UntypedFormGroup({
+      'tanggalPenerimaanSurat': new UntypedFormControl(this.modelDateTanggalPenerimaanSurat, [Validators.required, Validators.minLength(10)]),
+      'jamPenerimaanSurat': new UntypedFormControl(jamPenerimaanSurat, [Validators.required, Validators.minLength(5)]),
+      'asal': new UntypedFormControl(null as any, [Validators.required, Validators.minLength(5), Validators.maxLength(255)]),
+      'nomorSurat': new UntypedFormControl(null as any, [Validators.required, Validators.maxLength(255)]),
+      'perihal': new UntypedFormControl(null as any, [Validators.required, Validators.minLength(5), Validators.maxLength(255)]),
+      'tanggalSurat': new UntypedFormControl(this.modelDateTanggalSurat, [Validators.required, Validators.minLength(10)]),
+      'isiDisposisi': new UntypedFormControl(null as any, Validators.maxLength(255)),
+      'tindakLanjutDisposisi': new UntypedFormControl(null as any, Validators.maxLength(255)),
+      'keterangan': new UntypedFormControl(null as any, Validators.maxLength(255)),
+      'urlFile': new UntypedFormControl(null as any)
     });
 
     if (this.isEditMode) {
@@ -158,17 +158,17 @@ export class SuratMasukFormComponent implements OnInit, OnDestroy {
             day: +suratMasuk.tanggalSurat.slice(8, 10)
           };
 
-          this.suratMasukForm = new FormGroup({
-            'tanggalPenerimaanSurat': new FormControl(this.modelDateTanggalPenerimaanSurat, [Validators.required, Validators.minLength(10)]),
-            'jamPenerimaanSurat': new FormControl(suratMasuk.jamPenerimaanSurat, [Validators.required, Validators.minLength(5)]),
-            'asal': new FormControl(suratMasuk.asal, [Validators.required, Validators.minLength(3), Validators.maxLength(255)]),
-            'nomorSurat': new FormControl(suratMasuk.nomorSurat, [Validators.required, Validators.maxLength(255)]),
-            'perihal': new FormControl(suratMasuk.perihal, [Validators.required, Validators.minLength(5), Validators.maxLength(255)]),
-            'tanggalSurat': new FormControl(this.modelDateTanggalSurat, [Validators.required, Validators.minLength(10)]),
-            'isiDisposisi': new FormControl(suratMasuk.isiDisposisi, Validators.maxLength(255)),
-            'tindakLanjutDisposisi': new FormControl(suratMasuk.tindakLanjutDisposisi, Validators.maxLength(255)),
-            'keterangan': new FormControl(suratMasuk.keterangan, Validators.maxLength(255)),
-            'urlFile': new FormControl(suratMasuk.urlFile)
+          this.suratMasukForm = new UntypedFormGroup({
+            'tanggalPenerimaanSurat': new UntypedFormControl(this.modelDateTanggalPenerimaanSurat, [Validators.required, Validators.minLength(10)]),
+            'jamPenerimaanSurat': new UntypedFormControl(suratMasuk.jamPenerimaanSurat, [Validators.required, Validators.minLength(5)]),
+            'asal': new UntypedFormControl(suratMasuk.asal, [Validators.required, Validators.minLength(3), Validators.maxLength(255)]),
+            'nomorSurat': new UntypedFormControl(suratMasuk.nomorSurat, [Validators.required, Validators.maxLength(255)]),
+            'perihal': new UntypedFormControl(suratMasuk.perihal, [Validators.required, Validators.minLength(5), Validators.maxLength(255)]),
+            'tanggalSurat': new UntypedFormControl(this.modelDateTanggalSurat, [Validators.required, Validators.minLength(10)]),
+            'isiDisposisi': new UntypedFormControl(suratMasuk.isiDisposisi, Validators.maxLength(255)),
+            'tindakLanjutDisposisi': new UntypedFormControl(suratMasuk.tindakLanjutDisposisi, Validators.maxLength(255)),
+            'keterangan': new UntypedFormControl(suratMasuk.keterangan, Validators.maxLength(255)),
+            'urlFile': new UntypedFormControl(suratMasuk.urlFile)
           });
           this.isLoadingEditForm = false;
           this.editModeError = false;

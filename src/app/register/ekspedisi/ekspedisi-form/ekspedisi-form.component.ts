@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { NgbCalendar, NgbDate, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import { Subscription } from 'rxjs';
@@ -14,7 +14,7 @@ import { NotificationService } from 'src/app/shared/notification.service';
   styleUrls: ['./ekspedisi-form.component.css']
 })
 export class EkspedisiFormComponent implements OnInit, OnDestroy {
-  ekspedisiForm!: FormGroup;
+  ekspedisiForm!: UntypedFormGroup;
   isEditMode: boolean = false;
   isLoading: boolean = false;
   isLoadingEditForm: boolean = false;
@@ -64,17 +64,17 @@ export class EkspedisiFormComponent implements OnInit, OnDestroy {
   initForm() {
     let jamTandaTerima = this.currentDateTimeService.getCurrentTime();
 
-    this.ekspedisiForm = new FormGroup({
-      'nomorSurat': new FormControl(null as any, [Validators.required, Validators.maxLength(255)]),
-      'tanggalSurat': new FormControl(this.modelDateTanggalSurat, [Validators.required, Validators.minLength(10)]),
-      'kepada': new FormControl(null as any, [Validators.required, Validators.minLength(5), Validators.maxLength(255)]),
-      'perihal': new FormControl(null as any, [Validators.required, Validators.minLength(5), Validators.maxLength(255)]),
-      'lampiran': new FormControl(null as any, Validators.maxLength(255)),
-      'tanggalTandaTerima': new FormControl(this.modelDateTanggalTerimaSurat, [Validators.required, Validators.minLength(10)]),
-      'jamTandaTerima': new FormControl(jamTandaTerima, [Validators.required, Validators.minLength(5)]),
-      'namaDanParaf': new FormControl(null as any),
-      'keterangan': new FormControl(null as any, Validators.maxLength(255)),
-      'urlFile': new FormControl(null as any)
+    this.ekspedisiForm = new UntypedFormGroup({
+      'nomorSurat': new UntypedFormControl(null as any, [Validators.required, Validators.maxLength(255)]),
+      'tanggalSurat': new UntypedFormControl(this.modelDateTanggalSurat, [Validators.required, Validators.minLength(10)]),
+      'kepada': new UntypedFormControl(null as any, [Validators.required, Validators.minLength(5), Validators.maxLength(255)]),
+      'perihal': new UntypedFormControl(null as any, [Validators.required, Validators.minLength(5), Validators.maxLength(255)]),
+      'lampiran': new UntypedFormControl(null as any, Validators.maxLength(255)),
+      'tanggalTandaTerima': new UntypedFormControl(this.modelDateTanggalTerimaSurat, [Validators.required, Validators.minLength(10)]),
+      'jamTandaTerima': new UntypedFormControl(jamTandaTerima, [Validators.required, Validators.minLength(5)]),
+      'namaDanParaf': new UntypedFormControl(null as any),
+      'keterangan': new UntypedFormControl(null as any, Validators.maxLength(255)),
+      'urlFile': new UntypedFormControl(null as any)
     });
 
     if (this.isEditMode) {
@@ -92,17 +92,17 @@ export class EkspedisiFormComponent implements OnInit, OnDestroy {
             day: +ekspedisi.tanggalTandaTerima.slice(8, 10)
           };
 
-          this.ekspedisiForm = new FormGroup({
-            'nomorSurat': new FormControl(ekspedisi.nomorSurat, [Validators.required, Validators.maxLength(255)]),
-            'tanggalSurat': new FormControl(this.modelDateTanggalSurat, [Validators.required, Validators.minLength(10)]),
-            'kepada': new FormControl(ekspedisi.kepada, [Validators.required, Validators.minLength(5), Validators.maxLength(255)]),
-            'perihal': new FormControl(ekspedisi.perihal, [Validators.required, Validators.minLength(5), Validators.maxLength(255)]),
-            'lampiran': new FormControl(ekspedisi.lampiran, Validators.maxLength(255)),
-            'tanggalTandaTerima': new FormControl(this.modelDateTanggalTerimaSurat, [Validators.required, Validators.minLength(10)]),
-            'jamTandaTerima': new FormControl(ekspedisi.jamTandaTerima, [Validators.required, Validators.minLength(5)]),
-            'namaDanParaf': new FormControl(ekspedisi.namaDanParaf),
-            'keterangan': new FormControl(ekspedisi.keterangan, Validators.maxLength(255)),
-            'urlFile': new FormControl(ekspedisi.urlFile)
+          this.ekspedisiForm = new UntypedFormGroup({
+            'nomorSurat': new UntypedFormControl(ekspedisi.nomorSurat, [Validators.required, Validators.maxLength(255)]),
+            'tanggalSurat': new UntypedFormControl(this.modelDateTanggalSurat, [Validators.required, Validators.minLength(10)]),
+            'kepada': new UntypedFormControl(ekspedisi.kepada, [Validators.required, Validators.minLength(5), Validators.maxLength(255)]),
+            'perihal': new UntypedFormControl(ekspedisi.perihal, [Validators.required, Validators.minLength(5), Validators.maxLength(255)]),
+            'lampiran': new UntypedFormControl(ekspedisi.lampiran, Validators.maxLength(255)),
+            'tanggalTandaTerima': new UntypedFormControl(this.modelDateTanggalTerimaSurat, [Validators.required, Validators.minLength(10)]),
+            'jamTandaTerima': new UntypedFormControl(ekspedisi.jamTandaTerima, [Validators.required, Validators.minLength(5)]),
+            'namaDanParaf': new UntypedFormControl(ekspedisi.namaDanParaf),
+            'keterangan': new UntypedFormControl(ekspedisi.keterangan, Validators.maxLength(255)),
+            'urlFile': new UntypedFormControl(ekspedisi.urlFile)
           });
           this.isLoadingEditForm = false;
           this.editModeError = false;

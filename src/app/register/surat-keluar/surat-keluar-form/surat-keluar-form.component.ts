@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { NgbCalendar, NgbDate, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import { Subscription } from 'rxjs';
@@ -14,7 +14,7 @@ import { NotificationService } from 'src/app/shared/notification.service';
   styleUrls: ['./surat-keluar-form.component.css']
 })
 export class SuratKeluarFormComponent implements OnInit, OnDestroy {
-  suratKeluarForm!: FormGroup;
+  suratKeluarForm!: UntypedFormGroup;
   isEditMode: boolean = false;
   isLoading: boolean = false;
   isLoadingEditForm: boolean = false;
@@ -60,14 +60,14 @@ export class SuratKeluarFormComponent implements OnInit, OnDestroy {
   }
 
   initForm() {
-    this.suratKeluarForm = new FormGroup({
-      'tanggalSurat': new FormControl(this.modelDate, [Validators.required, Validators.minLength(10)]),
-      'nomorSurat': new FormControl(null as any, [Validators.required, Validators.minLength(5), Validators.maxLength(255)]),
-      'kepada': new FormControl(null as any, [Validators.required, Validators.minLength(3), Validators.maxLength(255)]),
-      'perihal': new FormControl(null as any, [Validators.required, Validators.minLength(5), Validators.maxLength(255)]),
-      'lampiran': new FormControl(null as any, Validators.maxLength(255)),
-      'keterangan': new FormControl(null as any, Validators.maxLength(255)),
-      'urlFile': new FormControl(null as any)
+    this.suratKeluarForm = new UntypedFormGroup({
+      'tanggalSurat': new UntypedFormControl(this.modelDate, [Validators.required, Validators.minLength(10)]),
+      'nomorSurat': new UntypedFormControl(null as any, [Validators.required, Validators.minLength(5), Validators.maxLength(255)]),
+      'kepada': new UntypedFormControl(null as any, [Validators.required, Validators.minLength(3), Validators.maxLength(255)]),
+      'perihal': new UntypedFormControl(null as any, [Validators.required, Validators.minLength(5), Validators.maxLength(255)]),
+      'lampiran': new UntypedFormControl(null as any, Validators.maxLength(255)),
+      'keterangan': new UntypedFormControl(null as any, Validators.maxLength(255)),
+      'urlFile': new UntypedFormControl(null as any)
     });
 
     if (this.isEditMode) {
@@ -79,14 +79,14 @@ export class SuratKeluarFormComponent implements OnInit, OnDestroy {
             month: +suratKeluar.tanggalSurat.slice(5, 7),
             day: +suratKeluar.tanggalSurat.slice(8, 10)
           };
-          this.suratKeluarForm = new FormGroup({
-            'tanggalSurat': new FormControl(this.modelDate, [Validators.required, Validators.minLength(10), Validators.maxLength(255)]),
-            'nomorSurat': new FormControl(suratKeluar.nomorSurat, [Validators.required, Validators.minLength(5), Validators.maxLength(255)]),
-            'kepada': new FormControl(suratKeluar.kepada, [Validators.required, Validators.minLength(3), Validators.maxLength(255)]),
-            'perihal': new FormControl(suratKeluar.perihal, [Validators.required, Validators.minLength(5), Validators.maxLength(255)]),
-            'lampiran': new FormControl(suratKeluar.lampiran, Validators.maxLength(255)),
-            'keterangan': new FormControl(suratKeluar.keterangan, Validators.maxLength(255)),
-            'urlFile': new FormControl(suratKeluar.urlFile)
+          this.suratKeluarForm = new UntypedFormGroup({
+            'tanggalSurat': new UntypedFormControl(this.modelDate, [Validators.required, Validators.minLength(10), Validators.maxLength(255)]),
+            'nomorSurat': new UntypedFormControl(suratKeluar.nomorSurat, [Validators.required, Validators.minLength(5), Validators.maxLength(255)]),
+            'kepada': new UntypedFormControl(suratKeluar.kepada, [Validators.required, Validators.minLength(3), Validators.maxLength(255)]),
+            'perihal': new UntypedFormControl(suratKeluar.perihal, [Validators.required, Validators.minLength(5), Validators.maxLength(255)]),
+            'lampiran': new UntypedFormControl(suratKeluar.lampiran, Validators.maxLength(255)),
+            'keterangan': new UntypedFormControl(suratKeluar.keterangan, Validators.maxLength(255)),
+            'urlFile': new UntypedFormControl(suratKeluar.urlFile)
           });
           this.isLoadingEditForm = false;
           this.editModeError = false;

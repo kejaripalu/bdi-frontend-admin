@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { NgbCalendar, NgbDate, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import { Subscription } from 'rxjs';
@@ -16,7 +16,7 @@ import { NotificationService } from 'src/app/shared/notification.service';
   styleUrls: ['./kegiatan-form.component.css']
 })
 export class KegiatanFormComponent implements OnInit, OnDestroy {
-  giatForm!: FormGroup;
+  giatForm!: UntypedFormGroup;
   isEditMode: boolean = false;
   isLoading: boolean = false;
   isLoadingEditForm: boolean = false;
@@ -74,14 +74,14 @@ export class KegiatanFormComponent implements OnInit, OnDestroy {
   }
 
   private initForm() {
-    this.giatForm = new FormGroup({
-      'nomor': new FormControl(null as any, [Validators.required, Validators.minLength(5), Validators.maxLength(255)]),
-      'tanggal': new FormControl(this.modelDateTanggal, [Validators.required, Validators.minLength(10)]),
-      'perihal': new FormControl(null as any, [Validators.required, Validators.minLength(10), Validators.maxLength(255)]),
-      'namaPetugasPelaksana': new FormControl(null as any, [Validators.required, Validators.minLength(3)]),
-      'hasilPelaksanaanKegiatan': new FormControl(null as any),
-      'keterangan': new FormControl(null as any, Validators.maxLength(255)),
-      'urlFile': new FormControl(null as any)
+    this.giatForm = new UntypedFormGroup({
+      'nomor': new UntypedFormControl(null as any, [Validators.required, Validators.minLength(5), Validators.maxLength(255)]),
+      'tanggal': new UntypedFormControl(this.modelDateTanggal, [Validators.required, Validators.minLength(10)]),
+      'perihal': new UntypedFormControl(null as any, [Validators.required, Validators.minLength(10), Validators.maxLength(255)]),
+      'namaPetugasPelaksana': new UntypedFormControl(null as any, [Validators.required, Validators.minLength(3)]),
+      'hasilPelaksanaanKegiatan': new UntypedFormControl(null as any),
+      'keterangan': new UntypedFormControl(null as any, Validators.maxLength(255)),
+      'urlFile': new UntypedFormControl(null as any)
     });
 
     if (this.namaBidang === 'IPOLHANKAM') {
@@ -141,14 +141,14 @@ export class KegiatanFormComponent implements OnInit, OnDestroy {
             day: +giat.tanggal.slice(8, 10)
           };
 
-          this.giatForm = new FormGroup({
-            'nomor': new FormControl(giat.nomor, [Validators.required, Validators.minLength(5), Validators.maxLength(255)]),
-            'tanggal': new FormControl(this.modelDateTanggal, [Validators.required, Validators.minLength(10)]),
-            'perihal': new FormControl(giat.perihal, [Validators.required, Validators.minLength(10), Validators.maxLength(255)]),
-            'namaPetugasPelaksana': new FormControl(giat.namaPetugasPelaksana, [Validators.required, Validators.minLength(3)]),
-            'hasilPelaksanaanKegiatan': new FormControl(giat.hasilPelaksanaanKegiatan),
-            'keterangan': new FormControl(giat.keterangan, Validators.maxLength(255)),
-            'urlFile': new FormControl(giat.urlFile)
+          this.giatForm = new UntypedFormGroup({
+            'nomor': new UntypedFormControl(giat.nomor, [Validators.required, Validators.minLength(5), Validators.maxLength(255)]),
+            'tanggal': new UntypedFormControl(this.modelDateTanggal, [Validators.required, Validators.minLength(10)]),
+            'perihal': new UntypedFormControl(giat.perihal, [Validators.required, Validators.minLength(10), Validators.maxLength(255)]),
+            'namaPetugasPelaksana': new UntypedFormControl(giat.namaPetugasPelaksana, [Validators.required, Validators.minLength(3)]),
+            'hasilPelaksanaanKegiatan': new UntypedFormControl(giat.hasilPelaksanaanKegiatan),
+            'keterangan': new UntypedFormControl(giat.keterangan, Validators.maxLength(255)),
+            'urlFile': new UntypedFormControl(giat.urlFile)
           });
 
           this.namaSektorSelected = giat.sektor;

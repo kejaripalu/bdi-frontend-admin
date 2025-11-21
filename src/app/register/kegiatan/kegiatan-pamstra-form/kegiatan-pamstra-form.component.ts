@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { NgbCalendar, NgbDate, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import { Subscription } from 'rxjs';
 import { Sektor } from 'src/app/shared/bidang-direktorat/sektor';
@@ -16,7 +16,7 @@ import { NotificationService } from 'src/app/shared/notification.service';
   styleUrls: ['./kegiatan-pamstra-form.component.css']
 })
 export class KegiatanPamstraFormComponent implements OnInit, OnDestroy {
-  giatForm!: FormGroup;
+  giatForm!: UntypedFormGroup;
   isEditMode: boolean = false;
   isLoading: boolean = false;
   isLoadingEditForm: boolean = false;
@@ -87,28 +87,28 @@ export class KegiatanPamstraFormComponent implements OnInit, OnDestroy {
   private initForm() {
     let paguAnggaran = this.currencyPaguAnggaran;
     
-    this.giatForm = new FormGroup({
-      'namaKegiatan': new FormControl(null as any, [Validators.required, Validators.minLength(5), Validators.maxLength(255)]),
-      'sumberDana': new FormControl(null as any, [Validators.required, Validators.minLength(3), Validators.maxLength(255)]),
-      'instansi': new FormControl(null as any, [Validators.required, Validators.minLength(3), Validators.maxLength(255)]),
-      'paguAnggaran': new FormControl(paguAnggaran, [Validators.required]),
-      'nomorSuratPermohonan': new FormControl(null as any, [Validators.required, Validators.minLength(3), Validators.maxLength(255)]),
-      'tanggalSuratPermohonan': new FormControl(this.modelDateTanggalSuratPermohonan, [Validators.required, Validators.minLength(10)]),
-      'tempatPemaparan': new FormControl(null as any, [Validators.maxLength(255)]),
-      'tanggalPemaparan': new FormControl(this.modelDateTanggalPemaparan, [Validators.minLength(10)]),
-      'telaahanIntelijen': new FormControl(null as any),
-      'tindakLanjut': new FormControl(null as any),
-      'tindakLanjutKeterangan': new FormControl(null as any),
-      'nomorSprintWalpam': new FormControl(null as any, [Validators.maxLength(255)]),
-      'tanggalSprintWalpam': new FormControl(this.modelDateTanggalSprintWalpam, [Validators.minLength(10)]),
-      'namaPetugasPelaksana': new FormControl(null as any, [Validators.maxLength(255)]),
-      'nilaiKontrak': new FormControl(null as any),
-      'hasilPelaksanaan': new FormControl(null as any),
-      'hasilPelaksanaanKeterangan': new FormControl(null as any),
-      'nomorKertasKerja': new FormControl(null as any, [Validators.maxLength(255)]),
-      'tanggalKertasKerja': new FormControl(this.modelDateTanggalKertasKerja, [Validators.minLength(10)]),
-      'keterangan': new FormControl(null as any, Validators.maxLength(255)),
-      'urlFile': new FormControl(null as any)
+    this.giatForm = new UntypedFormGroup({
+      'namaKegiatan': new UntypedFormControl(null as any, [Validators.required, Validators.minLength(5), Validators.maxLength(255)]),
+      'sumberDana': new UntypedFormControl(null as any, [Validators.required, Validators.minLength(3), Validators.maxLength(255)]),
+      'instansi': new UntypedFormControl(null as any, [Validators.required, Validators.minLength(3), Validators.maxLength(255)]),
+      'paguAnggaran': new UntypedFormControl(paguAnggaran, [Validators.required]),
+      'nomorSuratPermohonan': new UntypedFormControl(null as any, [Validators.required, Validators.minLength(3), Validators.maxLength(255)]),
+      'tanggalSuratPermohonan': new UntypedFormControl(this.modelDateTanggalSuratPermohonan, [Validators.required, Validators.minLength(10)]),
+      'tempatPemaparan': new UntypedFormControl(null as any, [Validators.maxLength(255)]),
+      'tanggalPemaparan': new UntypedFormControl(this.modelDateTanggalPemaparan, [Validators.minLength(10)]),
+      'telaahanIntelijen': new UntypedFormControl(null as any),
+      'tindakLanjut': new UntypedFormControl(null as any),
+      'tindakLanjutKeterangan': new UntypedFormControl(null as any),
+      'nomorSprintWalpam': new UntypedFormControl(null as any, [Validators.maxLength(255)]),
+      'tanggalSprintWalpam': new UntypedFormControl(this.modelDateTanggalSprintWalpam, [Validators.minLength(10)]),
+      'namaPetugasPelaksana': new UntypedFormControl(null as any, [Validators.maxLength(255)]),
+      'nilaiKontrak': new UntypedFormControl(null as any),
+      'hasilPelaksanaan': new UntypedFormControl(null as any),
+      'hasilPelaksanaanKeterangan': new UntypedFormControl(null as any),
+      'nomorKertasKerja': new UntypedFormControl(null as any, [Validators.maxLength(255)]),
+      'tanggalKertasKerja': new UntypedFormControl(this.modelDateTanggalKertasKerja, [Validators.minLength(10)]),
+      'keterangan': new UntypedFormControl(null as any, Validators.maxLength(255)),
+      'urlFile': new UntypedFormControl(null as any)
     });
 
     for (let i = 41; i < 61; i++) {
@@ -147,28 +147,28 @@ export class KegiatanPamstraFormComponent implements OnInit, OnDestroy {
           this.currencyPaguAnggaran = giat.paguAnggaran;
           this.currencyNilaiKontrak = giat.nilaiKontrak;
 
-          this.giatForm = new FormGroup({
-            'namaKegiatan': new FormControl(giat.namaKegiatan, [Validators.required, Validators.minLength(5), Validators.maxLength(255)]),
-            'sumberDana': new FormControl(giat.sumberDana, [Validators.required, Validators.minLength(3), Validators.maxLength(255)]),
-            'instansi': new FormControl(giat.instansi, [Validators.required, Validators.minLength(3), Validators.maxLength(255)]),
-            'paguAnggaran': new FormControl(this.currencyPaguAnggaran, [Validators.required]),
-            'nomorSuratPermohonan': new FormControl(giat.nomorSuratPermohonan, [Validators.required, Validators.minLength(3), Validators.maxLength(255)]),
-            'tanggalSuratPermohonan': new FormControl(this.modelDateTanggalSuratPermohonan, [Validators.required, Validators.minLength(10)]),
-            'tempatPemaparan': new FormControl(giat.tempatPemaparan, [Validators.maxLength(255)]),
-            'tanggalPemaparan': new FormControl(this.modelDateTanggalPemaparan, [Validators.minLength(10)]),
-            'telaahanIntelijen': new FormControl(giat.telaahanIntelijen),
-            'tindakLanjut': new FormControl(giat.tindakLanjut),
-            'tindakLanjutKeterangan': new FormControl(giat.tindakLanjutKeterangan),
-            'nomorSprintWalpam': new FormControl(giat.nomorSprintWalpam, [Validators.maxLength(255)]),
-            'tanggalSprintWalpam': new FormControl(this.modelDateTanggalSprintWalpam, [Validators.minLength(10)]),
-            'namaPetugasPelaksana': new FormControl(giat.namaPetugasPelaksana, [Validators.minLength(3)]),
-            'nilaiKontrak': new FormControl(this.currencyNilaiKontrak),
-            'hasilPelaksanaan': new FormControl(giat.hasilPelaksanaan),
-            'hasilPelaksanaanKeterangan': new FormControl(giat.hasilPelaksanaanKeterangan),
-            'nomorKertasKerja': new FormControl(giat.nomorKertasKerja, [Validators.maxLength(255)]),
-            'tanggalKertasKerja': new FormControl(this.modelDateTanggalKertasKerja, [Validators.minLength(10)]),
-            'keterangan': new FormControl(giat.keterangan, Validators.maxLength(255)),
-            'urlFile': new FormControl(giat.urlFile)
+          this.giatForm = new UntypedFormGroup({
+            'namaKegiatan': new UntypedFormControl(giat.namaKegiatan, [Validators.required, Validators.minLength(5), Validators.maxLength(255)]),
+            'sumberDana': new UntypedFormControl(giat.sumberDana, [Validators.required, Validators.minLength(3), Validators.maxLength(255)]),
+            'instansi': new UntypedFormControl(giat.instansi, [Validators.required, Validators.minLength(3), Validators.maxLength(255)]),
+            'paguAnggaran': new UntypedFormControl(this.currencyPaguAnggaran, [Validators.required]),
+            'nomorSuratPermohonan': new UntypedFormControl(giat.nomorSuratPermohonan, [Validators.required, Validators.minLength(3), Validators.maxLength(255)]),
+            'tanggalSuratPermohonan': new UntypedFormControl(this.modelDateTanggalSuratPermohonan, [Validators.required, Validators.minLength(10)]),
+            'tempatPemaparan': new UntypedFormControl(giat.tempatPemaparan, [Validators.maxLength(255)]),
+            'tanggalPemaparan': new UntypedFormControl(this.modelDateTanggalPemaparan, [Validators.minLength(10)]),
+            'telaahanIntelijen': new UntypedFormControl(giat.telaahanIntelijen),
+            'tindakLanjut': new UntypedFormControl(giat.tindakLanjut),
+            'tindakLanjutKeterangan': new UntypedFormControl(giat.tindakLanjutKeterangan),
+            'nomorSprintWalpam': new UntypedFormControl(giat.nomorSprintWalpam, [Validators.maxLength(255)]),
+            'tanggalSprintWalpam': new UntypedFormControl(this.modelDateTanggalSprintWalpam, [Validators.minLength(10)]),
+            'namaPetugasPelaksana': new UntypedFormControl(giat.namaPetugasPelaksana, [Validators.minLength(3)]),
+            'nilaiKontrak': new UntypedFormControl(this.currencyNilaiKontrak),
+            'hasilPelaksanaan': new UntypedFormControl(giat.hasilPelaksanaan),
+            'hasilPelaksanaanKeterangan': new UntypedFormControl(giat.hasilPelaksanaanKeterangan),
+            'nomorKertasKerja': new UntypedFormControl(giat.nomorKertasKerja, [Validators.maxLength(255)]),
+            'tanggalKertasKerja': new UntypedFormControl(this.modelDateTanggalKertasKerja, [Validators.minLength(10)]),
+            'keterangan': new UntypedFormControl(giat.keterangan, Validators.maxLength(255)),
+            'urlFile': new UntypedFormControl(giat.urlFile)
           });
 
           this.namaSektorSelected = giat.sektor;

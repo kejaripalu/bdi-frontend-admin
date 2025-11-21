@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { NgbCalendar, NgbDate, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import { Subscription } from 'rxjs';
@@ -19,7 +19,7 @@ import { NotificationService } from 'src/app/shared/notification.service';
   styleUrls: ['./prodin-form.component.css']
 })
 export class ProdinFormComponent implements OnInit, OnDestroy {
-  prodinForm!: FormGroup;
+  prodinForm!: UntypedFormGroup;
   isEditMode: boolean = false;
   isLoading: boolean = false;
   isLoadingEditForm: boolean = false;
@@ -74,13 +74,13 @@ export class ProdinFormComponent implements OnInit, OnDestroy {
   }
 
   initForm() {
-    this.prodinForm = new FormGroup({
-      'nomorProdin': new FormControl(null as any, [Validators.required, Validators.minLength(5), Validators.maxLength(255)]),
-      'tanggalProdin': new FormControl(this.modelDateTanggalProduk, [Validators.required, Validators.minLength(8)]),
-      'perihal': new FormControl(null as any, [Validators.required, Validators.minLength(5), Validators.maxLength(255)]),
-      'disposisiPimpinan': new FormControl(null as any, Validators.maxLength(255)),
-      'keterangan': new FormControl(null as any, Validators.maxLength(255)),
-      'urlFile': new FormControl(null as any)
+    this.prodinForm = new UntypedFormGroup({
+      'nomorProdin': new UntypedFormControl(null as any, [Validators.required, Validators.minLength(5), Validators.maxLength(255)]),
+      'tanggalProdin': new UntypedFormControl(this.modelDateTanggalProduk, [Validators.required, Validators.minLength(8)]),
+      'perihal': new UntypedFormControl(null as any, [Validators.required, Validators.minLength(5), Validators.maxLength(255)]),
+      'disposisiPimpinan': new UntypedFormControl(null as any, Validators.maxLength(255)),
+      'keterangan': new UntypedFormControl(null as any, Validators.maxLength(255)),
+      'urlFile': new UntypedFormControl(null as any)
     });
     this.reloadSektorList();
 
@@ -94,13 +94,13 @@ export class ProdinFormComponent implements OnInit, OnDestroy {
             day: +prodin.tanggalProduk.slice(8, 10)
           };
 
-          this.prodinForm = new FormGroup({
-            'nomorProdin': new FormControl(prodin.nomorProduk, [Validators.required, Validators.minLength(5), Validators.maxLength(255)]),
-            'tanggalProdin': new FormControl(this.modelDateTanggalProduk, [Validators.required, Validators.minLength(8)]),
-            'perihal': new FormControl(prodin.perihal, [Validators.required, Validators.minLength(5), Validators.maxLength(255)]),
-            'disposisiPimpinan': new FormControl(prodin.disposisiPimpinan, Validators.maxLength(255)),
-            'keterangan': new FormControl(prodin.keterangan, Validators.maxLength(255)),
-            'urlFile': new FormControl(prodin.urlFile)
+          this.prodinForm = new UntypedFormGroup({
+            'nomorProdin': new UntypedFormControl(prodin.nomorProduk, [Validators.required, Validators.minLength(5), Validators.maxLength(255)]),
+            'tanggalProdin': new UntypedFormControl(this.modelDateTanggalProduk, [Validators.required, Validators.minLength(8)]),
+            'perihal': new UntypedFormControl(prodin.perihal, [Validators.required, Validators.minLength(5), Validators.maxLength(255)]),
+            'disposisiPimpinan': new UntypedFormControl(prodin.disposisiPimpinan, Validators.maxLength(255)),
+            'keterangan': new UntypedFormControl(prodin.keterangan, Validators.maxLength(255)),
+            'urlFile': new UntypedFormControl(prodin.urlFile)
           });
 
           const indexSektor = this.bidangDirektoratSektorService.getSektor()
