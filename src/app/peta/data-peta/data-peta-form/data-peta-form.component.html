@@ -114,11 +114,6 @@
                             *ngIf="petaForm.get('apa')?.errors?.['minlength'] && 
                                    petaForm.get('apa')?.touched">
                                 Minimal 5 karakter!!!</small>
-                        <small 
-                            class="text-alert" 
-                            *ngIf="petaForm.get('apa')?.errors?.['maxlength'] && 
-                                    petaForm.get('apa')?.touched">
-                                Tidak boleh lebih dari 255 karakter!!!</small>
                     </div>                  
                 </div>
                 <div class="row">
@@ -143,11 +138,6 @@
                             *ngIf="petaForm.get('mengapa')?.errors?.['minlength'] && 
                                    petaForm.get('mengapa')?.touched">
                                 Minimal 5 karakter!!!</small>
-                        <small 
-                            class="text-alert" 
-                            *ngIf="petaForm.get('mengapa')?.errors?.['maxlength'] && 
-                                    petaForm.get('mengapa')?.touched">
-                                Tidak boleh lebih dari 255 karakter!!!</small>
                     </div>                  
                 </div>              
                 <div class="form-group">
@@ -180,8 +170,7 @@
                                 name="lokasi" 
                                 class="form-control"
                                 formControlName="lokasi"
-                                placement="top" ngbTooltip="Diisi nama jalan atau daerah"
-                                [(ngModel)]="addressDetails"></textarea>
+                                placement="top" ngbTooltip="Diisi nama jalan atau daerah"></textarea>
                         </div>
                         <small 
                             class="text-alert" 
@@ -204,7 +193,6 @@
                                 name="latitude" 
                                 class="form-control"
                                 formControlName="latitude"
-                                [(ngModel)]="clickedLat"
                                 readonly>
                         </div>
                         <small 
@@ -231,7 +219,6 @@
                                 name="longitude" 
                                 class="form-control"
                                 formControlName="longitude"
-                                [(ngModel)]="clickedLon"
                                 readonly>
                         </div>
                         <small 

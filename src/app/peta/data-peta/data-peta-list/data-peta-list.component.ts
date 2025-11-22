@@ -74,6 +74,7 @@ export class DataPetaListComponent implements OnInit, OnDestroy {
         this.namaBidang = this.sektorPeta.getBidangDirektori()[this.indexBidang].namaBidang!;
         this.fetchDataPeta();
       });
+    this.checkMessage();
   }
  
 
@@ -104,11 +105,11 @@ export class DataPetaListComponent implements OnInit, OnDestroy {
       this.dataPetaQueryParamSub = this.route.queryParams
         .subscribe((queryParams: Params) => {
           if (queryParams['message'] === 'SimpanSukses' && this.currentNotificationStatus) {
-            this.toastService.show(this.message.saveMessage + this.name + '!!!',
+            this.toastService.show(this.message.saveMessage + '!!!',
               { classname: 'bg-success text-light', delay: 5000 });
             this.onNotificationStatusChange(false);
           } else if (queryParams['message'] === 'UpdateSukses' && this.currentNotificationStatus) {
-            this.toastService.show(this.message.updateMessage + this.name + '!!!',
+            this.toastService.show(this.message.updateMessage + '!!!',
               { classname: 'bg-success text-light', delay: 5000 });
             this.onNotificationStatusChange(false);
           } else {
@@ -144,7 +145,7 @@ export class DataPetaListComponent implements OnInit, OnDestroy {
           next: () => {
             this.isLoading = false;
             this.fetchDataPeta();
-            this.toastService.show(this.message.deleteMessage + this.name + '!!!',
+            this.toastService.show(this.message.deleteMessage + '!!!',
               { classname: 'bg-success text-light', delay: 5000 });
           },
           error: (errorMessage) => {

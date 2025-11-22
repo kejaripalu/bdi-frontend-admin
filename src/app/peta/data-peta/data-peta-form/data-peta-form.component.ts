@@ -10,7 +10,6 @@ import { NotificationService } from 'src/app/shared/notification.service';
 import { latitudeRangeValidator, longitudeRangeValidator } from 'src/app/shared/coordinate.validator';
 import { DataPeta } from '../data-peta.model';
 import * as L from 'leaflet';
-import { error, log } from 'console';
 import { HttpClient } from '@angular/common/http';
 
 @Component({
@@ -45,9 +44,13 @@ export class DataPetaFormComponent implements OnInit, OnDestroy, AfterViewInit {
   // Maps
   private map!: L.Map;
   private marker?: L.Marker; // Variabel untuk menyimpan penanda saat ini
-  public clickedLat: number | null = null as any;
   public clickedLon: number | null = null as any;
   public addressDetails: string = 'Mencari alamat...'; // <-- Variabel untuk menampung alamat
+  public clickedLat: number | null = null as any;
+  // Guard untuk menghindari pemrosesan klik ganda yang cepat
+  private _lastMapClick = 0;
+  // Retry attempts to initialize map when element isn't yet in DOM
+  private _initMapAttempts = 0;
 
   constructor(
     private petaService: DataPetaService,
@@ -64,21 +67,15 @@ export class DataPetaFormComponent implements OnInit, OnDestroy, AfterViewInit {
   
   ngAfterViewInit(): void {
     this.initMap();
-
-    // Tambahkan marker awal dan update pop-up setelah data alamat awal dimuat
-    this.addMarker([ this.clickedLat!, this.clickedLon! ]);
-    
-    // Update pop-up dengan alamat yang sudah di-fetch
-    // Timeout diperlukan untuk memastikan DOM marker sudah ada saat pop-up diupdate
-    setTimeout(() => {
-        this.updateMarkerPopup(this.addressDetails, this.clickedLat!, this.clickedLon!);
-    }, 100);
   }
   
   ngOnInit(): void {
     this.isLoading = false;
     this.isLoadingEditForm = false;
     this.date = this.calendar.getToday();
+    // determine edit mode early from snapshot so we can skip initial map init when editing
+    this.isEditMode = this.route.snapshot.params['id'] != null;
+    this.id = this.route.snapshot.params['id'];
     this.petaParamSub = this.route.params
     .subscribe((params: Params) => {
       this.isEditMode = params['id'] != null;
@@ -104,16 +101,28 @@ export class DataPetaFormComponent implements OnInit, OnDestroy, AfterViewInit {
       this.currentNotificationStatus = status;
     });
 
-    // inisialisasi koordinat awal
-    this.clickedLat = -0.8970856;
-    this.clickedLon = 119.8663171;
-    this.getAddress(this.clickedLat!, this.clickedLon!).subscribe({
-      next: (address) => {
-        this.addressDetails = address;
-      }, error: () => {
-        this.addressDetails = 'Gagal memuat alamat.';
-      }
-    });
+    // inisialisasi koordinat awal pada maps hanya jika bukan edit mode
+    if (!this.isEditMode) {
+      this.clickedLat = -0.8970856;
+      this.clickedLon = 119.8663171;
+      this.getAddress(this.clickedLat!, this.clickedLon!).subscribe({
+        next: (address) => {
+          this.addressDetails = address;
+          // update initial form values so form shows address/coords on load
+          try {
+            if (this.petaForm) {
+              this.petaForm.patchValue({
+                lokasi: this.addressDetails,
+                latitude: this.clickedLat,
+                longitude: this.clickedLon
+              });
+            }
+          } catch (e) { /* ignore */ }
+        }, error: () => {
+          this.addressDetails = 'Gagal memuat alamat.';
+        }
+      });
+    }
   }
 
   private initForm() {
@@ -123,8 +132,8 @@ export class DataPetaFormComponent implements OnInit, OnDestroy, AfterViewInit {
       'latitude': new FormControl(null as any, [Validators.required, Validators.pattern(/^-?\d*\.?\d*$/), latitudeRangeValidator()]),
       'longitude': new FormControl(null as any, [Validators.required, Validators.pattern(/^-?\d*\.?\d*$/), longitudeRangeValidator()]),
       'siapa': new FormControl(null as any, [Validators.required, Validators.minLength(5), Validators.maxLength(255)]),
-      'apa': new FormControl(null as any, [Validators.required, Validators.minLength(5), Validators.maxLength(255)]),
-      'mengapa': new FormControl(null as any, [Validators.required, Validators.minLength(5), Validators.maxLength(255)]),
+      'apa': new FormControl(null as any, [Validators.required, Validators.minLength(5)]),
+      'mengapa': new FormControl(null as any, [Validators.required, Validators.minLength(5)]),
       'bagaimana': new FormControl(null as any, [Validators.required, Validators.minLength(10)]),
       'keterangan': new FormControl(null as any, Validators.maxLength(255))
     });
@@ -208,13 +217,50 @@ export class DataPetaFormComponent implements OnInit, OnDestroy, AfterViewInit {
               'latitude': new FormControl(peta.latitude, [Validators.required, Validators.pattern(/^-?\d*\.?\d*$/), latitudeRangeValidator()]),
               'longitude': new FormControl(peta.longitude, [Validators.required, Validators.pattern(/^-?\d*\.?\d*$/), longitudeRangeValidator()]),
               'siapa': new FormControl(peta.siapa, [Validators.required, Validators.minLength(3), Validators.maxLength(255)]),
-              'apa': new FormControl(peta.apa, [Validators.required, Validators.minLength(5), Validators.maxLength(255)]),
-              'mengapa': new FormControl(peta.mengapa, [Validators.required, Validators.minLength(5), Validators.maxLength(255)]),
+              'apa': new FormControl(peta.apa, [Validators.required, Validators.minLength(5)]),
+              'mengapa': new FormControl(peta.mengapa, [Validators.required, Validators.minLength(5)]),
               'bagaimana': new FormControl(peta.bagaimana, [Validators.required, Validators.minLength(10), Validators.maxLength(255)]),
               'keterangan': new FormControl(peta.keterangan, Validators.maxLength(255))
             });
 
             this.namaSektorSelected = peta.sektor!;
+            // Use coordinates/address from the loaded peta to populate map and form
+            try {
+              if (peta.latitude != null && peta.longitude != null) {
+                this.clickedLat = +peta.latitude;
+                this.clickedLon = +peta.longitude;
+              }
+
+              // Prefer stored lokasi in peta, otherwise try reverse-geocoding
+              if (peta.lokasi) {
+                this.addressDetails = peta.lokasi;
+              } else if (this.clickedLat != null && this.clickedLon != null) {
+                this.getAddress(this.clickedLat, this.clickedLon).subscribe({
+                  next: (addr) => { this.addressDetails = addr; },
+                  error: () => { /* ignore */ }
+                });
+              }
+
+              // Patch form values if necessary (ensure template shows coords)
+              if (this.petaForm) {
+                this.petaForm.patchValue({
+                  lokasi: this.addressDetails || peta.lokasi,
+                  latitude: this.clickedLat,
+                  longitude: this.clickedLon
+                });
+              }
+
+              // If map already initialized, update view and marker
+              if (this.map) {
+                try {
+                  this.map.setView([this.clickedLat ?? -0.8970856, this.clickedLon ?? 119.8663171], 13);
+                  this.addMarker([this.clickedLat ?? -0.8970856, this.clickedLon ?? 119.8663171]);
+                  if (this.addressDetails) {
+                    this.updateMarkerPopup(this.addressDetails, this.clickedLat ?? -0.8970856, this.clickedLon ?? 119.8663171);
+                  }
+                } catch (e) { /* ignore */ }
+              }
+            } catch (e) { /* ignore */ }
             this.isLoadingEditForm = false;
             this.editModeError = false;
           },
@@ -279,6 +325,30 @@ export class DataPetaFormComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   initMap(): void {
+    // Prevent double initialization
+    if (this.map) {
+      try {
+        this.map.setView([this.clickedLat ?? -0.8970856, this.clickedLon ?? 119.8663171], 13);
+        this.addMarker([this.clickedLat ?? -0.8970856, this.clickedLon ?? 119.8663171]);
+      } catch (e) { /* ignore errors */ }
+      return;
+    }
+
+    // Ensure the map container element exists and is visible. If not, retry a few times.
+    const mapEl = document.getElementById('map');
+    if (!mapEl || (mapEl.clientWidth === 0 && mapEl.clientHeight === 0)) {
+      if (this._initMapAttempts < 10) {
+        this._initMapAttempts++;
+        setTimeout(() => this.initMap(), 100);
+      } else {
+        console.warn('Map element not found or not visible after multiple attempts. Aborting init.');
+      }
+      return;
+    }
+
+    // reset attempts counter when element found
+    this._initMapAttempts = 0;
+
     // 1. Inisialisasi peta dan atur koordinat tengah serta level zoom awal
     // Pastikan clickedLat/clickedLon tidak null dengan fallback default
     this.map = L.map('map').setView([this.clickedLat ?? -0.8970856, this.clickedLon ?? 119.8663171], 13);
@@ -293,22 +363,40 @@ export class DataPetaFormComponent implements OnInit, OnDestroy, AfterViewInit {
     this.addMarker([this.clickedLat ?? -0.8970856, this.clickedLon ?? 119.8663171]);
 
     // 3. Tambahkan Event Listener untuk Klik Peta
+    // Pastikan handler klik tidak terdaftar lebih dari sekali
+    try {
+      this.map.off('click');
+    } catch (e) { /* ignore if none */ }
     this.map.on('click', (e: L.LeafletMouseEvent) => this.onMapClick(e));
   }
 
   private addMarker(coords: [number, number]): void {
+    // If map not initialized yet, skip — initMap will add marker when ready
+    if (!this.map) {
+      console.warn('addMarker called but map is not initialized yet');
+      return;
+    }
+
     // Hapus marker lama jika ada
     if (this.marker) {
-      this.map.removeLayer(this.marker);
+      try {
+        this.map.removeLayer(this.marker);
+      } catch (e) { /* ignore remove errors */ }
     }
 
     // Buat marker baru
     this.marker = L.marker(coords).addTo(this.map);
-    this.marker.bindPopup(`Lat: ${coords[0].toFixed(6)}, Lon: ${coords[1].toFixed(6)}`).openPopup();
+    try {
+      this.marker.bindPopup(`Lat: ${coords[0].toFixed(6)}, Lon: ${coords[1].toFixed(6)}`).openPopup();
+    } catch (e) { /* ignore popup errors */ }
   }
 
   private onMapClick(e: L.LeafletMouseEvent): void {
-    console.log("onMapClick dipicu!");
+    const now = Date.now();
+    if (now - this._lastMapClick < 250) {
+      return; // abaikan klik ganda cepat
+    }
+    this._lastMapClick = now;
 
     const lat = e.latlng.lat;
     const lon = e.latlng.lng;
@@ -330,6 +418,21 @@ export class DataPetaFormComponent implements OnInit, OnDestroy, AfterViewInit {
             this.addressDetails = address;
             // update pop-up marker di sini
             this.updateMarkerPopup(address, lat, lon);            
+            // update reactive form controls dan juga properti bound ke template
+            try {
+              // update properties used by [(ngModel)] in template
+              this.clickedLat = lat;
+              this.clickedLon = lon;
+
+              // patch reactive form
+              if (this.petaForm) {
+                this.petaForm.patchValue({
+                  lokasi: address,
+                  latitude: lat,
+                  longitude: lon
+                });
+              }
+            } catch (e) { /* ignore */ }
           } else {
             this.addressDetails = 'Alamat tidak ditemukan.';
           }
@@ -341,8 +444,6 @@ export class DataPetaFormComponent implements OnInit, OnDestroy, AfterViewInit {
           try { this.changeDetector.detectChanges(); } catch (e) { /* ignore */ }
         }
       });
-
-     console.log(`Peta diklik pada: Lat ${lat.toFixed(6)}, Lon ${lon.toFixed(6)}`);
     });
   }
 
@@ -354,8 +455,6 @@ export class DataPetaFormComponent implements OnInit, OnDestroy, AfterViewInit {
       first(), // Pastikan Observable selesai setelah nilai pertama diterima
       map(data => {
         if (data && data.display_name) {
-          // update pop-up marker di sini
-          this.updateMarkerPopup(data.display_name, lat, lon);    
           return data.display_name;
         }
         return 'Alamat tidak ditemukan.';
@@ -378,7 +477,6 @@ export class DataPetaFormComponent implements OnInit, OnDestroy, AfterViewInit {
               <strong>Alamat:</strong> ${address}
           `;
           this.marker.setPopupContent(popupContent).openPopup();
-          console.log(`Alamat: ${address}`);
       }
   }
 
@@ -417,5 +515,12 @@ export class DataPetaFormComponent implements OnInit, OnDestroy, AfterViewInit {
     if (this.petaQueryParamSub) {
       this.petaQueryParamSub.unsubscribe();
     }
+    // Clean up Leaflet map to avoid leftover containers when navigating
+    try {
+      if (this.map) {
+        this.map.off();
+        this.map.remove();
+      }
+    } catch (e) { /* ignore cleanup errors */ }
   }  
 }

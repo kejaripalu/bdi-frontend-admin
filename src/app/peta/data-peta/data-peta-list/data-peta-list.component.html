@@ -59,7 +59,7 @@
                         <img src="assets/images/simbol-sektor/{{ d.sektor }}.png" style="width: 150px; height: auto;" class="mx-auto d-block img-fluid img-thumbnail"/>
                         <span class="fw-bold sektor-label">{{ sektorMap[d.sektor] || d.sektor }}</span>
                     </td>
-                    <td class="align-top">Bahwa pada tanggal {{ d.tanggal | date:'dd-MM-yyyy' }}, {{ d.siapa}}, {{ d.apa }}, {{ d.mengapa }}, {{ d.bagaimana }}.</td>
+                    <td class="align-top">Bahwa pada tanggal {{ d.tanggal | date:'dd-MM-yyyy' }}, bertempat di {{ d.lokasi }}. {{ d.siapa}}, {{ d.apa }}, {{ d.mengapa }}. {{ d.bagaimana }}.</td>
                     <td class="align-top">{{ d.keterangan }}</td>
                     <td class="align-top">
                         <a class="dropdown-item text-success"
