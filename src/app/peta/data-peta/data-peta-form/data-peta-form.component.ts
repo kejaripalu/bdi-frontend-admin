@@ -1,6 +1,6 @@
 import { AfterViewInit, ChangeDetectorRef, Component, NgZone, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Subscription } from 'rxjs';
+import { first, map, Subscription } from 'rxjs';
 import { DataPetaService } from '../data-peta.service';
 import { BidangDirektoratSektorPetaService } from 'src/app/shared/bidang-direktorat/bidang-direktorat-sektor-peta.service';
 import { ActivatedRoute, Params, Router } from '@angular/router';
@@ -10,6 +10,8 @@ import { NotificationService } from 'src/app/shared/notification.service';
 import { latitudeRangeValidator, longitudeRangeValidator } from 'src/app/shared/coordinate.validator';
 import { DataPeta } from '../data-peta.model';
 import * as L from 'leaflet';
+import { error, log } from 'console';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
     selector: 'app-data-peta-form',
@@ -43,8 +45,8 @@ export class DataPetaFormComponent implements OnInit, OnDestroy, AfterViewInit {
   // Maps
   private map!: L.Map;
   private marker?: L.Marker; // Variabel untuk menyimpan penanda saat ini
-  public clickedLat: number | null = null;
-  public clickedLon: number | null = null;
+  public clickedLat: number | null = null as any;
+  public clickedLon: number | null = null as any;
   public addressDetails: string = 'Mencari alamat...'; // <-- Variabel untuk menampung alamat
 
   constructor(
@@ -56,11 +58,21 @@ export class DataPetaFormComponent implements OnInit, OnDestroy, AfterViewInit {
     private currentDateTimeService: CurrentDateTimeService,
     private notificationStatusService: NotificationService,
     private ngZone: NgZone,
-    private changeDetector: ChangeDetectorRef
+    private changeDetector: ChangeDetectorRef,
+    private http: HttpClient
   ) { }
   
   ngAfterViewInit(): void {
     this.initMap();
+
+    // Tambahkan marker awal dan update pop-up setelah data alamat awal dimuat
+    this.addMarker([ this.clickedLat!, this.clickedLon! ]);
+    
+    // Update pop-up dengan alamat yang sudah di-fetch
+    // Timeout diperlukan untuk memastikan DOM marker sudah ada saat pop-up diupdate
+    setTimeout(() => {
+        this.updateMarkerPopup(this.addressDetails, this.clickedLat!, this.clickedLon!);
+    }, 100);
   }
   
   ngOnInit(): void {
@@ -92,8 +104,16 @@ export class DataPetaFormComponent implements OnInit, OnDestroy, AfterViewInit {
       this.currentNotificationStatus = status;
     });
 
+    // inisialisasi koordinat awal
     this.clickedLat = -0.8970856;
     this.clickedLon = 119.8663171;
+    this.getAddress(this.clickedLat!, this.clickedLon!).subscribe({
+      next: (address) => {
+        this.addressDetails = address;
+      }, error: () => {
+        this.addressDetails = 'Gagal memuat alamat.';
+      }
+    });
   }
 
   private initForm() {
@@ -260,8 +280,8 @@ export class DataPetaFormComponent implements OnInit, OnDestroy, AfterViewInit {
 
   initMap(): void {
     // 1. Inisialisasi peta dan atur koordinat tengah serta level zoom awal
-    // Koordinat yang digunakan (misalnya: 51.505, -0.09) adalah contoh.
-    this.map = L.map('map').setView([-0.8970856, 119.8663171], 13);
+    // Pastikan clickedLat/clickedLon tidak null dengan fallback default
+    this.map = L.map('map').setView([this.clickedLat ?? -0.8970856, this.clickedLon ?? 119.8663171], 13);
 
     // 2. Tambahkan Tile Layer (dari OpenStreetMap)
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -270,10 +290,10 @@ export class DataPetaFormComponent implements OnInit, OnDestroy, AfterViewInit {
     }).addTo(this.map);
 
     // inisialisasi marker awal
-    this.addMarker([-0.8970856, 119.8663171]);
+    this.addMarker([this.clickedLat ?? -0.8970856, this.clickedLon ?? 119.8663171]);
 
     // 3. Tambahkan Event Listener untuk Klik Peta
-    this.map.on('click', (e) => this.onMapClick(e));
+    this.map.on('click', (e: L.LeafletMouseEvent) => this.onMapClick(e));
   }
 
   private addMarker(coords: [number, number]): void {
@@ -288,6 +308,8 @@ export class DataPetaFormComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   private onMapClick(e: L.LeafletMouseEvent): void {
+    console.log("onMapClick dipicu!");
+
     const lat = e.latlng.lat;
     const lon = e.latlng.lng;
 
@@ -302,46 +324,43 @@ export class DataPetaFormComponent implements OnInit, OnDestroy, AfterViewInit {
       this.addressDetails = 'Mencari alamat...'; // Reset status alamat
 
       // Panggil fungsi untuk mendapatkan alamat dari koordinat
-      this.getAddress(lat, lon);
+      this.getAddress(lat, lon).subscribe({
+        next: (address) => {
+          if (address) {
+            this.addressDetails = address;
+            // update pop-up marker di sini
+            this.updateMarkerPopup(address, lat, lon);            
+          } else {
+            this.addressDetails = 'Alamat tidak ditemukan.';
+          }
+          // Pastikan perubahan terdeteksi oleh Angular setelah update async
+          try { this.changeDetector.detectChanges(); } catch (e) { /* ignore */ }
+        }, error: () => {
+          this.addressDetails = 'Gagal memuat alamat.';
+          // Pastikan perubahan terdeteksi oleh Angular setelah update async
+          try { this.changeDetector.detectChanges(); } catch (e) { /* ignore */ }
+        }
+      });
 
-      // C. Pastikan Angular melakukan detect changes
-      this.changeDetector.detectChanges();
-
-      console.log(`Peta diklik pada: Lat ${lat.toFixed(6)}, Lon ${lon.toFixed(6)}`);
+     console.log(`Peta diklik pada: Lat ${lat.toFixed(6)}, Lon ${lon.toFixed(6)}`);
     });
   }
 
-  getAddress(lat: number, lon: number): void {
+  getAddress(lat: number, lon: number) {
       // API Nominatim untuk Reverse Geocoding
       const url = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}&zoom=18&addressdetails=1`;
 
-      fetch(url)
-          .then(response => {
-              if (!response.ok) {
-                  throw new Error(`HTTP error! status: ${response.status}`);
-              }
-              return response.json();
-          })
-          .then(data => {
-            this.ngZone.run(() => {
-              if (data.display_name) {
-                this.addressDetails = data.display_name;
-                // Anda juga bisa mengupdate pop-up marker di sini
-                this.updateMarkerPopup(data.display_name, lat, lon);
-              } else {
-                this.addressDetails = 'Alamat tidak ditemukan.';
-              }
-              // Pastikan perubahan terdeteksi oleh Angular setelah update async
-              try { this.changeDetector.detectChanges(); } catch (e) { /* ignore */ }
-            });
-          })
-          .catch(error => {
-              this.ngZone.run(() => {
-                  console.error('Reverse Geocoding Error:', error);
-              this.addressDetails = 'Gagal memuat alamat.';
-              try { this.changeDetector.detectChanges(); } catch (e) { /* ignore */ }
-              });
-          });
+      return this.http.get<any>(url).pipe(
+      first(), // Pastikan Observable selesai setelah nilai pertama diterima
+      map(data => {
+        if (data && data.display_name) {
+          // update pop-up marker di sini
+          this.updateMarkerPopup(data.display_name, lat, lon);    
+          return data.display_name;
+        }
+        return 'Alamat tidak ditemukan.';
+      })
+    );
   }
 
   updateMarkerPopup(address: string, lat: number, lon: number): void {
@@ -354,8 +373,7 @@ export class DataPetaFormComponent implements OnInit, OnDestroy, AfterViewInit {
           const popupContent = `
               <b>Lokasi Dipilih</b>
               <hr style="margin: 5px 0;">
-              <strong>Lat:</strong> ${latText}<br>
-              <strong>Lon:</strong> ${lonText}<br>
+              <strong>Lat:</strong> ${latText}, <strong>Lon:</strong> ${lonText}<br>
               <hr style="margin: 5px 0;">
               <strong>Alamat:</strong> ${address}
           `;

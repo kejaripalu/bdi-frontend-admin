@@ -57,14 +57,11 @@
                     <td class="align-top">{{ i + 1 }}</td>
                     <td class="align-top text-center">
                         <img src="assets/images/simbol-sektor/{{ d.sektor }}.png" style="width: 150px; height: auto;" class="mx-auto d-block img-fluid img-thumbnail"/>
-                        <p class="font-weight-bold">{{ sektorMap[d.sektor] || d.sektor }}</p>
+                        <span class="fw-bold sektor-label">{{ sektorMap[d.sektor] || d.sektor }}</span>
                     </td>
                     <td class="align-top">Bahwa pada tanggal {{ d.tanggal | date:'dd-MM-yyyy' }}, {{ d.siapa}}, {{ d.apa }}, {{ d.mengapa }}, {{ d.bagaimana }}.</td>
                     <td class="align-top">{{ d.keterangan }}</td>
                     <td class="align-top">
-                        <a class="dropdown-item text-primary"
-                                        [routerLink]="['/data-peta', 'list', d.ids, 'detail']"
-                                        [queryParams]="{ bidang: namaBidang }"><i class="bi bi-list-check"></i> Detail</a>                   
                         <a class="dropdown-item text-success"
                                         [routerLink]="['/data-peta', 'list', d.ids, 'form']"
                                         [queryParams]="{ edit: 1, bidang: namaBidang }">

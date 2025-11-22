@@ -173,14 +173,15 @@
                     <div class="col-sm-12">
                         <div class="form-group">
                             <label for="lokasi">Lokasi:</label>
-                            <div id="map"></div><br/>
+                            <div id="map" class="w-100 shadow rounded"></div><br/>
                             <textarea
                                 rows="2"
                                 type="text" 
                                 name="lokasi" 
                                 class="form-control"
                                 formControlName="lokasi"
-                                placement="top" ngbTooltip="Diisi nama jalan atau daerah"></textarea>
+                                placement="top" ngbTooltip="Diisi nama jalan atau daerah"
+                                [(ngModel)]="addressDetails"></textarea>
                         </div>
                         <small 
                             class="text-alert" 
@@ -202,7 +203,9 @@
                                 type="text" 
                                 name="latitude" 
                                 class="form-control"
-                                formControlName="latitude">
+                                formControlName="latitude"
+                                [(ngModel)]="clickedLat"
+                                readonly>
                         </div>
                         <small 
                             class="text-alert" 
@@ -227,7 +230,9 @@
                                 type="text" 
                                 name="longitude" 
                                 class="form-control"
-                                formControlName="longitude">
+                                formControlName="longitude"
+                                [(ngModel)]="clickedLon"
+                                readonly>
                         </div>
                         <small 
                             class="text-alert" 
@@ -271,7 +276,7 @@
                                 class="btn btn-success"
                                 type="submit"
                                 [disabled]="!petaForm.valid"
-                                style="margin-top: 20px;"><i class="bi bi-save-fill"></i> Simpan</button>
+                                style="margin-top: 20px;"><i class="bi bi-floppy"></i> Simpan</button>
                         </div>
                         <div class="p-2">
                             <button
