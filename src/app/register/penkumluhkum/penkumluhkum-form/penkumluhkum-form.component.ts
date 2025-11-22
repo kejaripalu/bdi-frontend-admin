@@ -9,9 +9,10 @@ import { NotificationService } from 'src/app/shared/notification.service';
 import { RegisterPenkumLuhkum } from '../penkumluhkum.model';
 
 @Component({
-  selector: 'app-penkumluhkum-form',
-  templateUrl: './penkumluhkum-form.component.html',
-  styleUrls: ['./penkumluhkum-form.component.css']
+    selector: 'app-penkumluhkum-form',
+    templateUrl: './penkumluhkum-form.component.html',
+    styleUrls: ['./penkumluhkum-form.component.css'],
+    standalone: false
 })
 export class PenkumluhkumFormComponent implements OnInit, OnDestroy {
   penkumluhkumForm!: UntypedFormGroup;

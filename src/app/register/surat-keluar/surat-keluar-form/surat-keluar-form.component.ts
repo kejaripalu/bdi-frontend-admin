@@ -9,9 +9,10 @@ import { SuratKeluarService } from '../surat-keluar.service';
 import { NotificationService } from 'src/app/shared/notification.service';
 
 @Component({
-  selector: 'app-surat-keluar-form',
-  templateUrl: './surat-keluar-form.component.html',
-  styleUrls: ['./surat-keluar-form.component.css']
+    selector: 'app-surat-keluar-form',
+    templateUrl: './surat-keluar-form.component.html',
+    styleUrls: ['./surat-keluar-form.component.css'],
+    standalone: false
 })
 export class SuratKeluarFormComponent implements OnInit, OnDestroy {
   suratKeluarForm!: UntypedFormGroup;

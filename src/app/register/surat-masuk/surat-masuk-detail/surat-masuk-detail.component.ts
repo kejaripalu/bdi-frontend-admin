@@ -5,9 +5,10 @@ import { SuratMasuk } from '../surat-masuk.model';
 import { SuratMasukService } from '../surat-masuk.service';
 
 @Component({
-  selector: 'app-surat-masuk-detail',
-  templateUrl: './surat-masuk-detail.component.html',
-  styleUrls: ['./surat-masuk-detail.component.css']
+    selector: 'app-surat-masuk-detail',
+    templateUrl: './surat-masuk-detail.component.html',
+    styleUrls: ['./surat-masuk-detail.component.css'],
+    standalone: false
 })
 export class SuratMasukDetailComponent implements OnInit, OnDestroy {
   suratMasuk!: SuratMasuk;

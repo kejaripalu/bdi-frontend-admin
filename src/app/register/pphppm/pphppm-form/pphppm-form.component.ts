@@ -9,9 +9,10 @@ import { CurrentDateTimeService } from 'src/app/shared/curent-date-time.service'
 import { NotificationService } from 'src/app/shared/notification.service';
 
 @Component({
-  selector: 'app-pphppm-form',
-  templateUrl: './pphppm-form.component.html',
-  styleUrls: ['./pphppm-form.component.css']
+    selector: 'app-pphppm-form',
+    templateUrl: './pphppm-form.component.html',
+    styleUrls: ['./pphppm-form.component.css'],
+    standalone: false
 })
 export class PphppmFormComponent implements OnInit, OnDestroy {
   pphppmForm!: UntypedFormGroup;

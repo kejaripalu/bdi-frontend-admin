@@ -11,9 +11,10 @@ import { NotificationService } from 'src/app/shared/notification.service';
 import { ConfirmDeleteService } from 'src/app/shared/delete-modal/confirm-delete.service';
 
 @Component({
-  selector: 'app-prodin-list',
-  templateUrl: './prodin-list.component.html',
-  styleUrls: ['./prodin-list.component.css']
+    selector: 'app-prodin-list',
+    templateUrl: './prodin-list.component.html',
+    styleUrls: ['./prodin-list.component.css'],
+    standalone: false
 })
 export class ProdinListComponent implements OnInit, OnDestroy {
   private name: string = "Register Produk Intelijen";

@@ -7,9 +7,10 @@ import { BidangDirektoratSektorService } from 'src/app/shared/bidang-direktorat/
 import { RkiHelpComponent } from './rki-help/rki-help.component';
 
 @Component({
-  selector: 'app-rki',
-  templateUrl: './rki.component.html',
-  styleUrls: ['./rki.component.css']
+    selector: 'app-rki',
+    templateUrl: './rki.component.html',
+    styleUrls: ['./rki.component.css'],
+    standalone: false
 })
 export class RkiComponent implements OnInit, OnDestroy {
   bidang: Bidang[] = [];

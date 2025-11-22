@@ -10,9 +10,10 @@ import { NotificationService } from 'src/app/shared/notification.service';
 import { ConfirmDeleteService } from 'src/app/shared/delete-modal/confirm-delete.service';
 
 @Component({
-  selector: 'app-lahin-list',
-  templateUrl: './lahin-list.component.html',
-  styleUrls: ['./lahin-list.component.css']
+    selector: 'app-lahin-list',
+    templateUrl: './lahin-list.component.html',
+    styleUrls: ['./lahin-list.component.css'],
+    standalone: false
 })
 export class LahinListComponent implements OnInit, OnDestroy {
   private name: string = "Register Telaahan Intelijen";

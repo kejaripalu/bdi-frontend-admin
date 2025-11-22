@@ -3,7 +3,8 @@ import { ProdinService } from "./prodin.service";
 
 @Pipe({
     name: 'prodinPipe',
-    pure: false
+    pure: false,
+    standalone: false
 })
 export class ProdinPipe implements PipeTransform {   
     constructor(private prodinService: ProdinService) { }

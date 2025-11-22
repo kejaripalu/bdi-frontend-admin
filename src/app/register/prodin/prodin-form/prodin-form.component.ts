@@ -14,9 +14,10 @@ import { ProdukIntelijen } from '../prodin.model';
 import { NotificationService } from 'src/app/shared/notification.service';
 
 @Component({
-  selector: 'app-prodin-form',
-  templateUrl: './prodin-form.component.html',
-  styleUrls: ['./prodin-form.component.css']
+    selector: 'app-prodin-form',
+    templateUrl: './prodin-form.component.html',
+    styleUrls: ['./prodin-form.component.css'],
+    standalone: false
 })
 export class ProdinFormComponent implements OnInit, OnDestroy {
   prodinForm!: UntypedFormGroup;

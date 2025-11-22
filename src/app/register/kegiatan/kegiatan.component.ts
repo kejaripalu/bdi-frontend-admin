@@ -7,9 +7,10 @@ import { KegiatanHelpComponent } from './kegiatan-help/kegiatan-help.component';
 import { KegiatanPamstraHelpComponent } from './kegiatan-pamstra-help/kegiatan-pamstra-help.component';
 
 @Component({
-  selector: 'app-kegiatan',
-  templateUrl: './kegiatan.component.html',
-  styleUrls: ['./kegiatan.component.css']
+    selector: 'app-kegiatan',
+    templateUrl: './kegiatan.component.html',
+    styleUrls: ['./kegiatan.component.css'],
+    standalone: false
 })
 export class KegiatanComponent implements OnInit, OnDestroy {
   namaBidang: string = null as any;

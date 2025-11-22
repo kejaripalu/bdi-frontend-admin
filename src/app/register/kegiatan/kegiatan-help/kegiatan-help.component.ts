@@ -5,9 +5,10 @@ import { Subscription } from 'rxjs';
 import { BidangDirektoratSektorService } from 'src/app/shared/bidang-direktorat/bidang-direktorat-sektor.service';
 
 @Component({
-  selector: 'app-kegiatan-help',
-  templateUrl: './kegiatan-help.component.html',
-  styleUrls: ['./kegiatan-help.component.css']
+    selector: 'app-kegiatan-help',
+    templateUrl: './kegiatan-help.component.html',
+    styleUrls: ['./kegiatan-help.component.css'],
+    standalone: false
 })
 export class KegiatanHelpComponent implements OnInit, OnDestroy {
   namaBidang: string = null as any;

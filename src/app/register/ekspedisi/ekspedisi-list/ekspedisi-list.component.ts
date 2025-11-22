@@ -10,9 +10,10 @@ import { NotificationService } from 'src/app/shared/notification.service';
 import { ConfirmDeleteService } from 'src/app/shared/delete-modal/confirm-delete.service';
 
 @Component({
-  selector: 'app-ekspedisi-list',
-  templateUrl: './ekspedisi-list.component.html',
-  styleUrls: ['./ekspedisi-list.component.css']
+    selector: 'app-ekspedisi-list',
+    templateUrl: './ekspedisi-list.component.html',
+    styleUrls: ['./ekspedisi-list.component.css'],
+    standalone: false
 })
 export class EkspedisiListComponent implements OnInit, OnDestroy {
   private name: string = "Register Ekspedisi";

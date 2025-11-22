@@ -6,9 +6,10 @@ import { RegisterKegiatanIntelijen } from '../kegiatan.model';
 import { RegisterKegiatanIntelijenService } from '../kegiatan.service';
 
 @Component({
-  selector: 'app-kegiatan-detail',
-  templateUrl: './kegiatan-detail.component.html',
-  styleUrls: ['./kegiatan-detail.component.css']
+    selector: 'app-kegiatan-detail',
+    templateUrl: './kegiatan-detail.component.html',
+    styleUrls: ['./kegiatan-detail.component.css'],
+    standalone: false
 })
 export class KegiatanDetailComponent implements OnInit, OnDestroy {
   giat!: RegisterKegiatanIntelijen;

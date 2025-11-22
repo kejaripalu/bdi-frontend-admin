@@ -11,9 +11,10 @@ import { NotificationService } from 'src/app/shared/notification.service';
 import { ConfirmDeleteService } from 'src/app/shared/delete-modal/confirm-delete.service';
 
 @Component({
-  selector: 'app-rki-list',
-  templateUrl: './rki-list.component.html',
-  styleUrls: ['./rki-list.component.css']
+    selector: 'app-rki-list',
+    templateUrl: './rki-list.component.html',
+    styleUrls: ['./rki-list.component.css'],
+    standalone: false
 })
 export class RkiListComponent implements OnInit, OnDestroy {
   private name: string = "Register Kerja Intelijen";

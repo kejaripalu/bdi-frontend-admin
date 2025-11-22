@@ -9,9 +9,10 @@ import { EkspedisiService } from '../ekspedisi.service';
 import { NotificationService } from 'src/app/shared/notification.service';
 
 @Component({
-  selector: 'app-ekspedisi-form',
-  templateUrl: './ekspedisi-form.component.html',
-  styleUrls: ['./ekspedisi-form.component.css']
+    selector: 'app-ekspedisi-form',
+    templateUrl: './ekspedisi-form.component.html',
+    styleUrls: ['./ekspedisi-form.component.css'],
+    standalone: false
 })
 export class EkspedisiFormComponent implements OnInit, OnDestroy {
   ekspedisiForm!: UntypedFormGroup;

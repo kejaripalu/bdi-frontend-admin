@@ -11,9 +11,10 @@ import { AuthService } from 'src/app/auth/auth.service';
 import { ConfirmDeleteService } from 'src/app/shared/delete-modal/confirm-delete.service';
 
 @Component({
-  selector: 'app-pphppm-list',
-  templateUrl: './pphppm-list.component.html',
-  styleUrls: ['./pphppm-list.component.css']
+    selector: 'app-pphppm-list',
+    templateUrl: './pphppm-list.component.html',
+    styleUrls: ['./pphppm-list.component.css'],
+    standalone: false
 })
 export class PphppmListComponent implements OnInit, OnDestroy {
   private name: string = "Register PPH & PPM";

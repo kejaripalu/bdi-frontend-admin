@@ -9,9 +9,10 @@ import { ArsipService } from '../arsip.service';
 import { NotificationService } from 'src/app/shared/notification.service';
 
 @Component({
-  selector: 'app-arsip-form',
-  templateUrl: './arsip-form.component.html',
-  styleUrls: ['./arsip-form.component.css']
+    selector: 'app-arsip-form',
+    templateUrl: './arsip-form.component.html',
+    styleUrls: ['./arsip-form.component.css'],
+    standalone: false
 })
 export class ArsipFormComponent implements OnInit, OnDestroy {
   arsipForm!: UntypedFormGroup;

@@ -5,9 +5,10 @@ import { ActivatedRoute, Params, Router } from '@angular/router';
 import { RegisterTelaahanIntelijenService } from '../lahin.service';
 
 @Component({
-  selector: 'app-lahin-detail',
-  templateUrl: './lahin-detail.component.html',
-  styleUrls: ['./lahin-detail.component.css']
+    selector: 'app-lahin-detail',
+    templateUrl: './lahin-detail.component.html',
+    styleUrls: ['./lahin-detail.component.css'],
+    standalone: false
 })
 export class LahinDetailComponent implements OnInit, OnDestroy {
   lahin!: RegisterLahin;

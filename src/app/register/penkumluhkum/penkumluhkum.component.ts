@@ -3,9 +3,10 @@ import { PenkumluhkumHelpComponent } from './penkumluhkum-help/penkumluhkum-help
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
-  selector: 'app-penkumluhkum',
-  templateUrl: './penkumluhkum.component.html',
-  styleUrls: ['./penkumluhkum.component.css']
+    selector: 'app-penkumluhkum',
+    templateUrl: './penkumluhkum.component.html',
+    styleUrls: ['./penkumluhkum.component.css'],
+    standalone: false
 })
 export class PenkumluhkumComponent implements OnInit {
   namaBidang: string ='Register Pelaksanaan Kegiatan Penerangan Hukum / Penyuluhan Hukum';

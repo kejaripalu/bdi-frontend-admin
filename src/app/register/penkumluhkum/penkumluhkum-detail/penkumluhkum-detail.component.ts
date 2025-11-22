@@ -5,9 +5,10 @@ import { PenkuluhkumService } from '../penkuluhkum.service';
 import { Subscription } from 'rxjs';
 
 @Component({
-  selector: 'app-penkumluhkum-detail',
-  templateUrl: './penkumluhkum-detail.component.html',
-  styleUrls: ['./penkumluhkum-detail.component.css']
+    selector: 'app-penkumluhkum-detail',
+    templateUrl: './penkumluhkum-detail.component.html',
+    styleUrls: ['./penkumluhkum-detail.component.css'],
+    standalone: false
 })
 export class PenkumluhkumDetailComponent implements OnInit, OnDestroy {
   penkumluhkum!: RegisterPenkumLuhkum;

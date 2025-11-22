@@ -58,7 +58,7 @@ import { DataPetaFormComponent } from "./peta/data-peta/data-peta-form/data-peta
 
 const appRoutes: Routes = [
     { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
-    { path: 'auth', component: AuthComponent, canActivate: [AuthAfterLoginGuard], title: 'Login' },
+    { path: 'auth', component: AuthComponent, canActivate: [AuthAfterLoginGuard], title: 'Login - Bank Data Intelijen' },
     { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard], title: 'Dashboard Bank Data Intelijen Kejaksaan' },
     { path: 'surat-masuk', component: SuratMasukComponent, title: 'Surat Masuk',
         canActivate: [AuthGuard],

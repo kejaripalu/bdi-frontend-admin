@@ -6,9 +6,10 @@ import { RegisterKerjaIntelijen } from '../rki.model';
 import { RegisterKerjaIntelijenService } from '../rki.service';
 
 @Component({
-  selector: 'app-rki-detail',
-  templateUrl: './rki-detail.component.html',
-  styleUrls: ['./rki-detail.component.css']
+    selector: 'app-rki-detail',
+    templateUrl: './rki-detail.component.html',
+    styleUrls: ['./rki-detail.component.css'],
+    standalone: false
 })
 export class RkiDetailComponent implements OnInit, OnDestroy {
   rki!: RegisterKerjaIntelijen;

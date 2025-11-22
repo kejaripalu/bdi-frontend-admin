@@ -5,9 +5,10 @@ import { Subscription } from 'rxjs';
 import { BidangDirektoratSektorService } from 'src/app/shared/bidang-direktorat/bidang-direktorat-sektor.service';
 
 @Component({
-  selector: 'app-opsin-help',
-  templateUrl: './opsin-help.component.html',
-  styleUrls: ['./opsin-help.component.css']
+    selector: 'app-opsin-help',
+    templateUrl: './opsin-help.component.html',
+    styleUrls: ['./opsin-help.component.css'],
+    standalone: false
 })
 export class OpsinHelpComponent implements OnInit, OnDestroy {
   namaBidang: string = null as any;

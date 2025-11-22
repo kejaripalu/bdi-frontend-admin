@@ -11,9 +11,10 @@ import { RegisterKerjaIntelijenService } from '../rki.service';
 import { NotificationService } from 'src/app/shared/notification.service';
 
 @Component({
-  selector: 'app-rki-form',
-  templateUrl: './rki-form.component.html',
-  styleUrls: ['./rki-form.component.css']
+    selector: 'app-rki-form',
+    templateUrl: './rki-form.component.html',
+    styleUrls: ['./rki-form.component.css'],
+    standalone: false
 })
 export class RkiFormComponent implements OnInit, OnDestroy {
   rkiForm!: UntypedFormGroup;

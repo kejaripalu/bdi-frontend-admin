@@ -11,9 +11,10 @@ import { ConfirmDeleteService } from 'src/app/shared/delete-modal/confirm-delete
 import { BidangDirektoratSektorPetaService } from 'src/app/shared/bidang-direktorat/bidang-direktorat-sektor-peta.service';
 
 @Component({
-  selector: 'app-data-peta-list',
-  templateUrl: './data-peta-list.component.html',
-  styleUrls: ['./data-peta-list.component.css']
+    selector: 'app-data-peta-list',
+    templateUrl: './data-peta-list.component.html',
+    styleUrls: ['./data-peta-list.component.css'],
+    standalone: false
 })
 export class DataPetaListComponent implements OnInit, OnDestroy {
 

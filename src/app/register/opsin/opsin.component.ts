@@ -6,9 +6,10 @@ import { BidangDirektoratSektorService } from 'src/app/shared/bidang-direktorat/
 import { OpsinHelpComponent } from './opsin-help/opsin-help.component';
 
 @Component({
-  selector: 'app-opsin',
-  templateUrl: './opsin.component.html',
-  styleUrls: ['./opsin.component.css']
+    selector: 'app-opsin',
+    templateUrl: './opsin.component.html',
+    styleUrls: ['./opsin.component.css'],
+    standalone: false
 })
 export class OpsinComponent implements OnInit, OnDestroy {
   namaBidang: string = null as any;

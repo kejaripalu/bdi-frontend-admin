@@ -10,9 +10,10 @@ import { NotificationService } from 'src/app/shared/notification.service';
 import { ConfirmDeleteService } from 'src/app/shared/delete-modal/confirm-delete.service';
 
 @Component({
-  selector: 'app-surat-keluar-list',
-  templateUrl: './surat-keluar-list.component.html',
-  styleUrls: ['./surat-keluar-list.component.css']
+    selector: 'app-surat-keluar-list',
+    templateUrl: './surat-keluar-list.component.html',
+    styleUrls: ['./surat-keluar-list.component.css'],
+    standalone: false
 })
 export class SuratKeluarListComponent implements OnInit, OnDestroy {
   

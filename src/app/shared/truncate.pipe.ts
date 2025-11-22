@@ -7,7 +7,8 @@ import { Pipe, PipeTransform } from '@angular/core';
  * mengambil string pada 6 karakter pertama
  */
 @Pipe({
-  name: 'truncate'
+    name: 'truncate',
+    standalone: false
 })
 export class TruncatePipe implements PipeTransform {
 

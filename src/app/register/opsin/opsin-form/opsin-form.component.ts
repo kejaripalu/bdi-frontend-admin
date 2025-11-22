@@ -11,9 +11,10 @@ import { RegisterOpsin } from '../opsin.model';
 import { NotificationService } from 'src/app/shared/notification.service';
 
 @Component({
-  selector: 'app-opsin-form',
-  templateUrl: './opsin-form.component.html',
-  styleUrls: ['./opsin-form.component.css']
+    selector: 'app-opsin-form',
+    templateUrl: './opsin-form.component.html',
+    styleUrls: ['./opsin-form.component.css'],
+    standalone: false
 })
 export class OpsinFormComponent implements OnInit, OnDestroy {
   opsinForm!: UntypedFormGroup;

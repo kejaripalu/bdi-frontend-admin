@@ -10,9 +10,10 @@ import { Message } from 'src/app/shared/message';
 import { ConfirmDeleteService } from 'src/app/shared/delete-modal/confirm-delete.service';
 
 @Component({
-  selector: 'app-arsip-list',
-  templateUrl: './arsip-list.component.html',
-  styleUrls: ['./arsip-list.component.css']
+    selector: 'app-arsip-list',
+    templateUrl: './arsip-list.component.html',
+    styleUrls: ['./arsip-list.component.css'],
+    standalone: false
 })
 export class ArsipListComponent implements OnInit, OnDestroy {
   private name: string = "Register Arsip";

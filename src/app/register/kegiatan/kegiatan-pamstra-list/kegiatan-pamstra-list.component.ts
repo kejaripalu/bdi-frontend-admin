@@ -11,9 +11,10 @@ import { NotificationService } from 'src/app/shared/notification.service';
 import { ConfirmDeleteService } from 'src/app/shared/delete-modal/confirm-delete.service';
 
 @Component({
-  selector: 'app-kegiatan-pamstra-list',
-  templateUrl: './kegiatan-pamstra-list.component.html',
-  styleUrls: ['./kegiatan-pamstra-list.component.css']
+    selector: 'app-kegiatan-pamstra-list',
+    templateUrl: './kegiatan-pamstra-list.component.html',
+    styleUrls: ['./kegiatan-pamstra-list.component.css'],
+    standalone: false
 })
 export class KegiatanPamstraListComponent implements OnInit, OnDestroy {
   private name: string = "Register Kegiatan Intelijen";

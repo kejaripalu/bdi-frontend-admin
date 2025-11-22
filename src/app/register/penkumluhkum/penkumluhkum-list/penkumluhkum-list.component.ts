@@ -10,9 +10,10 @@ import { PenkuluhkumService } from '../penkuluhkum.service';
 import { ConfirmDeleteService } from 'src/app/shared/delete-modal/confirm-delete.service';
 
 @Component({
-  selector: 'app-penkumluhkum-list',
-  templateUrl: './penkumluhkum-list.component.html',
-  styleUrls: ['./penkumluhkum-list.component.css']
+    selector: 'app-penkumluhkum-list',
+    templateUrl: './penkumluhkum-list.component.html',
+    styleUrls: ['./penkumluhkum-list.component.css'],
+    standalone: false
 })
 export class PenkumluhkumListComponent implements OnInit, OnDestroy {
 

@@ -5,9 +5,10 @@ import { SuratKeluar } from '../surat-keluar.model';
 import { SuratKeluarService } from '../surat-keluar.service';
 
 @Component({
-  selector: 'app-surat-keluar-detail',
-  templateUrl: './surat-keluar-detail.component.html',
-  styleUrls: ['./surat-keluar-detail.component.css']
+    selector: 'app-surat-keluar-detail',
+    templateUrl: './surat-keluar-detail.component.html',
+    styleUrls: ['./surat-keluar-detail.component.css'],
+    standalone: false
 })
 export class SuratKeluarDetailComponent implements OnInit, OnDestroy {
   suratKeluar!: SuratKeluar;

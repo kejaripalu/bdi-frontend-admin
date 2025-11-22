@@ -3,9 +3,10 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { PphppmHelpComponent } from './pphppm-help/pphppm-help.component';
 
 @Component({
-  selector: 'app-pphppm',
-  templateUrl: './pphppm.component.html',
-  styleUrls: ['./pphppm.component.css']
+    selector: 'app-pphppm',
+    templateUrl: './pphppm.component.html',
+    styleUrls: ['./pphppm.component.css'],
+    standalone: false
 })
 export class PphppmComponent implements OnInit {
   

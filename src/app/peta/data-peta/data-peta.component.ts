@@ -8,9 +8,10 @@ import { BidangDirektoratSektorService } from 'src/app/shared/bidang-direktorat/
 import { DataPetaHelpComponent } from './data-peta-help/data-peta-help.component';
 
 @Component({
-  selector: 'app-data-peta',
-  templateUrl: './data-peta.component.html',
-  styleUrls: ['./data-peta.component.css']
+    selector: 'app-data-peta',
+    templateUrl: './data-peta.component.html',
+    styleUrls: ['./data-peta.component.css'],
+    standalone: false
 })
 export class DataPetaComponent implements OnInit, OnDestroy {
 

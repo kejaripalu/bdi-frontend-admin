@@ -3,7 +3,8 @@ import { BidangDirektoratSektorService } from "./bidang-direktorat-sektor.servic
 
 @Pipe({
     name: 'sektorPipe',
-    pure: false
+    pure: false,
+    standalone: false
 })
 export class SektorPipe implements PipeTransform {
     constructor(private bidangDirektoratSektorService: BidangDirektoratSektorService) { }

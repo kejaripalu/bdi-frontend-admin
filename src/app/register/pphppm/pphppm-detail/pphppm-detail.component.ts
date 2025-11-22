@@ -5,9 +5,10 @@ import { ActivatedRoute, Params, Router } from '@angular/router';
 import { RegisterPPHPPMService } from '../pphppm.service';
 
 @Component({
-  selector: 'app-pphppm-detail',
-  templateUrl: './pphppm-detail.component.html',
-  styleUrls: ['./pphppm-detail.component.css']
+    selector: 'app-pphppm-detail',
+    templateUrl: './pphppm-detail.component.html',
+    styleUrls: ['./pphppm-detail.component.css'],
+    standalone: false
 })
 export class PphppmDetailComponent implements OnInit, OnDestroy {
   pphppm!: RegisterPPHPPM;

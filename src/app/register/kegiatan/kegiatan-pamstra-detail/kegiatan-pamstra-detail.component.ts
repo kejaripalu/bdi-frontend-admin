@@ -10,9 +10,10 @@ import localeIt from '@angular/common/locales/it';
 registerLocaleData(localeIt, 'it');
 
 @Component({
-  selector: 'app-kegiatan-pamstra-detail',
-  templateUrl: './kegiatan-pamstra-detail.component.html',
-  styleUrls: ['./kegiatan-pamstra-detail.component.css']
+    selector: 'app-kegiatan-pamstra-detail',
+    templateUrl: './kegiatan-pamstra-detail.component.html',
+    styleUrls: ['./kegiatan-pamstra-detail.component.css'],
+    standalone: false
 })
 export class KegiatanPamstraDetailComponent implements OnInit, OnDestroy {
   giat!: RegisterKegiatanIntelijenPamstra;

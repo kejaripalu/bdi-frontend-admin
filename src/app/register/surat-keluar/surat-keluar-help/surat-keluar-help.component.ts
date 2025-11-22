@@ -2,9 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
-  selector: 'app-surat-keluar-help',
-  templateUrl: './surat-keluar-help.component.html',
-  styleUrls: ['./surat-keluar-help.component.css']
+    selector: 'app-surat-keluar-help',
+    templateUrl: './surat-keluar-help.component.html',
+    styleUrls: ['./surat-keluar-help.component.css'],
+    standalone: false
 })
 export class SuratKeluarHelpComponent implements OnInit {
 

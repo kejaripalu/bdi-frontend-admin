@@ -1,9 +1,10 @@
 import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-no-data-alert',
-  templateUrl: './no-data-alert.component.html',
-  styleUrls: ['./no-data-alert.component.css']
+    selector: 'app-no-data-alert',
+    templateUrl: './no-data-alert.component.html',
+    styleUrls: ['./no-data-alert.component.css'],
+    standalone: false
 })
 export class NoDataAlertComponent implements OnInit {
 

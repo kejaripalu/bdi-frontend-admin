@@ -11,9 +11,10 @@ import { latitudeRangeValidator, longitudeRangeValidator } from 'src/app/shared/
 import { DataPeta } from '../data-peta.model';
 
 @Component({
-  selector: 'app-data-peta-form',
-  templateUrl: './data-peta-form.component.html',
-  styleUrls: ['./data-peta-form.component.css']
+    selector: 'app-data-peta-form',
+    templateUrl: './data-peta-form.component.html',
+    styleUrls: ['./data-peta-form.component.css'],
+    standalone: false
 })
 export class DataPetaFormComponent implements OnInit, OnDestroy {
   

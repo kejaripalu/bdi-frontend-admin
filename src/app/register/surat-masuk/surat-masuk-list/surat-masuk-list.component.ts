@@ -10,9 +10,10 @@ import { NotificationService } from 'src/app/shared/notification.service';
 import { ConfirmDeleteService } from 'src/app/shared/delete-modal/confirm-delete.service';
 
 @Component({
-  selector: 'app-surat-masuk-list',
-  templateUrl: './surat-masuk-list.component.html',
-  styleUrls: ['./surat-masuk-list.component.css']
+    selector: 'app-surat-masuk-list',
+    templateUrl: './surat-masuk-list.component.html',
+    styleUrls: ['./surat-masuk-list.component.css'],
+    standalone: false
 })
 export class SuratMasukListComponent implements OnInit, OnDestroy {
   private name: string = "Register Surat Masuk";

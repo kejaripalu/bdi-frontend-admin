@@ -11,9 +11,10 @@ import { RegisterKegiatanIntelijenService } from '../kegiatan.service';
 import { NotificationService } from 'src/app/shared/notification.service';
 
 @Component({
-  selector: 'app-kegiatan-form',
-  templateUrl: './kegiatan-form.component.html',
-  styleUrls: ['./kegiatan-form.component.css']
+    selector: 'app-kegiatan-form',
+    templateUrl: './kegiatan-form.component.html',
+    styleUrls: ['./kegiatan-form.component.css'],
+    standalone: false
 })
 export class KegiatanFormComponent implements OnInit, OnDestroy {
   giatForm!: UntypedFormGroup;

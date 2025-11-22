@@ -11,9 +11,10 @@ import { NotificationService } from 'src/app/shared/notification.service';
 import { ConfirmDeleteService } from 'src/app/shared/delete-modal/confirm-delete.service';
 
 @Component({
-  selector: 'app-opsin-list',
-  templateUrl: './opsin-list.component.html',
-  styleUrls: ['./opsin-list.component.css']
+    selector: 'app-opsin-list',
+    templateUrl: './opsin-list.component.html',
+    styleUrls: ['./opsin-list.component.css'],
+    standalone: false
 })
 export class OpsinListComponent implements OnInit, OnDestroy {
   private name: string = "Register Operasi Intelijen";

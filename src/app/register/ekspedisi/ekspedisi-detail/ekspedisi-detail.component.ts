@@ -5,9 +5,10 @@ import { Ekspedisi } from '../ekspedisi.model';
 import { EkspedisiService } from '../ekspedisi.service';
 
 @Component({
-  selector: 'app-ekspedisi-detail',
-  templateUrl: './ekspedisi-detail.component.html',
-  styleUrls: ['./ekspedisi-detail.component.css']
+    selector: 'app-ekspedisi-detail',
+    templateUrl: './ekspedisi-detail.component.html',
+    styleUrls: ['./ekspedisi-detail.component.css'],
+    standalone: false
 })
 export class EkspedisiDetailComponent implements OnInit, OnDestroy {
   ekspedisi!: Ekspedisi;

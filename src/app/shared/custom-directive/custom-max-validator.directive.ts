@@ -3,7 +3,8 @@ import { AbstractControl, NG_VALIDATORS, ValidationErrors, Validator } from "@an
 
 @Directive({
     selector: '[customMax][formControlName],[customMax][formControl],[customMax][ngModel]',
-    providers: [{ provide: NG_VALIDATORS, useExisting: CustomMaxValidatorDirective, multi: true }]
+    providers: [{ provide: NG_VALIDATORS, useExisting: CustomMaxValidatorDirective, multi: true }],
+    standalone: false
 })
 export class CustomMaxValidatorDirective implements Validator {
     @Input()

@@ -5,9 +5,10 @@ import { Arsip } from '../arsip.model';
 import { ArsipService } from '../arsip.service';
 
 @Component({
-  selector: 'app-arsip-detail',
-  templateUrl: './arsip-detail.component.html',
-  styleUrls: ['./arsip-detail.component.css']
+    selector: 'app-arsip-detail',
+    templateUrl: './arsip-detail.component.html',
+    styleUrls: ['./arsip-detail.component.css'],
+    standalone: false
 })
 export class ArsipDetailComponent implements OnInit, OnDestroy {
   arsip!: Arsip;

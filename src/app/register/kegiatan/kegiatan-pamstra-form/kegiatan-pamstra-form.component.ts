@@ -12,9 +12,10 @@ import { NotificationService } from 'src/app/shared/notification.service';
 import { NgxCurrencyDirective } from 'ngx-currency';
 
 @Component({
-  selector: 'app-kegiatan-pamstra-form',
-  templateUrl: './kegiatan-pamstra-form.component.html',
-  styleUrls: ['./kegiatan-pamstra-form.component.css']
+    selector: 'app-kegiatan-pamstra-form',
+    templateUrl: './kegiatan-pamstra-form.component.html',
+    styleUrls: ['./kegiatan-pamstra-form.component.css'],
+    standalone: false
 })
 export class KegiatanPamstraFormComponent implements OnInit, OnDestroy {
   giatForm!: UntypedFormGroup;

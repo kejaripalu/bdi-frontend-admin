@@ -3,9 +3,10 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { Subscription } from 'rxjs';
 
 @Component({
-  selector: 'app-kegiatan-pamstra-help',
-  templateUrl: './kegiatan-pamstra-help.component.html',
-  styleUrls: ['./kegiatan-pamstra-help.component.css']
+    selector: 'app-kegiatan-pamstra-help',
+    templateUrl: './kegiatan-pamstra-help.component.html',
+    styleUrls: ['./kegiatan-pamstra-help.component.css'],
+    standalone: false
 })
 export class KegiatanPamstraHelpComponent implements OnInit {
   namaBidang: string = 'Pengamanan Pembangunan Strategis';

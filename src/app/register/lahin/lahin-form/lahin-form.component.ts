@@ -9,9 +9,10 @@ import { RegisterLahin } from '../lahin.model';
 import { NotificationService } from 'src/app/shared/notification.service';
 
 @Component({
-  selector: 'app-lahin-form',
-  templateUrl: './lahin-form.component.html',
-  styleUrls: ['./lahin-form.component.css']
+    selector: 'app-lahin-form',
+    templateUrl: './lahin-form.component.html',
+    styleUrls: ['./lahin-form.component.css'],
+    standalone: false
 })
 export class LahinFormComponent implements OnInit, OnDestroy {
   lahinForm!: UntypedFormGroup;

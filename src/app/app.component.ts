@@ -4,9 +4,10 @@ import { environment } from 'src/environments/environment';
 import { AuthService } from './auth/auth.service';
 
 @Component({
-  selector: 'bdi',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+    selector: 'bdi',
+    templateUrl: './app.component.html',
+    styleUrls: ['./app.component.css'],
+    standalone: false
 })
 export class AppComponent implements OnInit, OnDestroy {
   tahun = new Date().getFullYear();

@@ -3,9 +3,10 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { LahinHelpComponent } from './lahin-help/lahin-help.component';
 
 @Component({
-  selector: 'app-lahin',
-  templateUrl: './lahin.component.html',
-  styleUrls: ['./lahin.component.css']
+    selector: 'app-lahin',
+    templateUrl: './lahin.component.html',
+    styleUrls: ['./lahin.component.css'],
+    standalone: false
 })
 export class LahinComponent implements OnInit {
 

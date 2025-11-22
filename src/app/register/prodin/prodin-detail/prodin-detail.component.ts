@@ -5,9 +5,10 @@ import { ProdukIntelijen } from '../prodin.model';
 import { ProdukIntelijenService } from '../prodin.service';
 
 @Component({
-  selector: 'app-prodin-detail',
-  templateUrl: './prodin-detail.component.html',
-  styleUrls: ['./prodin-detail.component.css']
+    selector: 'app-prodin-detail',
+    templateUrl: './prodin-detail.component.html',
+    styleUrls: ['./prodin-detail.component.css'],
+    standalone: false
 })
 export class ProdinDetailComponent implements OnInit, OnDestroy {
   prodin!: ProdukIntelijen;

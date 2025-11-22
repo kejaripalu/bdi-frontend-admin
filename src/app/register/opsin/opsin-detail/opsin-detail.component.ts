@@ -6,9 +6,10 @@ import { RegisterOpsinService } from '../opsin.service';
 import { BidangDirektoratSektorService } from 'src/app/shared/bidang-direktorat/bidang-direktorat-sektor.service';
 
 @Component({
-  selector: 'app-opsin-detail',
-  templateUrl: './opsin-detail.component.html',
-  styleUrls: ['./opsin-detail.component.css']
+    selector: 'app-opsin-detail',
+    templateUrl: './opsin-detail.component.html',
+    styleUrls: ['./opsin-detail.component.css'],
+    standalone: false
 })
 export class OpsinDetailComponent implements OnInit, OnDestroy {
   opsin!: RegisterOpsin;

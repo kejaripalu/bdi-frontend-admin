@@ -3,9 +3,10 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { SuratKeluarHelpComponent } from './surat-keluar-help/surat-keluar-help.component';
 
 @Component({
-  selector: 'app-surat-keluar',
-  templateUrl: './surat-keluar.component.html',
-  styleUrls: ['./surat-keluar.component.css']
+    selector: 'app-surat-keluar',
+    templateUrl: './surat-keluar.component.html',
+    styleUrls: ['./surat-keluar.component.css'],
+    standalone: false
 })
 export class SuratKeluarComponent implements OnInit {
 

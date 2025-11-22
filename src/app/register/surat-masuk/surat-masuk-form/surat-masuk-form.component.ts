@@ -9,9 +9,10 @@ import { SuratMasukService } from '../surat-masuk.service';
 import { NotificationService } from 'src/app/shared/notification.service';
 
 @Component({
-  selector: 'app-surat-masuk-form',
-  templateUrl: './surat-masuk-form.component.html',
-  styleUrls: ['./surat-masuk-form.component.css']
+    selector: 'app-surat-masuk-form',
+    templateUrl: './surat-masuk-form.component.html',
+    styleUrls: ['./surat-masuk-form.component.css'],
+    standalone: false
 })
 export class SuratMasukFormComponent implements OnInit, OnDestroy {
   suratMasukForm!: UntypedFormGroup;
