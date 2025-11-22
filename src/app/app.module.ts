@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { CommonModule } from '@angular/common';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
@@ -55,7 +56,6 @@ import { KegiatanHelpComponent } from './register/kegiatan/kegiatan-help/kegiata
 import { KegiatanPamstraListComponent } from './register/kegiatan/kegiatan-pamstra-list/kegiatan-pamstra-list.component';
 import { KegiatanPamstraDetailComponent } from './register/kegiatan/kegiatan-pamstra-detail/kegiatan-pamstra-detail.component';
 import { KegiatanPamstraFormComponent } from './register/kegiatan/kegiatan-pamstra-form/kegiatan-pamstra-form.component';
-import { NgxCurrencyModule } from 'ngx-currency';
 import { KegiatanPamstraHelpComponent } from './register/kegiatan/kegiatan-pamstra-help/kegiatan-pamstra-help.component';
 import { OpsinComponent } from './register/opsin/opsin.component';
 import { OpsinListComponent } from './register/opsin/opsin-list/opsin-list.component';
@@ -89,6 +89,7 @@ import { DataPetaComponent } from './peta/data-peta/data-peta.component';
 import { DataPetaListComponent } from './peta/data-peta/data-peta-list/data-peta-list.component';
 import { DataPetaHelpComponent } from './peta/data-peta/data-peta-help/data-peta-help.component';
 import { DataPetaFormComponent } from './peta/data-peta/data-peta-form/data-peta-form.component';
+import { NgxCurrencyDirective } from 'ngx-currency';
 
 @NgModule({
   declarations: [
@@ -177,12 +178,16 @@ import { DataPetaFormComponent } from './peta/data-peta/data-peta-form/data-peta
   ],
   imports: [
     BrowserModule,
+    CommonModule,
     ReactiveFormsModule,
     FormsModule,
     HttpClientModule,
     AppRoutingModule,
     NgbModule,
-    NgxCurrencyModule
+    NgxCurrencyDirective
+  ],
+  exports: [  
+    NgxCurrencyDirective
   ],
   providers: [{ 
     provide: HTTP_INTERCEPTORS,

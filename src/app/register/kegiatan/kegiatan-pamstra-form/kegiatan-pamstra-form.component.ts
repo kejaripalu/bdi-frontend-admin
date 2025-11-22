@@ -9,6 +9,7 @@ import { ActivatedRoute, Params, Router } from '@angular/router';
 import { CurrentDateTimeService } from 'src/app/shared/curent-date-time.service';
 import { RegisterKegiatanIntelijenPamstra } from '../kegiatan-pamstra.model';
 import { NotificationService } from 'src/app/shared/notification.service';
+import { NgxCurrencyDirective } from 'ngx-currency';
 
 @Component({
   selector: 'app-kegiatan-pamstra-form',

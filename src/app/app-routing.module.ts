@@ -134,10 +134,10 @@ const appRoutes: Routes = [
         { path: 'list/form', component: KegiatanFormComponent, title: 'Form Kegiatan Intelijen' },
         { path: 'list/:id/form', component: KegiatanFormComponent, title: 'Form Kegiatan Intelijen' },
         { path: 'list/:id/detail', component: KegiatanDetailComponent, title: 'Detail Kegiatan Intelijen' },
-        { path: 'list/pamstra-list', component: KegiatanPamstraListComponent, title: 'Daftar Kegiatan Pengamanan Strategis' },
-        { path: 'list/pamstra-list/:id/detail', component: KegiatanPamstraDetailComponent, title: 'Detail Kegiatan Pengamanan Strategis' },
-        { path: 'list/pamstra-form', component: KegiatanPamstraFormComponent,  title: 'Form Kegiatan Pengamanan Strategis' },
-        { path: 'list/:id/pamstra-form', component: KegiatanPamstraFormComponent, title: 'Form Kegiatan Pengamanan Strategis'}
+        { path: 'list/pamstra-list', component: KegiatanPamstraListComponent, title: 'Daftar Kegiatan Intelijen Pengamanan Strategis' },
+        { path: 'list/pamstra-list/:id/detail', component: KegiatanPamstraDetailComponent, title: 'Detail Kegiatan Intelijen Pengamanan Strategis' },
+        { path: 'list/pamstra-form', component: KegiatanPamstraFormComponent,  title: 'Form Kegiatan Intelijen Pengamanan Strategis' },
+        { path: 'list/:id/pamstra-form', component: KegiatanPamstraFormComponent, title: 'Form Kegiatan Intelijen Pengamanan Strategis'}
     ]},
     { path: 'opsin', component: OpsinComponent, title: 'Operasi Intelijen', 
         canActivate: [AuthGuard],
@@ -193,7 +193,11 @@ const appRoutes: Routes = [
 ];
 
 @NgModule({
-    imports: [RouterModule.forRoot(appRoutes)],
+    imports: [RouterModule.forRoot(appRoutes, {
+        paramsInheritanceStrategy: 'always',
+        canceledNavigationResolution: 'computed',
+        urlUpdateStrategy: 'eager',
+    })],
     exports: [RouterModule]
 })
 export class AppRoutingModule { }
