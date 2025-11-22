@@ -173,6 +173,7 @@
                     <div class="col-sm-12">
                         <div class="form-group">
                             <label for="lokasi">Lokasi:</label>
+                            <div id="map"></div><br/>
                             <textarea
                                 rows="2"
                                 type="text" 
@@ -191,11 +192,6 @@
                             *ngIf="petaForm.get('lokasi')?.errors?.['minlength'] && 
                                    petaForm.get('lokasi')?.touched">
                                 Minimal 5 karakter!!!</small>
-                        <small 
-                            class="text-alert" 
-                            *ngIf="petaForm.get('lokasi')?.errors?.['maxlength'] && 
-                                    petaForm.get('lokasi')?.touched">
-                                Tidak boleh lebih dari 255 karakter!!!</small>
                     </div>                  
                 </div>
                 <div class="row">

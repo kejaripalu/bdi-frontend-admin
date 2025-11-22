@@ -13,3 +13,9 @@ textarea.ng-invalid.ng-touched {
     color: red;
     font-size: 0.875em;
 }
+
+#map {
+  /* Tentukan tinggi (height) agar peta terlihat */
+  height: 600px; 
+  width: 100%;
+}

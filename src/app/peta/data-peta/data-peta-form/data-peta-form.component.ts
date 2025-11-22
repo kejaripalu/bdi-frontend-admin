@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, NgZone, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { DataPetaService } from '../data-peta.service';
@@ -9,6 +9,7 @@ import { CurrentDateTimeService } from 'src/app/shared/curent-date-time.service'
 import { NotificationService } from 'src/app/shared/notification.service';
 import { latitudeRangeValidator, longitudeRangeValidator } from 'src/app/shared/coordinate.validator';
 import { DataPeta } from '../data-peta.model';
+import * as L from 'leaflet';
 
 @Component({
     selector: 'app-data-peta-form',
@@ -16,7 +17,7 @@ import { DataPeta } from '../data-peta.model';
     styleUrls: ['./data-peta-form.component.css'],
     standalone: false
 })
-export class DataPetaFormComponent implements OnInit, OnDestroy {
+export class DataPetaFormComponent implements OnInit, OnDestroy, AfterViewInit {
   
   petaForm!: FormGroup;
   isEditMode: boolean = false;
@@ -39,6 +40,13 @@ export class DataPetaFormComponent implements OnInit, OnDestroy {
   currentNotificationStatus: boolean = false;
   date: NgbDateStruct = null as any;
 
+  // Maps
+  private map!: L.Map;
+  private marker?: L.Marker; // Variabel untuk menyimpan penanda saat ini
+  public clickedLat: number | null = null;
+  public clickedLon: number | null = null;
+  public addressDetails: string = 'Mencari alamat...'; // <-- Variabel untuk menampung alamat
+
   constructor(
     private petaService: DataPetaService,
     private sektorPetaService: BidangDirektoratSektorPetaService,
@@ -46,17 +54,23 @@ export class DataPetaFormComponent implements OnInit, OnDestroy {
     private router: Router,
     private calendar: NgbCalendar, // service calendar NgBootStrap
     private currentDateTimeService: CurrentDateTimeService,
-    private notificationStatusService: NotificationService
+    private notificationStatusService: NotificationService,
+    private ngZone: NgZone,
+    private changeDetector: ChangeDetectorRef
   ) { }
+  
+  ngAfterViewInit(): void {
+    this.initMap();
+  }
   
   ngOnInit(): void {
     this.isLoading = false;
     this.isLoadingEditForm = false;
     this.date = this.calendar.getToday();
     this.petaParamSub = this.route.params
-          .subscribe((params: Params) => {
-            this.isEditMode = params['id'] != null;
-            this.id = params['id'];
+    .subscribe((params: Params) => {
+      this.isEditMode = params['id'] != null;
+      this.id = params['id'];
     });
 
     this.petaQueryParamSub = this.route.queryParams
@@ -77,12 +91,15 @@ export class DataPetaFormComponent implements OnInit, OnDestroy {
     this.notificationStatusService.currentNotificationStatus.subscribe(status => {
       this.currentNotificationStatus = status;
     });
+
+    this.clickedLat = -0.8970856;
+    this.clickedLon = 119.8663171;
   }
 
   private initForm() {
      this.petaForm = new FormGroup({
       'tanggal': new FormControl(this.date, [Validators.required, Validators.minLength(10)]),
-      'lokasi': new FormControl(null as any, [Validators.required, Validators.minLength(5), Validators.maxLength(255)]),
+      'lokasi': new FormControl(null as any, [Validators.required, Validators.minLength(5)]),
       'latitude': new FormControl(null as any, [Validators.required, Validators.pattern(/^-?\d*\.?\d*$/), latitudeRangeValidator()]),
       'longitude': new FormControl(null as any, [Validators.required, Validators.pattern(/^-?\d*\.?\d*$/), longitudeRangeValidator()]),
       'siapa': new FormControl(null as any, [Validators.required, Validators.minLength(5), Validators.maxLength(255)]),
@@ -167,7 +184,7 @@ export class DataPetaFormComponent implements OnInit, OnDestroy {
 
             this.petaForm = new FormGroup({
               'tanggal': new FormControl(this.date, [Validators.required, Validators.minLength(10)]),
-              'lokasi': new FormControl(peta.lokasi, [Validators.required, Validators.minLength(5), Validators.maxLength(255)]),
+              'lokasi': new FormControl(peta.lokasi, [Validators.required, Validators.minLength(5)]),
               'latitude': new FormControl(peta.latitude, [Validators.required, Validators.pattern(/^-?\d*\.?\d*$/), latitudeRangeValidator()]),
               'longitude': new FormControl(peta.longitude, [Validators.required, Validators.pattern(/^-?\d*\.?\d*$/), longitudeRangeValidator()]),
               'siapa': new FormControl(peta.siapa, [Validators.required, Validators.minLength(3), Validators.maxLength(255)]),
@@ -239,6 +256,112 @@ export class DataPetaFormComponent implements OnInit, OnDestroy {
         }
       });
     }
+  }
+
+  initMap(): void {
+    // 1. Inisialisasi peta dan atur koordinat tengah serta level zoom awal
+    // Koordinat yang digunakan (misalnya: 51.505, -0.09) adalah contoh.
+    this.map = L.map('map').setView([-0.8970856, 119.8663171], 13);
+
+    // 2. Tambahkan Tile Layer (dari OpenStreetMap)
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      // Penting: Sertakan atribusi sesuai kebijakan OpenStreetMap
+      attribution: '© OpenStreetMap contributors' 
+    }).addTo(this.map);
+
+    // inisialisasi marker awal
+    this.addMarker([-0.8970856, 119.8663171]);
+
+    // 3. Tambahkan Event Listener untuk Klik Peta
+    this.map.on('click', (e) => this.onMapClick(e));
+  }
+
+  private addMarker(coords: [number, number]): void {
+    // Hapus marker lama jika ada
+    if (this.marker) {
+      this.map.removeLayer(this.marker);
+    }
+
+    // Buat marker baru
+    this.marker = L.marker(coords).addTo(this.map);
+    this.marker.bindPopup(`Lat: ${coords[0].toFixed(6)}, Lon: ${coords[1].toFixed(6)}`).openPopup();
+  }
+
+  private onMapClick(e: L.LeafletMouseEvent): void {
+    const lat = e.latlng.lat;
+    const lon = e.latlng.lng;
+
+    // 🔑 KUNCI: Bungkus modifikasi state di dalam ngZone.run()
+    this.ngZone.run(() => {
+      // A. Update Waypoint/Marker
+      this.addMarker([lat, lon]);
+
+      // B. Simpan dan Tampilkan Lat/Lon yang Diklik
+      this.clickedLat = lat;
+      this.clickedLon = lon;
+      this.addressDetails = 'Mencari alamat...'; // Reset status alamat
+
+      // Panggil fungsi untuk mendapatkan alamat dari koordinat
+      this.getAddress(lat, lon);
+
+      // C. Pastikan Angular melakukan detect changes
+      this.changeDetector.detectChanges();
+
+      console.log(`Peta diklik pada: Lat ${lat.toFixed(6)}, Lon ${lon.toFixed(6)}`);
+    });
+  }
+
+  getAddress(lat: number, lon: number): void {
+      // API Nominatim untuk Reverse Geocoding
+      const url = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}&zoom=18&addressdetails=1`;
+
+      fetch(url)
+          .then(response => {
+              if (!response.ok) {
+                  throw new Error(`HTTP error! status: ${response.status}`);
+              }
+              return response.json();
+          })
+          .then(data => {
+            this.ngZone.run(() => {
+              if (data.display_name) {
+                this.addressDetails = data.display_name;
+                // Anda juga bisa mengupdate pop-up marker di sini
+                this.updateMarkerPopup(data.display_name, lat, lon);
+              } else {
+                this.addressDetails = 'Alamat tidak ditemukan.';
+              }
+              // Pastikan perubahan terdeteksi oleh Angular setelah update async
+              try { this.changeDetector.detectChanges(); } catch (e) { /* ignore */ }
+            });
+          })
+          .catch(error => {
+              this.ngZone.run(() => {
+                  console.error('Reverse Geocoding Error:', error);
+              this.addressDetails = 'Gagal memuat alamat.';
+              try { this.changeDetector.detectChanges(); } catch (e) { /* ignore */ }
+              });
+          });
+  }
+
+  updateMarkerPopup(address: string, lat: number, lon: number): void {
+      if (this.marker) {
+          // Format koordinat
+          const latText = lat.toFixed(6);
+          const lonText = lon.toFixed(6);
+
+          // Pop-up
+          const popupContent = `
+              <b>Lokasi Dipilih</b>
+              <hr style="margin: 5px 0;">
+              <strong>Lat:</strong> ${latText}<br>
+              <strong>Lon:</strong> ${lonText}<br>
+              <hr style="margin: 5px 0;">
+              <strong>Alamat:</strong> ${address}
+          `;
+          this.marker.setPopupContent(popupContent).openPopup();
+          console.log(`Alamat: ${address}`);
+      }
   }
 
   onDateSelect(date: NgbDate) {
