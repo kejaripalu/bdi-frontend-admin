@@ -1,261 +1,305 @@
-<div *ngIf="isLoadingEditForm && isEditMode" class="mt-4" style="text-align: center;">
+@if (isLoadingEditForm && isEditMode) {
+  <div class="mt-4" style="text-align: center;">
     <app-loading-spinner></app-loading-spinner>
-</div>
-<div class="alert alert-danger mt-4" *ngIf="editModeError && isEditMode" role="alert">
-    {{ error }} 
+  </div>
+}
+@if (editModeError && isEditMode) {
+  <div class="alert alert-danger mt-4" role="alert">
+    {{ error }}
     <br>
-    <a 
+      <a
         [routerLink]="['/surat-masuk', jenisSurat === 'RAHASIA' ? 'rahasia' : 'biasa']"
-        [queryParams]="{jenisSurat: jenisSurat}" 
-        class="alert-link">Kembali</a>
-</div>
-<div class="mt-4" style="margin-bottom: 50px;" *ngIf="!isLoadingEditForm && !editModeError">
-    <div class="row">
+        [queryParams]="{jenisSurat: jenisSurat}"
+      class="alert-link">Kembali</a>
+    </div>
+  }
+  @if (!isLoadingEditForm && !editModeError) {
+    <div class="mt-4" style="margin-bottom: 50px;">
+      <div class="row">
         <div class="col-sm-10 col-md-8 col-xl-8 offset-sm-2 col-md-2 offset-xl-2">
             <strong [ngClass]="{biasa: jenisSurat === 'BIASA',
                                 rahasia: jenisSurat === 'RAHASIA'}">Jenis Surat: {{ jenisSurat }}</strong>
-            <hr>
+          <hr>
             <form [formGroup]="suratMasukForm" (ngSubmit)="onSubmit()">
-                <div class="row">
-                    <div class="col-sm-auto">
-                        <div class="form-group">
-                            <label for="tanggalPenerimaanSurat">Tanggal Penerimaan Surat:</label>
-                            <!-- <input 
-                                type="date"
-                                name="tanggalPenerimaanSurat"
-                                class="form-control"
-                                formControlName="tanggalPenerimaanSurat"> -->
-                                <div class="input-group">
-                                    <input
-                                        type="text"
-                                        name="tanggalPenerimaanSurat"
-                                        class="form-control"
-                                        placeholder="yyyy-mm-dd"
-                                        formControlName="tanggalPenerimaanSurat"
-                                        #dps="ngbDatepicker"
-                                        ngbDatepicker
-                                        (dateSelect)="onDateTanggalPenerimaanSelect($event)">
-                                    <button class="btn btn-outline-secondary" type="button" (click)="dps.toggle()">
-                                        <i class="bi bi-calendar3"></i>
-                                    </button>
-                                </div>                        
-                        </div>
-                        <small 
-                            class="text-alert" 
-                            *ngIf="suratMasukForm.get('tanggalPenerimaanSurat')?.errors?.['required'] && 
-                                   suratMasukForm.get('tanggalPenerimaanSurat')?.touched">
-                                Wajib diisi!!!</small>
-                        <small 
-                            class="text-alert" 
-                            *ngIf="suratMasukForm.get('tanggalPenerimaanSurat')?.errors?.['minlength'] && 
-                                    suratMasukForm.get('tanggalPenerimaanSurat')?.touched">
-                                Minimal 10 karakter dengan format "yyyy-MM-dd" !!!</small>
-                    </div>
-                    <div class="col-sm-auto">
-                        <div class="form-group">
-                            <label for="jamPenerimaanSurat">Jam Penerimaan Surat:</label>
-                            <input 
-                                type="time"
-                                name="jamPenerimaanSurat"
-                                class="form-control"
-                                formControlName="jamPenerimaanSurat">
-                        </div>
-                        <small 
-                            class="text-alert" 
-                            *ngIf="suratMasukForm.get('jamPenerimaanSurat')?.errors?.['required'] && 
-                                   suratMasukForm.get('jamPenerimaanSurat')?.touched">
-                                Wajib diisi!!!</small>
-                        <small 
-                            class="text-alert" 
-                            *ngIf="suratMasukForm.get('jamPenerimaanSurat')?.errors?.['minlength'] && 
-                                    suratMasukForm.get('jamPenerimaanSurat')?.touched">
-                                Minimal 5 karakter dengan format "HH:mm" !!!</small>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-sm-12">
-                        <div class="form-group">
-                            <label for="asal">Asal Surat:</label>
-                            <textarea
-                                rows="3"
-                                type="text" 
-                                name="asal" 
-                                class="form-control"
-                                formControlName="asal"></textarea>
-                        </div>
-                        <small 
-                            class="text-alert" 
-                            *ngIf="suratMasukForm.get('asal')?.errors?.['required'] && 
-                                    suratMasukForm.get('asal')?.touched">
-                                Wajib diisi!!!</small>
-                        <small 
-                            class="text-alert" 
-                            *ngIf="suratMasukForm.get('asal')?.errors?.['minlength'] && 
-                                   suratMasukForm.get('asal')?.touched">
-                                Minimal 5 karakter!!!</small>
-                        <small 
-                            class="text-alert" 
-                            *ngIf="suratMasukForm.get('asal')?.errors?.['maxlength'] && 
-                                    suratMasukForm.get('asal')?.touched">
-                                    Tidak boleh lebih dari 255 karakter!!!</small>
-                    </div>                  
-                </div>              
-                <div class="row">
-                    <div class="col-sm-8">
-                        <div class="form-group">
-                            <label for="nomorSurat">Nomor Surat:</label>
-                            <input 
-                                type="text" 
-                                name="nomorSurat" 
-                                class="form-control"
-                                formControlName="nomorSurat">
-                        </div>
-                        <small 
-                            class="text-alert" 
-                            *ngIf="suratMasukForm.get('nomorSurat')?.errors?.['required'] && 
-                                    suratMasukForm.get('nomorSurat')?.touched">
-                                Wajib diisi!!!</small>
-                        <small 
-                            class="text-alert" 
-                            *ngIf="suratMasukForm.get('nomorSurat')?.errors?.['maxlength'] && 
-                                suratMasukForm.get('nomorSurat')?.touched">
-                                Tidak boleh lebih dari 255 karakter!!!</small>
-    
-                    </div>
-                    <div class="col-sm-4">
-                        <div class="row">
-                            <div class="col-sm-auto">
-                                <div class="form-group">
-                                    <label for="tanggalSurat">Tanggal Surat:</label>
-                                    <!-- <input 
-                                        type="date" 
-                                        name="tanggalSurat" 
-                                        class="form-control"
-                                        formControlName="tanggalSurat"> -->
-                                        <div class="input-group">
-                                            <input
-                                                type="text"
-                                                name="tanggalSurat"
-                                                class="form-control"
-                                                placeholder="yyyy-mm-dd"
-                                                formControlName="tanggalSurat"
-                                                #d="ngbDatepicker"
-                                                ngbDatepicker
-                                                (dateSelect)="onDateTanggalSuratSelect($event)">
-                                            <button class="btn btn-outline-secondary" type="button" (click)="d.toggle()">
-                                                <i class="bi bi-calendar3"></i>
-                                            </button>
-                                        </div>
-                                </div>
-                                <small 
-                                    class="text-alert" 
-                                    *ngIf="suratMasukForm.get('tanggalSurat')?.errors?.['required'] && 
-                                            suratMasukForm.get('tanggalSurat')?.touched">
-                                        Wajib diisi!!!</small>
-                                <small 
-                                    class="text-alert" 
-                                    *ngIf="suratMasukForm.get('tanggalSurat')?.errors?.['minlength'] && 
-                                            suratMasukForm.get('tanggalSurat')?.touched">
-                                        Minimal 10 karakter dengan format "yyyy-MM-dd" !!!</small>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="perihal">Perihal:</label>
-                    <textarea
-                        rows="3"
-                        type="text" 
-                        name="perihal" 
+              <div class="row">
+                <div class="col-sm-auto">
+                  <div class="form-group">
+                    <label for="tanggalPenerimaanSurat">Tanggal Penerimaan Surat:</label>
+                    <!-- <input
+                    type="date"
+                    name="tanggalPenerimaanSurat"
+                    class="form-control"
+                    formControlName="tanggalPenerimaanSurat"> -->
+                    <div class="input-group">
+                      <input
+                        type="text"
+                        name="tanggalPenerimaanSurat"
                         class="form-control"
-                        formControlName="perihal"></textarea>
+                        placeholder="yyyy-mm-dd"
+                        formControlName="tanggalPenerimaanSurat"
+                        #dps="ngbDatepicker"
+                        ngbDatepicker
+                        (dateSelect)="onDateTanggalPenerimaanSelect($event)">
+                      <button class="btn btn-outline-secondary" type="button" (click)="dps.toggle()">
+                        <i class="bi bi-calendar3"></i>
+                      </button>
+                    </div>
+                  </div>
+                  @if (suratMasukForm.get('tanggalPenerimaanSurat')?.errors?.['required'] &&
+                    suratMasukForm.get('tanggalPenerimaanSurat')?.touched) {
+                    <small
+                      class="text-alert"
+                      >
+                    Wajib diisi!!!</small>
+                  }
+                  @if (suratMasukForm.get('tanggalPenerimaanSurat')?.errors?.['minlength'] &&
+                    suratMasukForm.get('tanggalPenerimaanSurat')?.touched) {
+                    <small
+                      class="text-alert"
+                      >
+                    Minimal 10 karakter dengan format "yyyy-MM-dd" !!!</small>
+                  }
                 </div>
-                <small 
-                    class="text-alert" 
-                    *ngIf="suratMasukForm.get('perihal')?.errors?.['required'] && 
-                            suratMasukForm.get('perihal')?.touched">
+                <div class="col-sm-auto">
+                  <div class="form-group">
+                    <label for="jamPenerimaanSurat">Jam Penerimaan Surat:</label>
+                    <input
+                      type="time"
+                      name="jamPenerimaanSurat"
+                      class="form-control"
+                      formControlName="jamPenerimaanSurat">
+                  </div>
+                  @if (suratMasukForm.get('jamPenerimaanSurat')?.errors?.['required'] &&
+                    suratMasukForm.get('jamPenerimaanSurat')?.touched) {
+                    <small
+                      class="text-alert"
+                      >
+                    Wajib diisi!!!</small>
+                  }
+                  @if (suratMasukForm.get('jamPenerimaanSurat')?.errors?.['minlength'] &&
+                    suratMasukForm.get('jamPenerimaanSurat')?.touched) {
+                    <small
+                      class="text-alert"
+                      >
+                    Minimal 5 karakter dengan format "HH:mm" !!!</small>
+                  }
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-sm-12">
+                  <div class="form-group">
+                    <label for="asal">Asal Surat:</label>
+                    <textarea
+                      rows="3"
+                      type="text"
+                      name="asal"
+                      class="form-control"
+                    formControlName="asal"></textarea>
+                  </div>
+                  @if (suratMasukForm.get('asal')?.errors?.['required'] &&
+                    suratMasukForm.get('asal')?.touched) {
+                    <small
+                      class="text-alert"
+                      >
+                    Wajib diisi!!!</small>
+                  }
+                  @if (suratMasukForm.get('asal')?.errors?.['minlength'] &&
+                    suratMasukForm.get('asal')?.touched) {
+                    <small
+                      class="text-alert"
+                      >
+                    Minimal 5 karakter!!!</small>
+                  }
+                  @if (suratMasukForm.get('asal')?.errors?.['maxlength'] &&
+                    suratMasukForm.get('asal')?.touched) {
+                    <small
+                      class="text-alert"
+                      >
+                    Tidak boleh lebih dari 255 karakter!!!</small>
+                  }
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-sm-8">
+                  <div class="form-group">
+                    <label for="nomorSurat">Nomor Surat:</label>
+                    <input
+                      type="text"
+                      name="nomorSurat"
+                      class="form-control"
+                      formControlName="nomorSurat">
+                  </div>
+                  @if (suratMasukForm.get('nomorSurat')?.errors?.['required'] &&
+                    suratMasukForm.get('nomorSurat')?.touched) {
+                    <small
+                      class="text-alert"
+                      >
+                    Wajib diisi!!!</small>
+                  }
+                  @if (suratMasukForm.get('nomorSurat')?.errors?.['maxlength'] &&
+                    suratMasukForm.get('nomorSurat')?.touched) {
+                    <small
+                      class="text-alert"
+                      >
+                    Tidak boleh lebih dari 255 karakter!!!</small>
+                  }
+                </div>
+                <div class="col-sm-4">
+                  <div class="row">
+                    <div class="col-sm-auto">
+                      <div class="form-group">
+                        <label for="tanggalSurat">Tanggal Surat:</label>
+                        <!-- <input
+                        type="date"
+                        name="tanggalSurat"
+                        class="form-control"
+                        formControlName="tanggalSurat"> -->
+                        <div class="input-group">
+                          <input
+                            type="text"
+                            name="tanggalSurat"
+                            class="form-control"
+                            placeholder="yyyy-mm-dd"
+                            formControlName="tanggalSurat"
+                            #d="ngbDatepicker"
+                            ngbDatepicker
+                            (dateSelect)="onDateTanggalSuratSelect($event)">
+                          <button class="btn btn-outline-secondary" type="button" (click)="d.toggle()">
+                            <i class="bi bi-calendar3"></i>
+                          </button>
+                        </div>
+                      </div>
+                      @if (suratMasukForm.get('tanggalSurat')?.errors?.['required'] &&
+                        suratMasukForm.get('tanggalSurat')?.touched) {
+                        <small
+                          class="text-alert"
+                          >
                         Wajib diisi!!!</small>
-                <small 
-                    class="text-alert" 
-                    *ngIf="suratMasukForm.get('perihal')?.errors?.['minlength'] && 
-                            suratMasukForm.get('perihal')?.touched">
-                        Minimal 5 karakter!!!</small>
-                <small 
-                    class="text-alert" 
-                    *ngIf="suratMasukForm.get('perihal')?.errors?.['maxlength'] && 
-                        suratMasukForm.get('perihal')?.touched">
-                        Tidak boleh lebih dari 255 karakter!!!</small>
-
-                <div class="form-group">
-                    <label for="isiDisposisi">Disposisi:</label>
-                    <textarea
-                        rows="3"
-                        name="isiDisposisi" 
-                        class="form-control"
-                        formControlName="isiDisposisi"></textarea>
+                      }
+                      @if (suratMasukForm.get('tanggalSurat')?.errors?.['minlength'] &&
+                        suratMasukForm.get('tanggalSurat')?.touched) {
+                        <small
+                          class="text-alert"
+                          >
+                        Minimal 10 karakter dengan format "yyyy-MM-dd" !!!</small>
+                      }
+                    </div>
+                  </div>
                 </div>
-                <small 
-                    class="text-alert" 
-                    *ngIf="suratMasukForm.get('isiDisposisi')?.errors?.['maxlength'] && 
-                        suratMasukForm.get('isiDisposisi')?.touched">
-                        Tidak boleh lebih dari 255 karakter!!!</small>
-                <div class="form-group">
-                    <label for="tindakLanjutDisposisi">Tindak Lanjut:</label>
-                    <textarea
-                        rows="3"
-                        name="tindakLanjutDisposisi" 
-                        class="form-control"
-                        formControlName="tindakLanjutDisposisi"></textarea>
+              </div>
+              <div class="form-group">
+                <label for="perihal">Perihal:</label>
+                <textarea
+                  rows="3"
+                  type="text"
+                  name="perihal"
+                  class="form-control"
+                formControlName="perihal"></textarea>
+              </div>
+              @if (suratMasukForm.get('perihal')?.errors?.['required'] &&
+                suratMasukForm.get('perihal')?.touched) {
+                <small
+                  class="text-alert"
+                  >
+                Wajib diisi!!!</small>
+              }
+              @if (suratMasukForm.get('perihal')?.errors?.['minlength'] &&
+                suratMasukForm.get('perihal')?.touched) {
+                <small
+                  class="text-alert"
+                  >
+                Minimal 5 karakter!!!</small>
+              }
+              @if (suratMasukForm.get('perihal')?.errors?.['maxlength'] &&
+                suratMasukForm.get('perihal')?.touched) {
+                <small
+                  class="text-alert"
+                  >
+                Tidak boleh lebih dari 255 karakter!!!</small>
+              }
+              <div class="form-group">
+                <label for="isiDisposisi">Disposisi:</label>
+                <textarea
+                  rows="3"
+                  name="isiDisposisi"
+                  class="form-control"
+                formControlName="isiDisposisi"></textarea>
+              </div>
+              @if (suratMasukForm.get('isiDisposisi')?.errors?.['maxlength'] &&
+                suratMasukForm.get('isiDisposisi')?.touched) {
+                <small
+                  class="text-alert"
+                  >
+                Tidak boleh lebih dari 255 karakter!!!</small>
+              }
+              <div class="form-group">
+                <label for="tindakLanjutDisposisi">Tindak Lanjut:</label>
+                <textarea
+                  rows="3"
+                  name="tindakLanjutDisposisi"
+                  class="form-control"
+                formControlName="tindakLanjutDisposisi"></textarea>
+              </div>
+              @if (suratMasukForm.get('tindakLanjutDisposisi')?.errors?.['maxlength'] &&
+                suratMasukForm.get('tindakLanjutDisposisi')?.touched) {
+                <small
+                  class="text-alert"
+                  >
+                Tidak boleh lebih dari 255 karakter!!!</small>
+              }
+              <div class="form-group">
+                <label for="keterangan">Keterangan:</label>
+                <textarea
+                  rows="3"
+                  name="keterangan"
+                  class="form-control"
+                formControlName="keterangan"></textarea>
+              </div>
+              @if (suratMasukForm.get('keterangan')?.errors?.['maxlength'] &&
+                suratMasukForm.get('keterangan')?.touched) {
+                <small
+                  class="text-alert"
+                  >
+                Tidak boleh lebih dari 255 karakter!!!</small>
+              }
+              <div class="form-group">
+                <label for="urlFile">Link File:</label>
+                <textarea
+                  rows="3"
+                  name="urlFile"
+                  class="form-control"
+                formControlName="urlFile"></textarea>
+              </div>
+              @if (error) {
+                <app-danger-alert [message]="error"></app-danger-alert>
+              }
+              @if (isLoading) {
+                <div class="mt-4">
+                  <app-loading-spinner></app-loading-spinner>
                 </div>
-                <small 
-                    class="text-alert" 
-                    *ngIf="suratMasukForm.get('tindakLanjutDisposisi')?.errors?.['maxlength'] && 
-                        suratMasukForm.get('tindakLanjutDisposisi')?.touched">
-                        Tidak boleh lebih dari 255 karakter!!!</small>
-                <div class="form-group">
-                    <label for="keterangan">Keterangan:</label>
-                    <textarea
-                        rows="3"
-                        name="keterangan" 
-                        class="form-control"
-                        formControlName="keterangan"></textarea>
-                </div>
-                <small 
-                    class="text-alert" 
-                    *ngIf="suratMasukForm.get('keterangan')?.errors?.['maxlength'] && 
-                        suratMasukForm.get('keterangan')?.touched">
-                        Tidak boleh lebih dari 255 karakter!!!</small>
-                <div class="form-group">
-                    <label for="urlFile">Link File:</label>
-                    <textarea
-                        rows="3"
-                        name="urlFile" 
-                        class="form-control"
-                        formControlName="urlFile"></textarea>
-                </div>
-                <app-danger-alert [message]="error" *ngIf="error"></app-danger-alert>
-                <div class="mt-4" *ngIf="isLoading">
-                    <app-loading-spinner></app-loading-spinner>
-                </div>
-                <div *ngIf="!isLoading">
-                    <div class="d-flex justify-content-between">
-                        <div class="p-2">
-                            <button
-                                class="btn btn-success"
-                                type="submit"
-                                [disabled]="!suratMasukForm.valid"
-                                style="margin-top: 20px;"><i class="bi bi-floppy"></i> Simpan</button>
+              }
+              @if (!isLoading) {
+                <div>
+                  <div class="d-flex justify-content-between">
+                    <div class="p-2">
+                      <button
+                        class="btn btn-success"
+                        type="submit"
+                        [disabled]="!suratMasukForm.valid"
+                        style="margin-top: 20px;"><i class="bi bi-floppy"></i> Simpan</button>
+                      </div>
+                      <div class="p-2">
+                        <button
+                          class="btn btn-danger"
+                          type="button"
+                          (click)="onCancel()"
+                          style="margin-top: 20px;"><i class="bi bi-backspace-fill"></i> Batal</button>
                         </div>
-                        <div class="p-2">
-                            <button
-                                class="btn btn-danger"
-                                type="button"
-                                (click)="onCancel()"
-                                style="margin-top: 20px;"><i class="bi bi-backspace-fill"></i> Batal</button>  
-                        </div>
-                    </div> 
-                </div>       
-            </form>
-        </div>
-    </div>
-</div>
+                      </div>
+                    </div>
+                  }
+                </form>
+              </div>
+            </div>
+          </div>
+        }

@@ -1,137 +1,147 @@
-<div *ngIf="isLoading" class="mt-4" style="text-align: center;">
+@if (isLoading) {
+  <div class="mt-4" style="text-align: center;">
     <app-loading-spinner></app-loading-spinner>
-</div>
-<div class="alert alert-danger mt-4" *ngIf="error" role="alert">
-    {{ error }} 
+  </div>
+}
+@if (error) {
+  <div class="alert alert-danger mt-4" role="alert">
+    {{ error }}
     <br>
-    <a  [routerLink]="['/ekspedisi', jenisSurat === 'RAHASIA' ? 'rahasia' : 'biasa']"
-        [queryParams]="{jenisSurat: jenisSurat}" 
-        class="alert-link">Kembali</a>
-</div>
-<div class="mt-4" style="margin-bottom: 50px;"  *ngIf="!isLoading && !error">
-    <div class="row">
+      <a  [routerLink]="['/ekspedisi', jenisSurat === 'RAHASIA' ? 'rahasia' : 'biasa']"
+        [queryParams]="{jenisSurat: jenisSurat}"
+      class="alert-link">Kembali</a>
+    </div>
+  }
+  @if (!isLoading && !error) {
+    <div class="mt-4" style="margin-bottom: 50px;" >
+      <div class="row">
         <div class="col-sm-10 col-md-10 col-xl-10 offset-sm-1 offset-md-1 offset-xl-1">
-            <div class="row">
-                <div class="col-sm-12 col-md-12 col-xl-12" style="margin-bottom: 20px;">
-                    <div class="d-flex justify-content-between">
-                        <div class="p-2">
-                            <button type="button" class="btn btn-danger" style="margin-right: 15px;" (click)="onCancel()">
-                                <i class="bi bi-backspace-fill"></i> Kembali</button>
-                        </div>
-                        <div class="p-2">
-                            <button type="button" class="btn btn-warning"
-                            [routerLink]="['/ekspedisi', jenisSurat === 'RAHASIA' ? 'rahasia' : 'biasa', ekspedisi.ids, 'form']"
-                            [queryParams]="{edit: 1, jenisSurat: jenisSurat}"><i class="bi bi-pencil-square"></i> Ubah</button>
-                        </div>
+          <div class="row">
+            <div class="col-sm-12 col-md-12 col-xl-12" style="margin-bottom: 20px;">
+              <div class="d-flex justify-content-between">
+                <div class="p-2">
+                  <button type="button" class="btn btn-danger" style="margin-right: 15px;" (click)="onCancel()">
+                    <i class="bi bi-backspace-fill"></i> Kembali</button>
+                  </div>
+                  <div class="p-2">
+                    <button type="button" class="btn btn-warning"
+                      [routerLink]="['/ekspedisi', jenisSurat === 'RAHASIA' ? 'rahasia' : 'biasa', ekspedisi.ids, 'form']"
+                      [queryParams]="{edit: 1, jenisSurat: jenisSurat}"><i class="bi bi-pencil-square"></i> Ubah</button>
                     </div>
+                  </div>
                 </div>
                 <hr>
-                <div class="col-sm-12 col-md-12 col-xl-12">
+                  <div class="col-sm-12 col-md-12 col-xl-12">
                     <h4 class="text-primary">Rincian Surat Masuk</h4>
+                  </div>
                 </div>
-            </div>
-            <ul class="list-group">
-                <li class="list-group-item">
+                <ul class="list-group">
+                  <li class="list-group-item">
                     <div class="row">
-                        <div class="col-sm-4 col-md-4 col-xl-4">
-                            <p class="fw-bold">Jenis Surat</p>
-                        </div>
-                        <div class="col-sm-8 col-md-8 col-xl-8">
-                            : <strong 
+                      <div class="col-sm-4 col-md-4 col-xl-4">
+                        <p class="fw-bold">Jenis Surat</p>
+                      </div>
+                      <div class="col-sm-8 col-md-8 col-xl-8">
+                        : <strong
                                 [ngClass]="{biasa: ekspedisi.jenisSurat === 'BIASA',
                                             rahasia: ekspedisi.jenisSurat === 'RAHASIA'}">{{ ekspedisi.jenisSurat }}</strong>             
-                        </div>
                     </div>
+                  </div>
                 </li>
                 <li class="list-group-item">
-                    <div class="row">
-                        <div class="col-sm-4 col-md-4 col-xl-4">
-                            <p class="fw-bold">Nomor & Tanggal Surat</p>
-                        </div>
-                        <div class="col-sm-8 col-md-8 col-xl-8">
-                            : {{ ekspedisi.nomorSurat }} tgl. {{ ekspedisi.tanggalSurat | date:'dd-MM-yyyy' }}
-                        </div>
+                  <div class="row">
+                    <div class="col-sm-4 col-md-4 col-xl-4">
+                      <p class="fw-bold">Nomor & Tanggal Surat</p>
                     </div>
+                    <div class="col-sm-8 col-md-8 col-xl-8">
+                      : {{ ekspedisi.nomorSurat }} tgl. {{ ekspedisi.tanggalSurat | date:'dd-MM-yyyy' }}
+                    </div>
+                  </div>
                 </li>
                 <li class="list-group-item">
-                    <div class="row">
-                        <div class="col-sm-4 col-md-4 col-xl-4">
-                            <p class="fw-bold">Kepada</p>
-                        </div>
-                        <div class="col-sm-8 col-md-8 col-xl-8">
-                            : {{ ekspedisi.kepada }}
-                        </div>
+                  <div class="row">
+                    <div class="col-sm-4 col-md-4 col-xl-4">
+                      <p class="fw-bold">Kepada</p>
                     </div>
+                    <div class="col-sm-8 col-md-8 col-xl-8">
+                      : {{ ekspedisi.kepada }}
+                    </div>
+                  </div>
                 </li>
                 <li class="list-group-item">
-                    <div class="row">
-                        <div class="col-sm-4 col-md-4 col-xl-4">
-                            <p class="fw-bold">Perihal</p>
-                        </div>
-                        <div class="col-sm-8 col-md-8 col-xl-8">
-                            : {{ ekspedisi.perihal }}
-                        </div>
+                  <div class="row">
+                    <div class="col-sm-4 col-md-4 col-xl-4">
+                      <p class="fw-bold">Perihal</p>
                     </div>
+                    <div class="col-sm-8 col-md-8 col-xl-8">
+                      : {{ ekspedisi.perihal }}
+                    </div>
+                  </div>
                 </li>
                 <li class="list-group-item">
-                    <div class="row">
-                        <div class="col-sm-4 col-md-4 col-xl-4">
-                            <p class="fw-bold">Lampiran</p>
-                        </div>
-                        <div class="col-sm-8 col-md-8 col-xl-8">
-                            : {{ ekspedisi.lampiran }}
-                        </div>
+                  <div class="row">
+                    <div class="col-sm-4 col-md-4 col-xl-4">
+                      <p class="fw-bold">Lampiran</p>
                     </div>
+                    <div class="col-sm-8 col-md-8 col-xl-8">
+                      : {{ ekspedisi.lampiran }}
+                    </div>
+                  </div>
                 </li>
                 <li class="list-group-item">
-                    <div class="row">
-                        <div class="col-sm-4 col-md-4 col-xl-4">
-                            <p class="fw-bold">Waktu Tanda Terima Surat</p>
-                        </div>
-                        <div class="col-sm-8 col-md-8 col-xl-8">
-                            : {{ ekspedisi.tanggalTandaTerima | date:'dd-MM-yyyy'}} {{ ekspedisi.jamTandaTerima }}
-                        </div>
+                  <div class="row">
+                    <div class="col-sm-4 col-md-4 col-xl-4">
+                      <p class="fw-bold">Waktu Tanda Terima Surat</p>
                     </div>
+                    <div class="col-sm-8 col-md-8 col-xl-8">
+                      : {{ ekspedisi.tanggalTandaTerima | date:'dd-MM-yyyy'}} {{ ekspedisi.jamTandaTerima }}
+                    </div>
+                  </div>
                 </li>
                 <li class="list-group-item">
-                    <div class="row">
-                        <div class="col-sm-4 col-md-4 col-xl-4">
-                            <p class="fw-bold">URL Nama dan Paraf</p>
-                        </div>
-                        <div class="col-sm-8 col-md-8 col-xl-8">
-                            <a href="{{ ekspedisi.namaDanParaf }}" 
-                                target="_blank"
-                                *ngIf="ekspedisi.namaDanParaf">
-                                    <img src="{{ ekspedisi.namaDanParaf }}" 
-                                        class="img-fluid img-thumbnail" 
-                                        alt="{{ ekspedisi.perihal }}"
-                                        style="width:300px;"></a>
-                        </div>
+                  <div class="row">
+                    <div class="col-sm-4 col-md-4 col-xl-4">
+                      <p class="fw-bold">URL Nama dan Paraf</p>
                     </div>
-                </li>
-                <li class="list-group-item">
-                    <div class="row">
-                        <div class="col-sm-4 col-md-4 col-xl-4">
-                            <p class="fw-bold">Keterangan</p>
-                        </div>
-                        <div class="col-sm-8 col-md-8 col-xl-8">
-                            : {{ ekspedisi.keterangan }}
-                        </div>
+                    <div class="col-sm-8 col-md-8 col-xl-8">
+                      @if (ekspedisi.namaDanParaf) {
+                        <a href="{{ ekspedisi.namaDanParaf }}"
+                          target="_blank"
+                          >
+                          <img src="{{ ekspedisi.namaDanParaf }}"
+                            class="img-fluid img-thumbnail"
+                            alt="{{ ekspedisi.perihal }}"
+                          style="width:300px;"></a>
+                        }
+                      </div>
                     </div>
-                </li>
-                <li class="list-group-item">
+                  </li>
+                  <li class="list-group-item">
                     <div class="row">
-                        <div class="col-sm-4 col-md-4 col-xl-4">
-                            <p class="fw-bold">URL File</p>
-                        </div>
-                        <div class="col-sm-8 col-md-8 col-xl-8">
-                            : <a href="{{ ekspedisi.urlFile }}" 
-                                target="_blank"
-                                *ngIf="ekspedisi.urlFile">{{ ekspedisi.ids }}</a>
-                        </div>
+                      <div class="col-sm-4 col-md-4 col-xl-4">
+                        <p class="fw-bold">Keterangan</p>
+                      </div>
+                      <div class="col-sm-8 col-md-8 col-xl-8">
+                        : {{ ekspedisi.keterangan }}
+                      </div>
                     </div>
+                  </li>
+                  <li class="list-group-item">
+                    <div class="row">
+                      <div class="col-sm-4 col-md-4 col-xl-4">
+                        <p class="fw-bold">URL File</p>
+                      </div>
+                      <div class="col-sm-8 col-md-8 col-xl-8">
+                        : @if (ekspedisi.urlFile) {
+                        <a href="{{ ekspedisi.urlFile }}"
+                          target="_blank"
+                        >{{ ekspedisi.ids }}</a>
+                      }
+                    </div>
+                  </div>
                 </li>
-            </ul>
+              </ul>
+            </div>
+          </div>
         </div>
-    </div>
-</div>
+      }

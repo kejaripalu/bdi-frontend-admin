@@ -1,202 +1,204 @@
 <div id="layoutSidenav_nav">
-    <nav class="sb-sidenav accordion sb-sidenav-light" id="sidenavAccordion" *ngIf="isAuthenticated">
-        <div class="sb-sidenav-menu">
-            <div class="nav">
-                <div class="sb-sidenav-menu-heading">Menu</div>
-                <a class="nav-link" routerLinkActive="active" routerLink="/dashboard">
-                    <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
-                    Dashboard
-                </a>
-                <div class="sb-sidenav-menu-heading">Register</div>
-                <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseSurat" aria-expanded="false" aria-controls="collapseSurat">
-                    <div class="sb-nav-link-icon"><i class="bi bi-book"></i></div>
-                    Persuratan
-                    <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                </a>
-                <div class="collapse" id="collapseSurat" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
-                    <nav class="sb-sidenav-menu-nested nav">
-                        <a class="nav-link" routerLinkActive="active" 
-                            [routerLink]="['/surat-masuk', 'biasa']"
-                            [queryParams]="{ jenisSurat: 'BIASA' }">Surat Masuk</a>
-                        <a class="nav-link" routerLinkActive="active" 
-                            [routerLink]="['/surat-keluar', 'biasa']"
-                            [queryParams]="{ jenisSurat: 'B' }">Surat Keluar</a>
-                        <a class="nav-link" routerLinkActive="active" 
-                            [routerLink]="['/rki', 'list']"
-                            [queryParams]="{ bidang: 'IPOLHANKAM' }">RKI</a>
-                        <a class="nav-link" routerLinkActive="active" 
-                            [routerLink]="['/ekspedisi', 'biasa']"
-                            [queryParams]="{ jenisSurat: 'BIASA' }">Ekspedisi</a>
-                        <a class="nav-link" routerLinkActive="active" 
-                            [routerLink]="['/prodin', 'list']">Produk Intelijen</a>
-                        <a class="nav-link" routerLinkActive="active" 
-                            [routerLink]="['/lahin', 'list']">Telaahan Intelijen</a>
-                        <a class="nav-link" routerLinkActive="active" 
-                            [routerLink]="['/arsip', 'list']">Arsip</a>                   
-                    </nav>
-                </div>
-                <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseKegiatan" aria-expanded="false" aria-controls="collapseKegiatan">
-                    <div class="sb-nav-link-icon"><i class="bi bi-book"></i></div>
-                    Kegiatan Intelijen
-                    <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                </a>
-                <div class="collapse" id="collapseKegiatan" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
-                    <nav class="sb-sidenav-menu-nested nav">
-                        <a class="nav-link" routerLinkActive="active" 
-                            [routerLink]="['/kegiatan', 'list']"
-                            [queryParams]="{ bidang: 'IPOLHANKAM' }">Ipolhankam</a>
-                        <a class="nav-link" routerLinkActive="active" 
-                            [routerLink]="['/kegiatan', 'list']"
-                            [queryParams]="{ bidang: 'SOSBUDMAS' }">Sosbudmas</a>
-                        <a class="nav-link" routerLinkActive="active" 
-                            [routerLink]="['/kegiatan', 'list']"
-                            [queryParams]="{ bidang: 'EKOKEU' }">Ekokeu</a>
-                        <a class="nav-link" routerLinkActive="active"
-                            [routerLink]="['/kegiatan', 'list', 'pamstra-list']"
-                            [queryParams]="{ bidang: 'PAMSTRA' }">Pamstra</a>
-                        <a class="nav-link" routerLinkActive="active" 
-                            [routerLink]="['/kegiatan', 'list']"
-                            [queryParams]="{ bidang: 'TIPRODIN' }">TI & Produk</a>         
-                    </nav>
-                </div>
-                <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseOpsin" aria-expanded="false" aria-controls="collapseOpsin">
-                    <div class="sb-nav-link-icon"><i class="bi bi-book"></i></div>
-                    Operasi Intelijen
-                    <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                </a>
-                <div class="collapse" id="collapseOpsin" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
-                    <nav class="sb-sidenav-menu-nested nav">
-                        <a class="nav-link" routerLinkActive="active" 
-                            [routerLink]="['/opsin', 'list']"
-                            [queryParams]="{ bidang: 'IPOLHANKAM' }">Ipolhankam</a>
-                        <a class="nav-link" routerLinkActive="active" 
-                            [routerLink]="['/opsin', 'list']"
-                            [queryParams]="{ bidang: 'SOSBUDMAS' }">Sosbudmas</a>
-                        <a class="nav-link" routerLinkActive="active" 
-                            [routerLink]="['/opsin', 'list']"
-                            [queryParams]="{ bidang: 'EKOKEU' }">Ekokeu</a>
-                        <a class="nav-link" routerLinkActive="active"
-                            [routerLink]="['/opsin', 'list']"
-                            [queryParams]="{ bidang: 'PAMSTRA' }">Pamstra</a>
-                        <a class="nav-link" routerLinkActive="active" 
-                            [routerLink]="['/opsin', 'list']"
-                            [queryParams]="{ bidang: 'TIPRODIN' }">TI & Produk</a>         
-                    </nav>
-                </div>
-                <!-- <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseSankom" aria-expanded="false" aria-controls="collapseSankom">
-                    <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
-                    Sankom
-                    <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                </a>
-                <div class="collapse" id="collapseSankom" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
-                    <nav class="sb-sidenav-menu-nested nav">
-                        <a class="nav-link"  
-                            href="/page-not-found">Berita Masuk</a>
-                        <a class="nav-link"  
-                            href="/page-not-found">Berita Keluar</a>
-                        <a class="nav-link" 
-                            href="/page-not-found">Ekspedisi Berita</a>         
-                    </nav>
-                </div> -->
-                <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapsePPMPPH" aria-expanded="false" aria-controls="collapsePPMPPH">
-                    <div class="sb-nav-link-icon"><i class="bi bi-book"></i></div>
-                    PPM & PPH
-                    <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                </a>
-                <div class="collapse" id="collapsePPMPPH" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
-                    <nav class="sb-sidenav-menu-nested nav">
-                        <a class="nav-link" routerLinkActive="active" 
-                            [routerLink]="['/pphppm', 'list']">Register Tamu</a>                      
-                    </nav>
-                </div>
-                <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapsePenkumLuhkum" aria-expanded="false" aria-controls="collapsePPMPPH">
-                    <div class="sb-nav-link-icon"><i class="bi bi-book"></i></div>
-                    Penkum/Luhkum
-                    <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                </a>
-                <div class="collapse" id="collapsePenkumLuhkum" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
-                    <nav class="sb-sidenav-menu-nested nav">
-                        <a class="nav-link" routerLinkActive="active" 
-                            [routerLink]="['/penkumluhkum', 'penkum']"
-                            [queryParams]="{ jenisKegiatan: 'PENERANGAN_HUKUM' }">Register Kegiatan</a>                      
-                        <!-- <a class="nav-link"  
-                            href="/page-not-found">Informasi Publik</a> -->
-                    </nav>
-                </div>
-                <div class="sb-sidenav-menu-heading">Data & Grafik</div>
-                <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapsePetaGrafik" aria-expanded="false" aria-controls="collapsePetaGrafik">
-                    <div class="sb-nav-link-icon"><i class="bi bi-geo-alt-fill"></i></div>
-                    Peta
-                    <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                </a>
-                <div class="collapse" id="collapsePetaGrafik" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
-                    <nav class="sb-sidenav-menu-nested nav">
-                        <a class="nav-link" routerLinkActive="active" 
-                            [routerLink]="['/data-peta', 'list']"
-                            [queryParams]="{ bidang: 'IPOLHANKAM' }">Data Peta</a>
-                        <a class="nav-link" routerLinkActive="active" 
-                            [routerLink]="['/peta-simbol', 'view']"
-                            [queryParams]="{ bidang: 'IPOLHANKAM' }">Peta Ipolhankam</a>
-                        <a class="nav-link" routerLinkActive="active" 
-                            [routerLink]="['/peta-simbol', 'view']"
-                            [queryParams]="{ bidang: 'SOSBUDMAS' }">Peta Sosbudmas</a>
-                        <a class="nav-link" routerLinkActive="active" 
-                            [routerLink]="['/peta-simbol', 'view']"
-                            [queryParams]="{ bidang: 'EKOKEU' }">Peta Ekokeu</a>
-                        <a class="nav-link" routerLinkActive="active" 
-                            [routerLink]="['/peta-simbol', 'view']"
-                            [queryParams]="{ bidang: 'PAMSTRA' }">Peta Pamstra</a>
-                        <a class="nav-link" routerLinkActive="active" 
-                            [routerLink]="['/peta-simbol', 'view']"
-                            [queryParams]="{ bidang: 'TIPRODIN' }">Peta TI & Produk</a>
-                        </nav>
-                </div>
-                <!-- <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapsePages" aria-expanded="false" aria-controls="collapsePages">
-                    <div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
-                    Pages
-                    <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                </a>
-                <div class="collapse" id="collapsePages" aria-labelledby="headingTwo" data-bs-parent="#sidenavAccordion">
-                    <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionPages">
-                        <a class="nav-link collapsed" href="/page-not-found" data-bs-toggle="collapse" data-bs-target="#pagesCollapseAuth" aria-expanded="false" aria-controls="pagesCollapseAuth">
-                            Authentication
-                            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                        </a>
-                        <div class="collapse" id="pagesCollapseAuth" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordionPages">
-                            <nav class="sb-sidenav-menu-nested nav">
-                                <a class="nav-link" href="/page-not-found">Login</a>
-                                <a class="nav-link" href="/page-not-found">Register</a>
-                                <a class="nav-link" href="/page-not-found">Forgot Password</a>
-                            </nav>
-                        </div>
-                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#pagesCollapseError" aria-expanded="false" aria-controls="pagesCollapseError">
-                            Error
-                            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                        </a>
-                        <div class="collapse" id="pagesCollapseError" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordionPages">
-                            <nav class="sb-sidenav-menu-nested nav">
-                                <a class="nav-link" href="/page-not-found">401 Page</a>
-                                <a class="nav-link" href="/page-not-found">404 Page</a>
-                                <a class="nav-link" href="/page-not-found">500 Page</a>
-                            </nav>
-                        </div>
-                    </nav>
-                </div> -->
-                <!--DATA DAN GRAFIK-->
-                <!-- <div class="sb-sidenav-menu-heading">Data & Grafik</div>
-                <a class="nav-link" href="/page-not-found">
-                    <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
-                    Charts
-                </a>
-                <a class="nav-link" href="/page-not-found">
-                    <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
-                    Tables
-                </a> -->
-            </div>
+  @if (isAuthenticated) {
+    <nav class="sb-sidenav accordion sb-sidenav-light" id="sidenavAccordion">
+      <div class="sb-sidenav-menu">
+        <div class="nav">
+          <div class="sb-sidenav-menu-heading">Menu</div>
+          <a class="nav-link" routerLinkActive="active" routerLink="/dashboard">
+            <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+            Dashboard
+          </a>
+          <div class="sb-sidenav-menu-heading">Register</div>
+          <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseSurat" aria-expanded="false" aria-controls="collapseSurat">
+            <div class="sb-nav-link-icon"><i class="bi bi-book"></i></div>
+            Persuratan
+            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+          </a>
+          <div class="collapse" id="collapseSurat" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
+            <nav class="sb-sidenav-menu-nested nav">
+              <a class="nav-link" routerLinkActive="active"
+                [routerLink]="['/surat-masuk', 'biasa']"
+              [queryParams]="{ jenisSurat: 'BIASA' }">Surat Masuk</a>
+              <a class="nav-link" routerLinkActive="active"
+                [routerLink]="['/surat-keluar', 'biasa']"
+              [queryParams]="{ jenisSurat: 'B' }">Surat Keluar</a>
+              <a class="nav-link" routerLinkActive="active"
+                [routerLink]="['/rki', 'list']"
+              [queryParams]="{ bidang: 'IPOLHANKAM' }">RKI</a>
+              <a class="nav-link" routerLinkActive="active"
+                [routerLink]="['/ekspedisi', 'biasa']"
+              [queryParams]="{ jenisSurat: 'BIASA' }">Ekspedisi</a>
+              <a class="nav-link" routerLinkActive="active"
+              [routerLink]="['/prodin', 'list']">Produk Intelijen</a>
+              <a class="nav-link" routerLinkActive="active"
+              [routerLink]="['/lahin', 'list']">Telaahan Intelijen</a>
+              <a class="nav-link" routerLinkActive="active"
+              [routerLink]="['/arsip', 'list']">Arsip</a>
+            </nav>
+          </div>
+          <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseKegiatan" aria-expanded="false" aria-controls="collapseKegiatan">
+            <div class="sb-nav-link-icon"><i class="bi bi-book"></i></div>
+            Kegiatan Intelijen
+            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+          </a>
+          <div class="collapse" id="collapseKegiatan" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
+            <nav class="sb-sidenav-menu-nested nav">
+              <a class="nav-link" routerLinkActive="active"
+                [routerLink]="['/kegiatan', 'list']"
+              [queryParams]="{ bidang: 'IPOLHANKAM' }">Ipolhankam</a>
+              <a class="nav-link" routerLinkActive="active"
+                [routerLink]="['/kegiatan', 'list']"
+              [queryParams]="{ bidang: 'SOSBUDMAS' }">Sosbudmas</a>
+              <a class="nav-link" routerLinkActive="active"
+                [routerLink]="['/kegiatan', 'list']"
+              [queryParams]="{ bidang: 'EKOKEU' }">Ekokeu</a>
+              <a class="nav-link" routerLinkActive="active"
+                [routerLink]="['/kegiatan', 'list', 'pamstra-list']"
+              [queryParams]="{ bidang: 'PAMSTRA' }">Pamstra</a>
+              <a class="nav-link" routerLinkActive="active"
+                [routerLink]="['/kegiatan', 'list']"
+              [queryParams]="{ bidang: 'TIPRODIN' }">TI & Produk</a>
+            </nav>
+          </div>
+          <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseOpsin" aria-expanded="false" aria-controls="collapseOpsin">
+            <div class="sb-nav-link-icon"><i class="bi bi-book"></i></div>
+            Operasi Intelijen
+            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+          </a>
+          <div class="collapse" id="collapseOpsin" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
+            <nav class="sb-sidenav-menu-nested nav">
+              <a class="nav-link" routerLinkActive="active"
+                [routerLink]="['/opsin', 'list']"
+              [queryParams]="{ bidang: 'IPOLHANKAM' }">Ipolhankam</a>
+              <a class="nav-link" routerLinkActive="active"
+                [routerLink]="['/opsin', 'list']"
+              [queryParams]="{ bidang: 'SOSBUDMAS' }">Sosbudmas</a>
+              <a class="nav-link" routerLinkActive="active"
+                [routerLink]="['/opsin', 'list']"
+              [queryParams]="{ bidang: 'EKOKEU' }">Ekokeu</a>
+              <a class="nav-link" routerLinkActive="active"
+                [routerLink]="['/opsin', 'list']"
+              [queryParams]="{ bidang: 'PAMSTRA' }">Pamstra</a>
+              <a class="nav-link" routerLinkActive="active"
+                [routerLink]="['/opsin', 'list']"
+              [queryParams]="{ bidang: 'TIPRODIN' }">TI & Produk</a>
+            </nav>
+          </div>
+          <!-- <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseSankom" aria-expanded="false" aria-controls="collapseSankom">
+          <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
+          Sankom
+          <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+        </a>
+        <div class="collapse" id="collapseSankom" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
+          <nav class="sb-sidenav-menu-nested nav">
+            <a class="nav-link"
+            href="/page-not-found">Berita Masuk</a>
+            <a class="nav-link"
+            href="/page-not-found">Berita Keluar</a>
+            <a class="nav-link"
+            href="/page-not-found">Ekspedisi Berita</a>
+          </nav>
+        </div> -->
+        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapsePPMPPH" aria-expanded="false" aria-controls="collapsePPMPPH">
+          <div class="sb-nav-link-icon"><i class="bi bi-book"></i></div>
+          PPM & PPH
+          <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+        </a>
+        <div class="collapse" id="collapsePPMPPH" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
+          <nav class="sb-sidenav-menu-nested nav">
+            <a class="nav-link" routerLinkActive="active"
+            [routerLink]="['/pphppm', 'list']">Register Tamu</a>
+          </nav>
         </div>
-        <div class="sb-sidenav-footer" >
-            <div class="small">Logged in as:</div>
-            {{ username | truncate:[20] }}        
+        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapsePenkumLuhkum" aria-expanded="false" aria-controls="collapsePPMPPH">
+          <div class="sb-nav-link-icon"><i class="bi bi-book"></i></div>
+          Penkum/Luhkum
+          <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+        </a>
+        <div class="collapse" id="collapsePenkumLuhkum" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
+          <nav class="sb-sidenav-menu-nested nav">
+            <a class="nav-link" routerLinkActive="active"
+              [routerLink]="['/penkumluhkum', 'penkum']"
+            [queryParams]="{ jenisKegiatan: 'PENERANGAN_HUKUM' }">Register Kegiatan</a>
+            <!-- <a class="nav-link"
+          href="/page-not-found">Informasi Publik</a> -->
+        </nav>
+      </div>
+      <div class="sb-sidenav-menu-heading">Data & Grafik</div>
+      <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapsePetaGrafik" aria-expanded="false" aria-controls="collapsePetaGrafik">
+        <div class="sb-nav-link-icon"><i class="bi bi-geo-alt-fill"></i></div>
+        Peta
+        <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+      </a>
+      <div class="collapse" id="collapsePetaGrafik" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
+        <nav class="sb-sidenav-menu-nested nav">
+          <a class="nav-link" routerLinkActive="active"
+            [routerLink]="['/data-peta', 'list']"
+          [queryParams]="{ bidang: 'IPOLHANKAM' }">Data Peta</a>
+          <a class="nav-link" routerLinkActive="active"
+            [routerLink]="['/peta-simbol', 'view']"
+          [queryParams]="{ bidang: 'IPOLHANKAM' }">Peta Ipolhankam</a>
+          <a class="nav-link" routerLinkActive="active"
+            [routerLink]="['/peta-simbol', 'view']"
+          [queryParams]="{ bidang: 'SOSBUDMAS' }">Peta Sosbudmas</a>
+          <a class="nav-link" routerLinkActive="active"
+            [routerLink]="['/peta-simbol', 'view']"
+          [queryParams]="{ bidang: 'EKOKEU' }">Peta Ekokeu</a>
+          <a class="nav-link" routerLinkActive="active"
+            [routerLink]="['/peta-simbol', 'view']"
+          [queryParams]="{ bidang: 'PAMSTRA' }">Peta Pamstra</a>
+          <a class="nav-link" routerLinkActive="active"
+            [routerLink]="['/peta-simbol', 'view']"
+          [queryParams]="{ bidang: 'TIPRODIN' }">Peta TI & Produk</a>
+        </nav>
+      </div>
+      <!-- <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapsePages" aria-expanded="false" aria-controls="collapsePages">
+      <div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
+      Pages
+      <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+    </a>
+    <div class="collapse" id="collapsePages" aria-labelledby="headingTwo" data-bs-parent="#sidenavAccordion">
+      <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionPages">
+        <a class="nav-link collapsed" href="/page-not-found" data-bs-toggle="collapse" data-bs-target="#pagesCollapseAuth" aria-expanded="false" aria-controls="pagesCollapseAuth">
+          Authentication
+          <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+        </a>
+        <div class="collapse" id="pagesCollapseAuth" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordionPages">
+          <nav class="sb-sidenav-menu-nested nav">
+            <a class="nav-link" href="/page-not-found">Login</a>
+            <a class="nav-link" href="/page-not-found">Register</a>
+            <a class="nav-link" href="/page-not-found">Forgot Password</a>
+          </nav>
         </div>
-    </nav>
+        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#pagesCollapseError" aria-expanded="false" aria-controls="pagesCollapseError">
+          Error
+          <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+        </a>
+        <div class="collapse" id="pagesCollapseError" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordionPages">
+          <nav class="sb-sidenav-menu-nested nav">
+            <a class="nav-link" href="/page-not-found">401 Page</a>
+            <a class="nav-link" href="/page-not-found">404 Page</a>
+            <a class="nav-link" href="/page-not-found">500 Page</a>
+          </nav>
+        </div>
+      </nav>
+    </div> -->
+    <!--DATA DAN GRAFIK-->
+    <!-- <div class="sb-sidenav-menu-heading">Data & Grafik</div>
+    <a class="nav-link" href="/page-not-found">
+      <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
+      Charts
+    </a>
+    <a class="nav-link" href="/page-not-found">
+      <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
+      Tables
+    </a> -->
+  </div>
+</div>
+<div class="sb-sidenav-footer" >
+  <div class="small">Logged in as:</div>
+  {{ username | truncate:[20] }}
+</div>
+</nav>
+}
 </div>

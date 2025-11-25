@@ -6,6 +6,7 @@ import { DataPetaService } from '../../data-peta/data-peta.service';
 import { BidangDirektoratSektorPetaService } from 'src/app/shared/bidang-direktorat/bidang-direktorat-sektor-peta.service';
 import { DataPeta } from '../../data-peta/data-peta.model';
 import { ToastService } from 'src/app/shared/toast.service';
+import { Message } from 'src/app/shared/message';
 
 // Definisikan custom icon Leaflet
 const ICON = {
@@ -31,6 +32,7 @@ export class PetaSimbolViewComponent implements OnInit, OnDestroy, AfterViewInit
   namaBidang: string = null as any;
   private dataPetaSub!: Subscription;
   error: string = null as any;
+  private message: Message = new Message();
 
   // Maps
   private map!: L.Map;  
@@ -47,7 +49,6 @@ export class PetaSimbolViewComponent implements OnInit, OnDestroy, AfterViewInit
   
   ngAfterViewInit(): void {
     this.initMap();
-    // Marker addition and fit-to-bounds happen after data is loaded (see loadDataPeta)
   }
 
   ngOnInit(): void {
@@ -86,7 +87,7 @@ export class PetaSimbolViewComponent implements OnInit, OnDestroy, AfterViewInit
         }
       },
       error: () => {
-          this.error = 'Terjadi kesalahan saat memuat data peta.';
+          this.error = this.message.errorGetData
           this.isLoading = false;
         }    
     });

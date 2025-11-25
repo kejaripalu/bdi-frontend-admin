@@ -1,139 +1,147 @@
-<div *ngIf="isLoading" class="mt-4" style="text-align: center;">
+@if (isLoading) {
+  <div class="mt-4" style="text-align: center;">
     <app-loading-spinner></app-loading-spinner>
-</div>
-<div class="alert alert-danger mt-4" *ngIf="error" role="alert">
-    {{ error }} 
+  </div>
+}
+@if (error) {
+  <div class="alert alert-danger mt-4" role="alert">
+    {{ error }}
     <br>
-    <a  [routerLink]="['/rki', 'list']"
-        [queryParams]="{bidang: namaBidang}" 
-        class="alert-link">Kembali</a>
-</div>
-<div class="mt-4" style="margin-bottom: 50px;"  *ngIf="!isLoading && !error">
-    <div class="row">
+      <a  [routerLink]="['/rki', 'list']"
+        [queryParams]="{bidang: namaBidang}"
+      class="alert-link">Kembali</a>
+    </div>
+  }
+  @if (!isLoading && !error) {
+    <div class="mt-4" style="margin-bottom: 50px;" >
+      <div class="row">
         <div class="col-sm-10 col-md-10 col-xl-10 offset-sm-1 offset-md-1 offset-xl-1">
-            <div class="row">
-                <div class="col-sm-12 col-md-12 col-xl-12" style="margin-bottom: 20px;">
-                    <div class="d-flex justify-content-between">
-                        <div class="p-2">
-                            <button type="button" class="btn btn-danger" style="margin-right: 15px;" (click)="onCancel()">
-                                <i class="bi bi-backspace-fill"></i> Kembali</button>
-                        </div>
-                        <div class="p-2">
-                            <button type="button" class="btn btn-warning"
-                            [routerLink]="['/rki', 'list', rki.ids, 'form']"
-                            [queryParams]="{edit: 1, namaBidang: namaBidang}"><i class="bi bi-pencil-square"></i> Ubah</button>
-                        </div>
+          <div class="row">
+            <div class="col-sm-12 col-md-12 col-xl-12" style="margin-bottom: 20px;">
+              <div class="d-flex justify-content-between">
+                <div class="p-2">
+                  <button type="button" class="btn btn-danger" style="margin-right: 15px;" (click)="onCancel()">
+                    <i class="bi bi-backspace-fill"></i> Kembali</button>
+                  </div>
+                  <div class="p-2">
+                    <button type="button" class="btn btn-warning"
+                      [routerLink]="['/rki', 'list', rki.ids, 'form']"
+                      [queryParams]="{edit: 1, namaBidang: namaBidang}"><i class="bi bi-pencil-square"></i> Ubah</button>
                     </div>
+                  </div>
                 </div>
                 <hr>
-                <div class="col-sm-12 col-md-12 col-xl-12">
+                  <div class="col-sm-12 col-md-12 col-xl-12">
                     <h4 class="text-primary">Rincian RKI</h4>
+                  </div>
                 </div>
-            </div>
-            <li class="list-group-item">
-                <div class="row">
+                <li class="list-group-item">
+                  <div class="row">
                     <div class="col-sm-4 col-md-4 col-xl-4">
-                        <p class="fw-bold">Sektor</p>
+                      <p class="fw-bold">Sektor</p>
                     </div>
                     <div class="col-sm-8 col-md-8 col-xl-8">
-                        : {{ namaSektor }}
+                      : {{ namaSektor }}
                     </div>
-                </div>
-            </li>
-            <ul class="list-group">
-                <li class="list-group-item">
-                    <div class="row">
-                        <div class="col-sm-4 col-md-4 col-xl-4">
-                            <p class="fw-bold">Waktu Diterima</p>
-                        </div>
-                        <div class="col-sm-8 col-md-8 col-xl-8">
-                            : {{ rki.tanggalWaktuDiterima | date:'dd-MM-yyyy'}} {{ rki.jamWaktuDiterima }}
-                        </div>
-                    </div>
+                  </div>
                 </li>
-                <li class="list-group-item">
+                <ul class="list-group">
+                  <li class="list-group-item">
                     <div class="row">
-                        <div class="col-sm-4 col-md-4 col-xl-4">
-                            <p class="fw-bold">Sumber/Bapul</p>
-                        </div>
-                        <div class="col-sm-8 col-md-8 col-xl-8">
-                            : {{ rki.sumberBapul }}
-                        </div>
+                      <div class="col-sm-4 col-md-4 col-xl-4">
+                        <p class="fw-bold">Waktu Diterima</p>
+                      </div>
+                      <div class="col-sm-8 col-md-8 col-xl-8">
+                        : {{ rki.tanggalWaktuDiterima | date:'dd-MM-yyyy'}} {{ rki.jamWaktuDiterima }}
+                      </div>
                     </div>
-                </li>
-                <li class="list-group-item">
+                  </li>
+                  <li class="list-group-item">
                     <div class="row">
-                        <div class="col-sm-4 col-md-4 col-xl-4">
-                            <p class="fw-bold">Nilai Data/Informasi</p>
-                        </div>
-                        <div class="col-sm-8 col-md-8 col-xl-8">
-                            : {{ rki.nilaiDataInformasi }}
-                        </div>
+                      <div class="col-sm-4 col-md-4 col-xl-4">
+                        <p class="fw-bold">Sumber/Bapul</p>
+                      </div>
+                      <div class="col-sm-8 col-md-8 col-xl-8">
+                        : {{ rki.sumberBapul }}
+                      </div>
                     </div>
-                </li>
-                <li class="list-group-item">
+                  </li>
+                  <li class="list-group-item">
                     <div class="row">
-                        <div class="col-sm-4 col-md-4 col-xl-4">
-                            <p class="fw-bold">Uraian Peristiwa/Masalah</p>
-                        </div>
-                        <div class="col-sm-8 col-md-8 col-xl-8">
-                            : {{ rki.uraianPeristiwaMasalah }}
-                        </div>
+                      <div class="col-sm-4 col-md-4 col-xl-4">
+                        <p class="fw-bold">Nilai Data/Informasi</p>
+                      </div>
+                      <div class="col-sm-8 col-md-8 col-xl-8">
+                        : {{ rki.nilaiDataInformasi }}
+                      </div>
                     </div>
-                </li>
-                <li class="list-group-item">
+                  </li>
+                  <li class="list-group-item">
                     <div class="row">
-                        <div class="col-sm-4 col-md-4 col-xl-4">
-                            <p class="fw-bold">Catatan</p>
-                        </div>
-                        <div class="col-sm-8 col-md-8 col-xl-8">
-                            : {{ rki.catatan }}
-                        </div>
+                      <div class="col-sm-4 col-md-4 col-xl-4">
+                        <p class="fw-bold">Uraian Peristiwa/Masalah</p>
+                      </div>
+                      <div class="col-sm-8 col-md-8 col-xl-8">
+                        : {{ rki.uraianPeristiwaMasalah }}
+                      </div>
                     </div>
-                </li>
-                <li class="list-group-item">
+                  </li>
+                  <li class="list-group-item">
                     <div class="row">
-                        <div class="col-sm-4 col-md-4 col-xl-4">
-                            <p class="fw-bold">Disposisi/Tindakan</p>
-                        </div>
-                        <div class="col-sm-8 col-md-8 col-xl-8">
-                            : {{ rki.disposisiTindakan }}
-                        </div>
+                      <div class="col-sm-4 col-md-4 col-xl-4">
+                        <p class="fw-bold">Catatan</p>
+                      </div>
+                      <div class="col-sm-8 col-md-8 col-xl-8">
+                        : {{ rki.catatan }}
+                      </div>
                     </div>
-                </li>
-                <li class="list-group-item">
+                  </li>
+                  <li class="list-group-item">
                     <div class="row">
-                        <div class="col-sm-4 col-md-4 col-xl-4">
-                            <p class="fw-bold">Tindak Lanjut</p>
-                        </div>
-                        <div class="col-sm-8 col-md-8 col-xl-8">
-                            : {{ rki.tindakLanjut }}
-                        </div>
+                      <div class="col-sm-4 col-md-4 col-xl-4">
+                        <p class="fw-bold">Disposisi/Tindakan</p>
+                      </div>
+                      <div class="col-sm-8 col-md-8 col-xl-8">
+                        : {{ rki.disposisiTindakan }}
+                      </div>
                     </div>
-                </li>
-                <li class="list-group-item">
+                  </li>
+                  <li class="list-group-item">
                     <div class="row">
-                        <div class="col-sm-4 col-md-4 col-xl-4">
-                            <p class="fw-bold">Keterangan</p>
-                        </div>
-                        <div class="col-sm-8 col-md-8 col-xl-8">
-                            : {{ rki.keterangan }}
-                        </div>
+                      <div class="col-sm-4 col-md-4 col-xl-4">
+                        <p class="fw-bold">Tindak Lanjut</p>
+                      </div>
+                      <div class="col-sm-8 col-md-8 col-xl-8">
+                        : {{ rki.tindakLanjut }}
+                      </div>
                     </div>
-                </li>
-                <li class="list-group-item">
+                  </li>
+                  <li class="list-group-item">
                     <div class="row">
-                        <div class="col-sm-4 col-md-4 col-xl-4">
-                            <p class="fw-bold">URL File</p>
-                        </div>
-                        <div class="col-sm-8 col-md-8 col-xl-8">
-                            : <a href="{{ rki.urlFile }}" 
-                                target="_blank"
-                                *ngIf="rki.urlFile">{{ rki.ids }}</a>
-                        </div>
+                      <div class="col-sm-4 col-md-4 col-xl-4">
+                        <p class="fw-bold">Keterangan</p>
+                      </div>
+                      <div class="col-sm-8 col-md-8 col-xl-8">
+                        : {{ rki.keterangan }}
+                      </div>
                     </div>
+                  </li>
+                  <li class="list-group-item">
+                    <div class="row">
+                      <div class="col-sm-4 col-md-4 col-xl-4">
+                        <p class="fw-bold">URL File</p>
+                      </div>
+                      <div class="col-sm-8 col-md-8 col-xl-8">
+                        : @if (rki.urlFile) {
+                        <a href="{{ rki.urlFile }}"
+                          target="_blank"
+                        >{{ rki.ids }}</a>
+                      }
+                    </div>
+                  </div>
                 </li>
-            </ul>
+              </ul>
+            </div>
+          </div>
         </div>
-    </div>
-</div>
+      }

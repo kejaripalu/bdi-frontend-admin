@@ -1,279 +1,323 @@
-<div *ngIf="isLoadingEditForm && isEditMode" class="mt-4" style="text-align: center;">
+@if (isLoadingEditForm && isEditMode) {
+  <div class="mt-4" style="text-align: center;">
     <app-loading-spinner></app-loading-spinner>
-</div>
-<div class="alert alert-danger mt-4" *ngIf="editModeError && isEditMode" role="alert">
-    {{ error }} 
+  </div>
+}
+@if (editModeError && isEditMode) {
+  <div class="alert alert-danger mt-4" role="alert">
+    {{ error }}
     <br>
-    <a 
+      <a
         [routerLink]="['/rki', 'list']"
-        [queryParams]="{bidang: namaBidang}" 
-        class="alert-link">Kembali</a>
-</div>
-<div class="mt-4" style="margin-bottom: 50px;" *ngIf="!isLoadingEditForm && !editModeError">
-    <div class="row">
-        <div class="col-sm-10 col-md-8 col-xl-8 offset-sm-2 col-md-2 offset-xl-2">
-            <strong class="text-success">Bidang RKI: {{ title }}</strong>
-            <hr>
-            <form [formGroup]="rkiForm" (ngSubmit)="onSubmit()">
-                <div class="row">
-                    <div class="col-sm-auto">
-                        <div class="form-group">
-                            <label for="sektor">Sektor:</label>
-                                <div class="input-group">
-                                    <div class="col-sm-auto mb-3">
-                                        <select (change)="sektorChange($any($event.target).value)" class="form-select">
-                                            <option
-                                                *ngFor="let s of sektorList" 
-                                                [value]="s.namaSektor" 
-                                                [selected]="s.namaSektor === namaSektorSelected">{{ s.deskripsiSektor }}</option>
-                                        </select>
-                                    </div>
-                                </div>                        
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-sm-auto">
-                        <div class="form-group">
-                            <label for="tanggalWaktuDiterima">Tanggal Diterima Informasi:</label>
-                                <div class="input-group">
-                                    <input
-                                        type="text"
-                                        name="tanggalWaktuDiterima"
-                                        class="form-control"
-                                        placeholder="yyyy-mm-dd"
-                                        formControlName="tanggalWaktuDiterima"
-                                        #dps="ngbDatepicker"
-                                        ngbDatepicker
-                                        (dateSelect)="onDateTanggalWaktuDiterimaSelect($event)">
-                                    <button class="btn btn-outline-secondary" type="button" (click)="dps.toggle()">
-                                        <i class="bi bi-calendar3"></i>
-                                    </button>
-                                </div>                        
-                        </div>
-                        <small 
-                            class="text-alert" 
-                            *ngIf="rkiForm.get('tanggalWaktuDiterima')?.errors?.['required'] && 
-                                   rkiForm.get('tanggalWaktuDiterima')?.touched">
-                                Wajib diisi!!!</small>
-                        <small 
-                            class="text-alert" 
-                            *ngIf="rkiForm.get('tanggalWaktuDiterima')?.errors?.['minlength'] && 
-                                    rkiForm.get('tanggalWaktuDiterima')?.touched">
-                                Minimal 10 karakter dengan format "yyyy-MM-dd" !!!</small>
-                    </div>
-                    <div class="col-sm-auto">
-                        <div class="form-group">
-                            <label for="jamWaktuDiterima">Jam Diterima Informasi:</label>
-                            <input 
-                                type="time"
-                                name="jamWaktuDiterima"
-                                class="form-control"
-                                formControlName="jamWaktuDiterima">
-                        </div>
-                        <small 
-                            class="text-alert" 
-                            *ngIf="rkiForm.get('jamWaktuDiterima')?.errors?.['required'] && 
-                                   rkiForm.get('jamWaktuDiterima')?.touched">
-                                Wajib diisi!!!</small>
-                        <small 
-                            class="text-alert" 
-                            *ngIf="rkiForm.get('jamPenerimaanSurat')?.errors?.['minlength'] && 
-                                    rkiForm.get('jamPenerimaanSurat')?.touched">
-                                Minimal 5 karakter dengan format "HH:mm" !!!</small>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-sm-12">
-                        <div class="form-group">
-                            <label for="sumberBapul">Sumber/Bapul:</label>
-                            <textarea
-                                rows="3"
-                                type="text" 
-                                name="asal" 
-                                class="form-control"
-                                formControlName="sumberBapul"
-                                placement="top" ngbTooltip="Diisi sumber data / informasi dan/atau badan pengumpul (orang yang memperoleh / mengumpulkan data / informasi)"></textarea>
-                        </div>
-                        <small 
-                            class="text-alert" 
-                            *ngIf="rkiForm.get('sumberBapul')?.errors?.['required'] && 
-                                    rkiForm.get('sumberBapul')?.touched">
-                                Wajib diisi!!!</small>
-                        <small 
-                            class="text-alert" 
-                            *ngIf="rkiForm.get('sumberBapul')?.errors?.['minlength'] && 
-                                   rkiForm.get('sumberBapul')?.touched">
-                                Minimal 5 karakter!!!</small>
-                        <small 
-                            class="text-alert" 
-                            *ngIf="rkiForm.get('sumberBapul')?.errors?.['maxlength'] && 
-                                    rkiForm.get('sumberBapul')?.touched">
-                                Tidak boleh lebih dari 255 karakter!!!</small>
-                    </div>                  
-                </div>              
-                <div class="form-group">
-                    <label for="nilaiDataInformasi">Nilai Data/Informasi:</label>
-                    <div class="row">
-                        <div class="col-sm-auto col-md-6 col-xl-6 col-xxl-4 mb-3">
-                            <select (change)="onNilaiSumberInformasiChange($any($event.target).value)" class="form-select">
-                                <option value="A" [selected]="nilaiSumberInformasi === 'A'">A : Seluruhnya Dipercaya</option>
-                                <option value="B" [selected]="nilaiSumberInformasi === 'B'">B : Dipercaya</option>
-                                <option value="C" [selected]="nilaiSumberInformasi === 'C'">C : Cukup Dipercaya</option>
-                                <option value="D" [selected]="nilaiSumberInformasi === 'D'">D : Kurang Dipercaya</option>
-                                <option value="E" [selected]="nilaiSumberInformasi === 'E'">E : Tidak Dipercaya</option>
-                                <option value="F" [selected]="nilaiSumberInformasi === 'F'">F : Tidak Dapat Dinilai</option>
-                            </select>
-                        </div>
-                        <div class="col-sm-auto col-md-6 col-xl-6 col-xxl-4">
-                            <select (change)="onNilaiIsiInformasiChange($any($event.target).value)" class="form-select">
-                                <option value="1" [selected]="nilaiIsiInformasi === '1'">1 : Dibenarkan Sumber Lain</option>
-                                <option value="2" [selected]="nilaiIsiInformasi === '2'">2 : Diduga Benar</option>
-                                <option value="3" [selected]="nilaiIsiInformasi === '3'">3 : Mungkin Benar</option>
-                                <option value="4" [selected]="nilaiIsiInformasi === '4'">4 : Diragukan Kebenarannya</option>
-                                <option value="5" [selected]="nilaiIsiInformasi === '5'">5 : Mustahil/Tidak Mungkin Benar</option>
-                                <option value="6" [selected]="nilaiIsiInformasi === '6'">6 : Tidak Dapat Dinilai Kebenarannya</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-                <small 
-                    class="text-alert" 
-                    *ngIf="rkiForm.get('nilaiDataInformasi')?.errors?.['required'] && 
-                            rkiForm.get('nilaiDataInformasi')?.touched">
-                        Wajib diisi!!!</small>
-                <small 
-                    class="text-alert" 
-                    *ngIf="rkiForm.get('nilaiDataInformasi')?.errors?.['minlength'] && 
-                            rkiForm.get('nilaiDataInformasi')?.touched">
-                        Minimal 5 karakter!!!</small>
-                <div class="form-group">
-                    <label for="uraianPeristiwaMasalah">Uraian Peristiwa/Masalah:</label>
-                    <textarea
-                        rows="3"
-                        name="uraianPeristiwaMasalah" 
-                        class="form-control"
-                        formControlName="uraianPeristiwaMasalah"
-                        placement="top" ngbTooltip='Diisi uraian peristiwa / masalah secara ringkas, mengandung unsur-unsur "Siabidibam" (Siapa, Apa, Bilamana, Dimana, Bagaimana dan Mengapa) atau 5W + IH.'></textarea>
-                </div>
-                <small 
-                    class="text-alert" 
-                    *ngIf="rkiForm.get('uraianPeristiwaMasalah')?.errors?.['required'] && 
-                            rkiForm.get('uraianPeristiwaMasalah')?.touched">
-                        Wajib diisi!!!</small>
-                <small 
-                    class="text-alert" 
-                    *ngIf="rkiForm.get('uraianPeristiwaMasalah')?.errors?.['minlength'] && 
-                            rkiForm.get('uraianPeristiwaMasalah')?.touched">
-                        Minimal 10 karakter!!!</small>
-                <div class="form-group">
-                    <label for="catatan">Catatan:</label>
-                    <textarea
-                        rows="3"
-                        name="catatan" 
-                        class="form-control"
-                        formControlName="catatan"
-                        placement="top" ngbTooltip='Diisi catatan hasil tindakan bilamana ada hal-hal lain yang sejenis dengan informasi yang diperoleh, atau informasi lain sehubungan dengan informasi tersebut. Contoh: "Telah dicek dari data ternyata benar ada hubungannya dengan nomor ........."'></textarea>
-                </div>
-                <small 
-                    class="text-alert" 
-                    *ngIf="rkiForm.get('catatan')?.errors?.['maxlength'] && 
-                            rkiForm.get('catatan')?.touched">
-                        Tidak boleh lebih dari 255 karakter!!!</small>
-                <div class="form-group">
-                    <label for="disposisiTindakan">Disposisi Tindakan:</label>
-                    <textarea
-                        rows="3"
-                        name="disposisiTindakan" 
-                        class="form-control"
-                        formControlName="disposisiTindakan"
-                        placement="top" ngbTooltip='Diisi disposisi Kasubdit / Asintel / Kasi Intel / Kepala Cabang Kejaksaan Negeri untuk menentukan bahwa informasi itu perlu / tidak dilaporkan kepada Direktur / Kajati/ Kajari tindak lanjutnya'></textarea>
-                </div>
-                <small 
-                    class="text-alert" 
-                    *ngIf="rkiForm.get('disposisiTindakan')?.errors?.['maxlength'] && 
-                            rkiForm.get('disposisiTindakan')?.touched">
-                        Tidak boleh lebih dari 255 karakter!!!</small>
-                <div class="form-group">
-                    <label for="tindakLanjut">Tindak Lanjut:</label>
-                    <div class="input-group">
-                        <div class="col-sm-auto col-md-12 col-xl-12 col-xxl-12 mb-3">
-                            <select (change)="tindakLanjutChange($any($event.target).value)" class="form-select">
-                                <option value="0">-- Pilih --</option>
-                                <option value="Jadikan produk intelijen"
-                                        [selected]="tindakLanjutSelected === 'Jadikan produk intelijen'">Jadikan produk intelijen</option>
-                                <option value="Kartukan" 
-                                        [selected]="tindakLanjutSelected === 'Kartukan'">Kartukan</option>
-                                <option value="Gunakan sebagai bahan koordinasi" 
-                                        [selected]="tindakLanjutSelected === 'Gunakan sebagai bahan koordinasi'">Gunakan sebagai bahan koordinasi</option>
-                                <option value="Buat Sprintug untuk menindaklanjuti informasi ini"
-                                        [selected]="tindakLanjutSelected === 'Buat Sprintug untuk menindaklanjuti informasi ini'">Buat Sprintug untuk menindaklanjuti informasi ini</option>
-                                <option value="Laksanakan Lid untuk melengkapi informasi ini"
-                                        [selected]="tindakLanjutSelected === 'Laksanakan Lid untuk melengkapi informasi ini'">Laksanakan Lid untuk menindaklanjuti informasi ini</option>
-                                <option value="lainnya"
-                                        [selected]="tindakLanjutSelected === 'lainnya'">Lainnya...</option>
-                            </select>
-                        </div>
-                    </div>  
-                    <textarea
-                        *ngIf="isSelectTindakLanjut"
-                        rows="3"
-                        name="tindakLanjut" 
-                        class="form-control"
-                        formControlName="tindakLanjut"
-                        placeholder="Isi tindak lanjut secara manual"></textarea> 
-                </div>
-                <small 
-                    class="text-alert" 
-                    *ngIf="rkiForm.get('tindakLanjut')?.errors?.['maxlength'] && 
-                            rkiForm.get('tindakLanjut')?.touched">
-                        Tidak boleh lebih dari 255 karakter!!!</small>
-                <div class="form-group">
-                    <label for="keterangan">Keterangan:</label>
-                    <textarea
-                        rows="3"
-                        name="keterangan" 
-                        class="form-control"
-                        formControlName="keterangan"
-                        placement="top" ngbTooltip='Diisi Keterangan tambahan jika ada'></textarea>
-                </div>
-                <small 
-                    class="text-alert" 
-                    *ngIf="rkiForm.get('keterangan')?.errors?.['maxlength'] && 
-                            rkiForm.get('keterangan')?.touched">
-                        Tidak boleh lebih dari 255 karakter!!!</small>
-                <div class="form-group">
-                    <label for="urlFile">Link File:</label>
-                    <textarea
-                        rows="3"
-                        name="urlFile" 
-                        class="form-control"
-                        formControlName="urlFile"
-                        ></textarea>
-                </div>
-                <app-danger-alert [message]="error" *ngIf="error"></app-danger-alert>
-                <div class="mt-4" *ngIf="isLoading">
-                    <app-loading-spinner></app-loading-spinner>
-                </div>
-                <div *ngIf="!isLoading">
-                    <div class="d-flex justify-content-between">
-                        <div class="p-2">
-                            <button
-                                class="btn btn-success"
-                                type="submit"
-                                [disabled]="!rkiForm.valid"
-                                style="margin-top: 20px;"><i class="bi bi-floppy"></i> Simpan</button>
-                        </div>
-                        <div class="p-2">
-                            <button
-                                class="btn btn-danger"
-                                type="button"
-                                (click)="onCancel()"
-                                style="margin-top: 20px;"><i class="bi bi-backspace-fill"></i> Batal</button>  
-                        </div>
-                    </div> 
-                </div>       
-            </form>
-        </div>
+        [queryParams]="{bidang: namaBidang}"
+      class="alert-link">Kembali</a>
     </div>
-</div>
+  }
+  @if (!isLoadingEditForm && !editModeError) {
+    <div class="mt-4" style="margin-bottom: 50px;">
+      <div class="row">
+        <div class="col-sm-10 col-md-8 col-xl-8 offset-sm-2 col-md-2 offset-xl-2">
+          <strong class="text-success">Bidang RKI: {{ title }}</strong>
+          <hr>
+            <form [formGroup]="rkiForm" (ngSubmit)="onSubmit()">
+              <div class="row">
+                <div class="col-sm-auto">
+                  <div class="form-group">
+                    <label for="sektor">Sektor:</label>
+                    <div class="input-group">
+                      <div class="col-sm-auto mb-3">
+                        <select (change)="sektorChange($any($event.target).value)" class="form-select">
+                          @for (s of sektorList; track s) {
+                            <option
+                              [value]="s.namaSektor"
+                            [selected]="s.namaSektor === namaSektorSelected">{{ s.deskripsiSektor }}</option>
+                          }
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-sm-auto">
+                  <div class="form-group">
+                    <label for="tanggalWaktuDiterima">Tanggal Diterima Informasi:</label>
+                    <div class="input-group">
+                      <input
+                        type="text"
+                        name="tanggalWaktuDiterima"
+                        class="form-control"
+                        placeholder="yyyy-mm-dd"
+                        formControlName="tanggalWaktuDiterima"
+                        #dps="ngbDatepicker"
+                        ngbDatepicker
+                        (dateSelect)="onDateTanggalWaktuDiterimaSelect($event)">
+                      <button class="btn btn-outline-secondary" type="button" (click)="dps.toggle()">
+                        <i class="bi bi-calendar3"></i>
+                      </button>
+                    </div>
+                  </div>
+                  @if (rkiForm.get('tanggalWaktuDiterima')?.errors?.['required'] &&
+                    rkiForm.get('tanggalWaktuDiterima')?.touched) {
+                    <small
+                      class="text-alert"
+                      >
+                    Wajib diisi!!!</small>
+                  }
+                  @if (rkiForm.get('tanggalWaktuDiterima')?.errors?.['minlength'] &&
+                    rkiForm.get('tanggalWaktuDiterima')?.touched) {
+                    <small
+                      class="text-alert"
+                      >
+                    Minimal 10 karakter dengan format "yyyy-MM-dd" !!!</small>
+                  }
+                </div>
+                <div class="col-sm-auto">
+                  <div class="form-group">
+                    <label for="jamWaktuDiterima">Jam Diterima Informasi:</label>
+                    <input
+                      type="time"
+                      name="jamWaktuDiterima"
+                      class="form-control"
+                      formControlName="jamWaktuDiterima">
+                  </div>
+                  @if (rkiForm.get('jamWaktuDiterima')?.errors?.['required'] &&
+                    rkiForm.get('jamWaktuDiterima')?.touched) {
+                    <small
+                      class="text-alert"
+                      >
+                    Wajib diisi!!!</small>
+                  }
+                  @if (rkiForm.get('jamPenerimaanSurat')?.errors?.['minlength'] &&
+                    rkiForm.get('jamPenerimaanSurat')?.touched) {
+                    <small
+                      class="text-alert"
+                      >
+                    Minimal 5 karakter dengan format "HH:mm" !!!</small>
+                  }
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-sm-12">
+                  <div class="form-group">
+                    <label for="sumberBapul">Sumber/Bapul:</label>
+                    <textarea
+                      rows="3"
+                      type="text"
+                      name="asal"
+                      class="form-control"
+                      formControlName="sumberBapul"
+                    placement="top" ngbTooltip="Diisi sumber data / informasi dan/atau badan pengumpul (orang yang memperoleh / mengumpulkan data / informasi)"></textarea>
+                  </div>
+                  @if (rkiForm.get('sumberBapul')?.errors?.['required'] &&
+                    rkiForm.get('sumberBapul')?.touched) {
+                    <small
+                      class="text-alert"
+                      >
+                    Wajib diisi!!!</small>
+                  }
+                  @if (rkiForm.get('sumberBapul')?.errors?.['minlength'] &&
+                    rkiForm.get('sumberBapul')?.touched) {
+                    <small
+                      class="text-alert"
+                      >
+                    Minimal 5 karakter!!!</small>
+                  }
+                  @if (rkiForm.get('sumberBapul')?.errors?.['maxlength'] &&
+                    rkiForm.get('sumberBapul')?.touched) {
+                    <small
+                      class="text-alert"
+                      >
+                    Tidak boleh lebih dari 255 karakter!!!</small>
+                  }
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="nilaiDataInformasi">Nilai Data/Informasi:</label>
+                <div class="row">
+                  <div class="col-sm-auto col-md-6 col-xl-6 col-xxl-4 mb-3">
+                    <select (change)="onNilaiSumberInformasiChange($any($event.target).value)" class="form-select">
+                      <option value="A" [selected]="nilaiSumberInformasi === 'A'">A : Seluruhnya Dipercaya</option>
+                      <option value="B" [selected]="nilaiSumberInformasi === 'B'">B : Dipercaya</option>
+                      <option value="C" [selected]="nilaiSumberInformasi === 'C'">C : Cukup Dipercaya</option>
+                      <option value="D" [selected]="nilaiSumberInformasi === 'D'">D : Kurang Dipercaya</option>
+                      <option value="E" [selected]="nilaiSumberInformasi === 'E'">E : Tidak Dipercaya</option>
+                      <option value="F" [selected]="nilaiSumberInformasi === 'F'">F : Tidak Dapat Dinilai</option>
+                    </select>
+                  </div>
+                  <div class="col-sm-auto col-md-6 col-xl-6 col-xxl-4">
+                    <select (change)="onNilaiIsiInformasiChange($any($event.target).value)" class="form-select">
+                      <option value="1" [selected]="nilaiIsiInformasi === '1'">1 : Dibenarkan Sumber Lain</option>
+                      <option value="2" [selected]="nilaiIsiInformasi === '2'">2 : Diduga Benar</option>
+                      <option value="3" [selected]="nilaiIsiInformasi === '3'">3 : Mungkin Benar</option>
+                      <option value="4" [selected]="nilaiIsiInformasi === '4'">4 : Diragukan Kebenarannya</option>
+                      <option value="5" [selected]="nilaiIsiInformasi === '5'">5 : Mustahil/Tidak Mungkin Benar</option>
+                      <option value="6" [selected]="nilaiIsiInformasi === '6'">6 : Tidak Dapat Dinilai Kebenarannya</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+              @if (rkiForm.get('nilaiDataInformasi')?.errors?.['required'] &&
+                rkiForm.get('nilaiDataInformasi')?.touched) {
+                <small
+                  class="text-alert"
+                  >
+                Wajib diisi!!!</small>
+              }
+              @if (rkiForm.get('nilaiDataInformasi')?.errors?.['minlength'] &&
+                rkiForm.get('nilaiDataInformasi')?.touched) {
+                <small
+                  class="text-alert"
+                  >
+                Minimal 5 karakter!!!</small>
+              }
+              <div class="form-group">
+                <label for="uraianPeristiwaMasalah">Uraian Peristiwa/Masalah:</label>
+                <textarea
+                  rows="3"
+                  name="uraianPeristiwaMasalah"
+                  class="form-control"
+                  formControlName="uraianPeristiwaMasalah"
+                placement="top" ngbTooltip='Diisi uraian peristiwa / masalah secara ringkas, mengandung unsur-unsur "Siabidibam" (Siapa, Apa, Bilamana, Dimana, Bagaimana dan Mengapa) atau 5W + IH.'></textarea>
+              </div>
+              @if (rkiForm.get('uraianPeristiwaMasalah')?.errors?.['required'] &&
+                rkiForm.get('uraianPeristiwaMasalah')?.touched) {
+                <small
+                  class="text-alert"
+                  >
+                Wajib diisi!!!</small>
+              }
+              @if (rkiForm.get('uraianPeristiwaMasalah')?.errors?.['minlength'] &&
+                rkiForm.get('uraianPeristiwaMasalah')?.touched) {
+                <small
+                  class="text-alert"
+                  >
+                Minimal 10 karakter!!!</small>
+              }
+              <div class="form-group">
+                <label for="catatan">Catatan:</label>
+                <textarea
+                  rows="3"
+                  name="catatan"
+                  class="form-control"
+                  formControlName="catatan"
+                placement="top" ngbTooltip='Diisi catatan hasil tindakan bilamana ada hal-hal lain yang sejenis dengan informasi yang diperoleh, atau informasi lain sehubungan dengan informasi tersebut. Contoh: "Telah dicek dari data ternyata benar ada hubungannya dengan nomor ........."'></textarea>
+              </div>
+              @if (rkiForm.get('catatan')?.errors?.['maxlength'] &&
+                rkiForm.get('catatan')?.touched) {
+                <small
+                  class="text-alert"
+                  >
+                Tidak boleh lebih dari 255 karakter!!!</small>
+              }
+              <div class="form-group">
+                <label for="disposisiTindakan">Disposisi Tindakan:</label>
+                <textarea
+                  rows="3"
+                  name="disposisiTindakan"
+                  class="form-control"
+                  formControlName="disposisiTindakan"
+                placement="top" ngbTooltip='Diisi disposisi Kasubdit / Asintel / Kasi Intel / Kepala Cabang Kejaksaan Negeri untuk menentukan bahwa informasi itu perlu / tidak dilaporkan kepada Direktur / Kajati/ Kajari tindak lanjutnya'></textarea>
+              </div>
+              @if (rkiForm.get('disposisiTindakan')?.errors?.['maxlength'] &&
+                rkiForm.get('disposisiTindakan')?.touched) {
+                <small
+                  class="text-alert"
+                  >
+                Tidak boleh lebih dari 255 karakter!!!</small>
+              }
+              <div class="form-group">
+                <label for="tindakLanjut">Tindak Lanjut:</label>
+                <div class="input-group">
+                  <div class="col-sm-auto col-md-12 col-xl-12 col-xxl-12 mb-3">
+                    <select (change)="tindakLanjutChange($any($event.target).value)" class="form-select">
+                      <option value="0">-- Pilih --</option>
+                      <option value="Jadikan produk intelijen"
+                      [selected]="tindakLanjutSelected === 'Jadikan produk intelijen'">Jadikan produk intelijen</option>
+                      <option value="Kartukan"
+                      [selected]="tindakLanjutSelected === 'Kartukan'">Kartukan</option>
+                      <option value="Gunakan sebagai bahan koordinasi"
+                      [selected]="tindakLanjutSelected === 'Gunakan sebagai bahan koordinasi'">Gunakan sebagai bahan koordinasi</option>
+                      <option value="Buat Sprintug untuk menindaklanjuti informasi ini"
+                      [selected]="tindakLanjutSelected === 'Buat Sprintug untuk menindaklanjuti informasi ini'">Buat Sprintug untuk menindaklanjuti informasi ini</option>
+                      <option value="Laksanakan Lid untuk melengkapi informasi ini"
+                      [selected]="tindakLanjutSelected === 'Laksanakan Lid untuk melengkapi informasi ini'">Laksanakan Lid untuk menindaklanjuti informasi ini</option>
+                      <option value="lainnya"
+                      [selected]="tindakLanjutSelected === 'lainnya'">Lainnya...</option>
+                    </select>
+                  </div>
+                </div>
+                @if (isSelectTindakLanjut) {
+                  <textarea
+                    rows="3"
+                    name="tindakLanjut"
+                    class="form-control"
+                    formControlName="tindakLanjut"
+                  placeholder="Isi tindak lanjut secara manual"></textarea>
+                }
+              </div>
+              @if (rkiForm.get('tindakLanjut')?.errors?.['maxlength'] &&
+                rkiForm.get('tindakLanjut')?.touched) {
+                <small
+                  class="text-alert"
+                  >
+                Tidak boleh lebih dari 255 karakter!!!</small>
+              }
+              <div class="form-group">
+                <label for="keterangan">Keterangan:</label>
+                <textarea
+                  rows="3"
+                  name="keterangan"
+                  class="form-control"
+                  formControlName="keterangan"
+                placement="top" ngbTooltip='Diisi Keterangan tambahan jika ada'></textarea>
+              </div>
+              @if (rkiForm.get('keterangan')?.errors?.['maxlength'] &&
+                rkiForm.get('keterangan')?.touched) {
+                <small
+                  class="text-alert"
+                  >
+                Tidak boleh lebih dari 255 karakter!!!</small>
+              }
+              <div class="form-group">
+                <label for="urlFile">Link File:</label>
+                <textarea
+                  rows="3"
+                  name="urlFile"
+                  class="form-control"
+                  formControlName="urlFile"
+                ></textarea>
+              </div>
+              @if (error) {
+                <app-danger-alert [message]="error"></app-danger-alert>
+              }
+              @if (isLoading) {
+                <div class="mt-4">
+                  <app-loading-spinner></app-loading-spinner>
+                </div>
+              }
+              @if (!isLoading) {
+                <div>
+                  <div class="d-flex justify-content-between">
+                    <div class="p-2">
+                      <button
+                        class="btn btn-success"
+                        type="submit"
+                        [disabled]="!rkiForm.valid"
+                        style="margin-top: 20px;"><i class="bi bi-floppy"></i> Simpan</button>
+                      </div>
+                      <div class="p-2">
+                        <button
+                          class="btn btn-danger"
+                          type="button"
+                          (click)="onCancel()"
+                          style="margin-top: 20px;"><i class="bi bi-backspace-fill"></i> Batal</button>
+                        </div>
+                      </div>
+                    </div>
+                  }
+                </form>
+              </div>
+            </div>
+          </div>
+        }

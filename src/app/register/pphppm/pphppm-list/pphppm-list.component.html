@@ -1,57 +1,69 @@
-<div class="mt-4" *ngIf="isLoading" style="text-align: center;">
+@if (isLoading) {
+  <div class="mt-4" style="text-align: center;">
     <app-loading-spinner></app-loading-spinner>
-</div>
-<app-danger-alert *ngIf="error" [message]="error"></app-danger-alert>
-<div class="mt-4" *ngIf="!isLoading && !error">
+  </div>
+}
+@if (error) {
+  <app-danger-alert [message]="error"></app-danger-alert>
+}
+@if (!isLoading && !error) {
+  <div class="mt-4">
     <div class="d-flex bd-highlight">
-        <div class="p-2 w-100 bd-highlight">
-            <button type="button" class="btn btn-success" (click)="onNewPPHPPM()">
-                <i class="bi bi-window-plus"></i> Tambah Data</button>
+      <div class="p-2 w-100 bd-highlight">
+        <button type="button" class="btn btn-success" (click)="onNewPPHPPM()">
+          <i class="bi bi-window-plus"></i> Tambah Data</button>
         </div>
         <div class="p-2 w-100 bd-highlight">
-            <div class="row">
-                <div class="col-md-6 col-sm-6 mb-1">
-                    <select
-                        *ngIf="!isSearching"
-                        (change)="updateMonthSelected($any($event.target).value)" 
-                        class="form-select" 
-                        aria-label=".form-select-sm example">
-                            <option 
-                                *ngFor="let m of month; index as i;" 
-                                [value]="i + 1" [selected]="(i + 1) === (currentMonth)">{{ m }}</option>
-                    </select>
-                    <div *ngIf="isSearching" class="input-group">
-                        <input #searchData
-                            type="text"
-                            name="searchData"
-                            class="form-control"
-                            placeholder="Cari di sini..."
-                            (keyup.enter)="searchingPPHPPM(searchData.value)">
-                            <button class="btn btn-primary" type="button" (click)="searchingPPHPPM(searchData.value)"><i class="bi bi-search"></i></button>
-                    </div>
+          <div class="row">
+            <div class="col-md-6 col-sm-6 mb-1">
+              @if (!isSearching) {
+                <select
+                  (change)="updateMonthSelected($any($event.target).value)"
+                  class="form-select"
+                  aria-label=".form-select-sm example">
+                  @for (m of month; track m; let i = $index) {
+                    <option
+                    [value]="i + 1" [selected]="(i + 1) === (currentMonth)">{{ m }}</option>
+                  }
+                </select>
+              }
+              @if (isSearching) {
+                <div class="input-group">
+                  <input #searchData
+                    type="text"
+                    name="searchData"
+                    class="form-control"
+                    placeholder="Cari di sini..."
+                    (keyup.enter)="searchingPPHPPM(searchData.value)">
+                    <button class="btn btn-primary" type="button" (click)="searchingPPHPPM(searchData.value)"><i class="bi bi-search"></i></button>
+                  </div>
+                }
+              </div>
+              <div class="col-md-4 col-sm-4 mb-1">
+                <select (change)="updateYearSelected($any($event.target).value)" class="form-select" aria-label=".form-select-sm example">
+                  @for (y of year | reverse; track y; let i = $index) {
+                    <option
+                    [value]="y" [selected]="currentYear === y">{{ y }}</option>
+                  }
+                </select>
+              </div>
+              <div class="col-md-2 col-sm-2">
+                @if (!isSearching) {
+                  <button type="button" class="btn btn-danger" placement="left" ngbTooltip="Masuk ke mode pencarian"
+                    (click)="onSearchingMode()"><i class="bi bi-search"></i></button>
+                  }
+                  @if (isSearching) {
+                    <button type="button" class="btn btn-success" placement="left" ngbTooltip="Kembali ke tampilan data berdasarkan bulan"
+                      (click)="onDateTimeShowData()"><i class="bi bi-calendar2-week"></i></button>
+                    }
+                  </div>
                 </div>
-                <div class="col-md-4 col-sm-4 mb-1">
-                    <select (change)="updateYearSelected($any($event.target).value)" class="form-select" aria-label=".form-select-sm example">
-                        <option 
-                            *ngFor="let y of year | reverse; index as i;" 
-                            [value]="y" [selected]="currentYear === y">{{ y }}</option>
-                    </select>
-                </div>
-                <div class="col-md-2 col-sm-2">
-                    <button type="button" class="btn btn-danger" placement="left" ngbTooltip="Masuk ke mode pencarian" 
-                            *ngIf="!isSearching"
-                            (click)="onSearchingMode()"><i class="bi bi-search"></i></button>
-                    <button type="button" class="btn btn-success" placement="left" ngbTooltip="Kembali ke tampilan data berdasarkan bulan" 
-                            *ngIf="isSearching"
-                            (click)="onDateTimeShowData()"><i class="bi bi-calendar2-week"></i></button>
-                </div>
-            </div>            
-        </div>
-    </div>
-    <div class="table-responsive">
-        <table class="table table-striped table-sm mt-4 table-bordered">
-            <thead>
-                <tr>
+              </div>
+            </div>
+            <div class="table-responsive">
+              <table class="table table-striped table-sm mt-4 table-bordered">
+                <thead>
+                  <tr>
                     <th scope="col">#</th>
                     <th scope="col">Nama Petugas</th>
                     <th scope="col">Waktu</th>
@@ -60,66 +72,71 @@
                     <th scope="col">Nama Organisasi</th>
                     <th scope="col">Informasi yang disampaikan</th>
                     <th scope="col">Action</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr *ngFor="let p of pphppm; let i = index">
-                    <td class="align-top">{{ i + 1 }}</td>
-                    <td class="align-top">{{ p.namaPetugasPenerima }}</td>
-                    <td class="align-top">{{ p.tanggal | date: 'dd-MM-yyyy'}} <br>{{ p.jam }}</td>
-                    <td class="align-top">{{ p.jenisPelayanan == 'PPM' ? 'Pengaduan Masyarakat' : 'Pelayanan Hukum' }}</td>
-                    <td class="align-top">
-                        {{ p.namaTamu }}, 
-                        {{ (p.tempatLahirTamu !== null) ? (p.tempatLahirTamu + ", ") : "" }} 
+                  </tr>
+                </thead>
+                <tbody>
+                  @for (p of pphppm; track p; let i = $index) {
+                    <tr>
+                      <td class="align-top">{{ i + 1 }}</td>
+                      <td class="align-top">{{ p.namaPetugasPenerima }}</td>
+                      <td class="align-top">{{ p.tanggal | date: 'dd-MM-yyyy'}} <br>{{ p.jam }}</td>
+                      <td class="align-top">{{ p.jenisPelayanan == 'PPM' ? 'Pengaduan Masyarakat' : 'Pelayanan Hukum' }}</td>
+                      <td class="align-top">
+                        {{ p.namaTamu }},
+                        {{ (p.tempatLahirTamu !== null) ? (p.tempatLahirTamu + ", ") : "" }}
                         {{ (p.tanggalLahirTamu !== null) ? (p.tanggalLahirTamu + ", " | date: 'dd-MM-yyyy') : "" }}
                         {{ (p.alamat !== null) ? (p.alamat + ", ") : "" }}
-                        {{ (p.jenisKelamin != null) ? (((p.jenisKelamin === 'TIDAK_DITENTUKAN') ? 'jenis kelamin tidak disebutkan' : p.jenisKelamin) + ", " | lowercase) : "" }} 
+                        {{ (p.jenisKelamin != null) ? (((p.jenisKelamin === 'TIDAK_DITENTUKAN') ? 'jenis kelamin tidak disebutkan' : p.jenisKelamin) + ", " | lowercase) : "" }}
                         {{ (p.nomorHandphone != null) ? (p.nomorHandphone + ", ") : "" }}
                         {{ (p.email != null) ? (p.email + ", ") : "" }}
-                        {{ (p.pekerjaan != null) ? (p.pekerjaan + ", ") : "" }} 
+                        {{ (p.pekerjaan != null) ? (p.pekerjaan + ", ") : "" }}
                         {{ (p.nomorIdentitas != null) ? (p.nomorIdentitas) : "" }}
-                    </td>
-                    <td class="align-top">{{ p.namaOrganisasi }}</td>
-                    <td class="align-top">{{ p.informasiYangDisampaikan | shorten: 255 }}</td>
-                    <td class="align-top">
+                      </td>
+                      <td class="align-top">{{ p.namaOrganisasi }}</td>
+                      <td class="align-top">{{ p.informasiYangDisampaikan | shorten: 255 }}</td>
+                      <td class="align-top">
                         <a class="dropdown-item text-primary"
-                                        [routerLink]="['/pphppm', 'list', p.ids, 'detail']"><i class="bi bi-list-check"></i> Detail</a>                   
-                        <a class="dropdown-item text-success"
-                                        [routerLink]="['/pphppm', 'list', p.ids, 'form']">
-                                        <i class="bi bi-pencil-square"></i> Ubah</a>
-                        <a class="dropdown-item text-danger" (click)="openModalDelete(p.ids)" style="cursor: pointer;"><i
-                                        class="bi bi-trash3-fill"></i> Hapus</a>
-                    </td>
-                </tr>
-                <router-outlet></router-outlet>
-            </tbody>
-        </table>    
-    </div>
-
-    <div class="d-flex bd-highlight" style="margin-bottom: 10px;" *ngIf="pphppm.length !== 0">
-        <div class="p-2 w-100 bd-highlight">
-            <ngb-pagination 
-                [(page)]="pageNumber" 
-                [pageSize]="pageSize" 
-                [collectionSize]="totalElements" 
-                [maxSize]="5"
-                [boundaryLinks]="true" (pageChange)="loadData()"></ngb-pagination>
-        </div>
-        <div class="p-2 flex-shrink-1 bd-highlight">
-            Tampilkan:
-        </div>
-        <div class="p-2 bd-highlight">
-            <select (change)="updatePageSize($any($event.target).value)">
-                <option value="5" [selected]="pageSize === 5">5</option>
-                <option value="10" [selected]="pageSize === 10">10</option>
-                <option value="20" [selected]="pageSize === 20">20</option>
-                <option value="50" [selected]="pageSize === 50">50</option>
-            </select>
-        </div>
-    </div>
-
-    <div *ngIf="pphppm.length === 0">
-        <app-no-data-alert></app-no-data-alert>
-    </div>
-</div>
-<app-toast aria-live="polite" aria-atomic="true"></app-toast>
+                          [routerLink]="['/pphppm', 'list', p.ids, 'detail']"><i class="bi bi-list-check"></i> Detail</a>
+                          <a class="dropdown-item text-success"
+                            [routerLink]="['/pphppm', 'list', p.ids, 'form']">
+                            <i class="bi bi-pencil-square"></i> Ubah</a>
+                            <a class="dropdown-item text-danger" (click)="openModalDelete(p.ids)" style="cursor: pointer;"><i
+                            class="bi bi-trash3-fill"></i> Hapus</a>
+                          </td>
+                        </tr>
+                      }
+                      <router-outlet></router-outlet>
+                    </tbody>
+                  </table>
+                </div>
+                @if (pphppm.length !== 0) {
+                  <div class="d-flex bd-highlight" style="margin-bottom: 10px;">
+                    <div class="p-2 w-100 bd-highlight">
+                      <ngb-pagination
+                        [(page)]="pageNumber"
+                        [pageSize]="pageSize"
+                        [collectionSize]="totalElements"
+                        [maxSize]="5"
+                      [boundaryLinks]="true" (pageChange)="loadData()"></ngb-pagination>
+                    </div>
+                    <div class="p-2 flex-shrink-1 bd-highlight">
+                      Tampilkan:
+                    </div>
+                    <div class="p-2 bd-highlight">
+                      <select (change)="updatePageSize($any($event.target).value)">
+                        <option value="5" [selected]="pageSize === 5">5</option>
+                        <option value="10" [selected]="pageSize === 10">10</option>
+                        <option value="20" [selected]="pageSize === 20">20</option>
+                        <option value="50" [selected]="pageSize === 50">50</option>
+                      </select>
+                    </div>
+                  </div>
+                }
+                @if (pphppm.length === 0) {
+                  <div>
+                    <app-no-data-alert></app-no-data-alert>
+                  </div>
+                }
+              </div>
+            }
+            <app-toast aria-live="polite" aria-atomic="true"></app-toast>

@@ -1,35 +1,36 @@
 <main>
-    <div class="container-fluid px-4">
-        <div class="d-flex bd-highlight">
-            <div class="p-2 w-100 bd-highlight">
-                <h2 class="mt-4">
-                    <i class="bi bi-geo-fill"></i> Data Peta</h2>
-            </div>
-            <div class="p-2 flex-shrink-1 bd-highlight">
-                <h4 class="mt-4 text-success" 
-                    placement="start" 
-                    ngbTooltip="Data Peta"
-                    (click)="onOpenHelp()"
-                    style="cursor: pointer;">D.IN.1</h4>
-            </div>
+  <div class="container-fluid px-4">
+    <div class="d-flex bd-highlight">
+      <div class="p-2 w-100 bd-highlight">
+        <h2 class="mt-4">
+          <i class="bi bi-geo-fill"></i> Data Peta</h2>
         </div>
-        <hr>
+        <div class="p-2 flex-shrink-1 bd-highlight">
+          <h4 class="mt-4 text-success"
+            placement="start"
+            ngbTooltip="Data Peta"
+            (click)="onOpenHelp()"
+          style="cursor: pointer;">D.IN.1</h4>
+        </div>
+      </div>
+      <hr>
         <div class="row">
-            <div class="col-md-2">
-                <label for="bidangDirektorat" class="col-sm-12 col-form-label">Bidang / Direktorat : </label>
-            </div>
-            <div class="col-md-8 col-xl-6 col-xxl-4">
-                <select (change)="onBidangChange($any($event.target).value)"
-                        class="form-select">
-                    <option 
-                        *ngFor="let b of bidang"
-                        [value]="b.namaBidang"
-                        [selected]="b.namaBidang === namaBidang">{{ b.deskripsiBidang }}</option>
-                </select>
+          <div class="col-md-2">
+            <label for="bidangDirektorat" class="col-sm-12 col-form-label">Bidang / Direktorat : </label>
+          </div>
+          <div class="col-md-8 col-xl-6 col-xxl-4">
+            <select (change)="onBidangChange($any($event.target).value)"
+              class="form-select">
+              @for (b of bidang; track b) {
+                <option
+                  [value]="b.namaBidang"
+                [selected]="b.namaBidang === namaBidang">{{ b.deskripsiBidang }}</option>
+              }
+            </select>
 
-            </div>
+          </div>
         </div>
         <hr>
-        <router-outlet></router-outlet>
-    </div>
-</main>
+          <router-outlet></router-outlet>
+        </div>
+      </main>

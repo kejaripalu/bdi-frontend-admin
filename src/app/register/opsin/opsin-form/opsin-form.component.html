@@ -1,191 +1,226 @@
-<div *ngIf="isLoadingEditForm && isEditMode" class="mt-4" style="text-align: center;">
+@if (isLoadingEditForm && isEditMode) {
+  <div class="mt-4" style="text-align: center;">
     <app-loading-spinner></app-loading-spinner>
-</div>
-<div class="alert alert-danger mt-4" *ngIf="editModeError && isEditMode" role="alert">
-    {{ error }} 
+  </div>
+}
+@if (editModeError && isEditMode) {
+  <div class="alert alert-danger mt-4" role="alert">
+    {{ error }}
     <br>
-    <a 
+      <a
         [routerLink]="['/opsin', 'list']"
-        [queryParams]="{bidang: namaBidang}" 
-        class="alert-link">Kembali</a>
-</div>
-<div class="mt-4" style="margin-bottom: 50px;" *ngIf="!isLoadingEditForm && !editModeError">
-    <div class="row">
-        <div class="col-sm-10 col-md-8 col-xl-8 offset-sm-2 col-md-2 offset-xl-2">
-           <form [formGroup]="opsinForm" (ngSubmit)="onSubmit()">
-                <div class="row">
-                    <div class="col-sm-auto">
-                        <div class="form-group">
-                            <label for="sektor">Sektor:</label>
-                                <div class="input-group">
-                                    <div class="col-sm-auto mb-3">
-                                        <select (change)="sektorChange($any($event.target).value)" class="form-select">
-                                            <option
-                                                *ngFor="let s of sektorList" 
-                                                [value]="s.namaSektor" 
-                                                [selected]="s.namaSektor === namaSektorSelected">{{ s.deskripsiSektor }}</option>
-                                        </select>
-                                    </div>
-                                </div>                        
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-sm-12">
-                        <div class="form-group">
-                            <label for="nomor">Nomor SPRINT:</label>
-                            <input 
-                                type="text"
-                                name="nomor"
-                                class="form-control"
-                                formControlName="nomor">
-                        </div>
-                        <small 
-                            class="text-alert" 
-                            *ngIf="opsinForm.get('nomor')?.errors?.['required'] && 
-                                   opsinForm.get('nomor')?.touched">
-                                Wajib diisi!!!</small>
-                        <small 
-                            class="text-alert" 
-                            *ngIf="opsinForm.get('nomor')?.errors?.['minlength'] && 
-                                   opsinForm.get('nomor')?.touched">
-                                Minimal 5 karakter!!!</small>
-                        <small 
-                            class="text-alert" 
-                            *ngIf="opsinForm.get('nomor')?.errors?.['maxlength'] && 
-                                    opsinForm.get('nomor')?.touched">
-                                Tidak boleh lebih dari 255 karakter!!!</small>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-sm-auto">
-                        <div class="form-group">
-                            <label for="tanggal">Tanggal SPRINT:</label>
-                                <div class="input-group">
-                                    <input
-                                        type="text"
-                                        name="tanggal"
-                                        class="form-control"
-                                        placeholder="yyyy-mm-dd"
-                                        formControlName="tanggal"
-                                        #dps="ngbDatepicker"
-                                        ngbDatepicker
-                                        (dateSelect)="onDateTanggalSelect($event)">
-                                    <button class="btn btn-outline-secondary" type="button" (click)="dps.toggle()">
-                                        <i class="bi bi-calendar3"></i>
-                                    </button>
-                                </div>                        
-                        </div>
-                        <small 
-                            class="text-alert" 
-                            *ngIf="opsinForm.get('tanggal')?.errors?.['required'] && 
-                                   opsinForm.get('tanggal')?.touched">
-                                Wajib diisi!!!</small>
-                        <small 
-                            class="text-alert" 
-                            *ngIf="opsinForm.get('tanggal')?.errors?.['minlength'] && 
-                                   opsinForm.get('tanggal')?.touched">
-                                Minimal 10 karakter dengan format "yyyy-MM-dd" !!!</small>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-sm-12">
-                        <div class="form-group">
-                            <label for="perihal">Perihal/Peruntukan:</label>
-                            <textarea
-                                rows="3"
-                                type="text" 
-                                name="perihal" 
-                                class="form-control"
-                                formControlName="perihal"></textarea>
-                        </div>
-                        <small 
-                            class="text-alert" 
-                            *ngIf="opsinForm.get('perihal')?.errors?.['required'] && 
-                                   opsinForm.get('perihal')?.touched">
-                                Wajib diisi!!!</small>
-                        <small 
-                            class="text-alert" 
-                            *ngIf="opsinForm.get('perihal')?.errors?.['minlength'] && 
-                                    opsinForm.get('perihal')?.touched">
-                                Minimal 10 karakter!!!</small>
-                        <small 
-                            class="text-alert" 
-                            *ngIf="opsinForm.get('perihal')?.errors?.['maxlength'] && 
-                                   opsinForm.get('perihal')?.touched">
-                                Tidak boleh lebih dari 255 karakter!!!</small>
-                    </div>                  
-                </div>              
-                <div class="form-group">
-                    <label for="namaPetugasPelaksana">Nama Petugas Pelaksana:</label>
-                    <textarea
-                        rows="3"
-                        name="namaPetugasPelaksana" 
-                        class="form-control"
-                        formControlName="namaPetugasPelaksana"></textarea>
-                </div>
-                <small 
-                    class="text-alert" 
-                    *ngIf="opsinForm.get('namaPetugasPelaksana')?.errors?.['required'] && 
-                           opsinForm.get('namaPetugasPelaksana')?.touched">
-                        Wajib diisi!!!</small>
-                <small 
-                    class="text-alert" 
-                    *ngIf="opsinForm.get('namaPetugasPelaksana')?.errors?.['minlength'] && 
-                           opsinForm.get('namaPetugasPelaksana')?.touched">
-                        Minimal 3 karakter!!!</small>
-                <div class="form-group">
-                    <label for="hasilPelaksanaanOperasi">Hasil Pelaksanaan Operasi:</label>
-                    <textarea
-                        rows="3"
-                        name="hasilPelaksanaanOperasi" 
-                        class="form-control"
-                        formControlName="hasilPelaksanaanOperasi"></textarea>
-                </div>
-                <div class="form-group">
-                    <label for="keterangan">Keterangan:</label>
-                    <textarea
-                        rows="3"
-                        name="keterangan" 
-                        class="form-control"
-                        formControlName="keterangan"></textarea>
-                </div>
-                <small 
-                    class="text-alert" 
-                    *ngIf="opsinForm.get('keterangan')?.errors?.['maxlength'] && 
-                            opsinForm.get('keterangan')?.touched">
-                        Tidak boleh lebih dari 255 karakter!!!</small>
-                <div class="form-group">
-                    <label for="urlFile">Link File:</label>
-                    <textarea
-                        rows="3"
-                        name="urlFile" 
-                        class="form-control"
-                        formControlName="urlFile"></textarea>
-                </div>
-                <app-danger-alert [message]="error" *ngIf="error"></app-danger-alert>
-                <div class="mt-4" *ngIf="isLoading">
-                    <app-loading-spinner></app-loading-spinner>
-                </div>
-                <div *ngIf="!isLoading">
-                    <div class="d-flex justify-content-between">
-                        <div class="p-2">
-                            <button
-                                class="btn btn-success"
-                                type="submit"
-                                [disabled]="!opsinForm.valid"
-                                style="margin-top: 20px;"><i class="bi bi-floppy"></i> Simpan</button>
-                        </div>
-                        <div class="p-2">
-                            <button
-                                class="btn btn-danger"
-                                type="button"
-                                (click)="onCancel()"
-                                style="margin-top: 20px;"><i class="bi bi-backspace-fill"></i> Batal</button>  
-                        </div>
-                    </div> 
-                </div>       
-            </form>
-        </div>
+        [queryParams]="{bidang: namaBidang}"
+      class="alert-link">Kembali</a>
     </div>
-</div>
+  }
+  @if (!isLoadingEditForm && !editModeError) {
+    <div class="mt-4" style="margin-bottom: 50px;">
+      <div class="row">
+        <div class="col-sm-10 col-md-8 col-xl-8 offset-sm-2 col-md-2 offset-xl-2">
+          <form [formGroup]="opsinForm" (ngSubmit)="onSubmit()">
+            <div class="row">
+              <div class="col-sm-auto">
+                <div class="form-group">
+                  <label for="sektor">Sektor:</label>
+                  <div class="input-group">
+                    <div class="col-sm-auto mb-3">
+                      <select (change)="sektorChange($any($event.target).value)" class="form-select">
+                        @for (s of sektorList; track s) {
+                          <option
+                            [value]="s.namaSektor"
+                          [selected]="s.namaSektor === namaSektorSelected">{{ s.deskripsiSektor }}</option>
+                        }
+                      </select>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-12">
+                <div class="form-group">
+                  <label for="nomor">Nomor SPRINT:</label>
+                  <input
+                    type="text"
+                    name="nomor"
+                    class="form-control"
+                    formControlName="nomor">
+                </div>
+                @if (opsinForm.get('nomor')?.errors?.['required'] &&
+                  opsinForm.get('nomor')?.touched) {
+                  <small
+                    class="text-alert"
+                    >
+                  Wajib diisi!!!</small>
+                }
+                @if (opsinForm.get('nomor')?.errors?.['minlength'] &&
+                  opsinForm.get('nomor')?.touched) {
+                  <small
+                    class="text-alert"
+                    >
+                  Minimal 5 karakter!!!</small>
+                }
+                @if (opsinForm.get('nomor')?.errors?.['maxlength'] &&
+                  opsinForm.get('nomor')?.touched) {
+                  <small
+                    class="text-alert"
+                    >
+                  Tidak boleh lebih dari 255 karakter!!!</small>
+                }
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-auto">
+                <div class="form-group">
+                  <label for="tanggal">Tanggal SPRINT:</label>
+                  <div class="input-group">
+                    <input
+                      type="text"
+                      name="tanggal"
+                      class="form-control"
+                      placeholder="yyyy-mm-dd"
+                      formControlName="tanggal"
+                      #dps="ngbDatepicker"
+                      ngbDatepicker
+                      (dateSelect)="onDateTanggalSelect($event)">
+                    <button class="btn btn-outline-secondary" type="button" (click)="dps.toggle()">
+                      <i class="bi bi-calendar3"></i>
+                    </button>
+                  </div>
+                </div>
+                @if (opsinForm.get('tanggal')?.errors?.['required'] &&
+                  opsinForm.get('tanggal')?.touched) {
+                  <small
+                    class="text-alert"
+                    >
+                  Wajib diisi!!!</small>
+                }
+                @if (opsinForm.get('tanggal')?.errors?.['minlength'] &&
+                  opsinForm.get('tanggal')?.touched) {
+                  <small
+                    class="text-alert"
+                    >
+                  Minimal 10 karakter dengan format "yyyy-MM-dd" !!!</small>
+                }
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-12">
+                <div class="form-group">
+                  <label for="perihal">Perihal/Peruntukan:</label>
+                  <textarea
+                    rows="3"
+                    type="text"
+                    name="perihal"
+                    class="form-control"
+                  formControlName="perihal"></textarea>
+                </div>
+                @if (opsinForm.get('perihal')?.errors?.['required'] &&
+                  opsinForm.get('perihal')?.touched) {
+                  <small
+                    class="text-alert"
+                    >
+                  Wajib diisi!!!</small>
+                }
+                @if (opsinForm.get('perihal')?.errors?.['minlength'] &&
+                  opsinForm.get('perihal')?.touched) {
+                  <small
+                    class="text-alert"
+                    >
+                  Minimal 10 karakter!!!</small>
+                }
+                @if (opsinForm.get('perihal')?.errors?.['maxlength'] &&
+                  opsinForm.get('perihal')?.touched) {
+                  <small
+                    class="text-alert"
+                    >
+                  Tidak boleh lebih dari 255 karakter!!!</small>
+                }
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="namaPetugasPelaksana">Nama Petugas Pelaksana:</label>
+              <textarea
+                rows="3"
+                name="namaPetugasPelaksana"
+                class="form-control"
+              formControlName="namaPetugasPelaksana"></textarea>
+            </div>
+            @if (opsinForm.get('namaPetugasPelaksana')?.errors?.['required'] &&
+              opsinForm.get('namaPetugasPelaksana')?.touched) {
+              <small
+                class="text-alert"
+                >
+              Wajib diisi!!!</small>
+            }
+            @if (opsinForm.get('namaPetugasPelaksana')?.errors?.['minlength'] &&
+              opsinForm.get('namaPetugasPelaksana')?.touched) {
+              <small
+                class="text-alert"
+                >
+              Minimal 3 karakter!!!</small>
+            }
+            <div class="form-group">
+              <label for="hasilPelaksanaanOperasi">Hasil Pelaksanaan Operasi:</label>
+              <textarea
+                rows="3"
+                name="hasilPelaksanaanOperasi"
+                class="form-control"
+              formControlName="hasilPelaksanaanOperasi"></textarea>
+            </div>
+            <div class="form-group">
+              <label for="keterangan">Keterangan:</label>
+              <textarea
+                rows="3"
+                name="keterangan"
+                class="form-control"
+              formControlName="keterangan"></textarea>
+            </div>
+            @if (opsinForm.get('keterangan')?.errors?.['maxlength'] &&
+              opsinForm.get('keterangan')?.touched) {
+              <small
+                class="text-alert"
+                >
+              Tidak boleh lebih dari 255 karakter!!!</small>
+            }
+            <div class="form-group">
+              <label for="urlFile">Link File:</label>
+              <textarea
+                rows="3"
+                name="urlFile"
+                class="form-control"
+              formControlName="urlFile"></textarea>
+            </div>
+            @if (error) {
+              <app-danger-alert [message]="error"></app-danger-alert>
+            }
+            @if (isLoading) {
+              <div class="mt-4">
+                <app-loading-spinner></app-loading-spinner>
+              </div>
+            }
+            @if (!isLoading) {
+              <div>
+                <div class="d-flex justify-content-between">
+                  <div class="p-2">
+                    <button
+                      class="btn btn-success"
+                      type="submit"
+                      [disabled]="!opsinForm.valid"
+                      style="margin-top: 20px;"><i class="bi bi-floppy"></i> Simpan</button>
+                    </div>
+                    <div class="p-2">
+                      <button
+                        class="btn btn-danger"
+                        type="button"
+                        (click)="onCancel()"
+                        style="margin-top: 20px;"><i class="bi bi-backspace-fill"></i> Batal</button>
+                      </div>
+                    </div>
+                  </div>
+                }
+              </form>
+            </div>
+          </div>
+        </div>
+      }
