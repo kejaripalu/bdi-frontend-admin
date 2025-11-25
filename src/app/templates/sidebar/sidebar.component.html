@@ -135,9 +135,21 @@
                             [routerLink]="['/data-peta', 'list']"
                             [queryParams]="{ bidang: 'IPOLHANKAM' }">Data Peta</a>
                         <a class="nav-link" routerLinkActive="active" 
-                            [routerLink]="['/surat-keluar', 'biasa']"
-                            [queryParams]="{ jenisSurat: 'B' }">Peta & Simbol</a>
-                    </nav>
+                            [routerLink]="['/peta-simbol', 'view']"
+                            [queryParams]="{ bidang: 'IPOLHANKAM' }">Peta Ipolhankam</a>
+                        <a class="nav-link" routerLinkActive="active" 
+                            [routerLink]="['/peta-simbol', 'view']"
+                            [queryParams]="{ bidang: 'SOSBUDMAS' }">Peta Sosbudmas</a>
+                        <a class="nav-link" routerLinkActive="active" 
+                            [routerLink]="['/peta-simbol', 'view']"
+                            [queryParams]="{ bidang: 'EKOKEU' }">Peta Ekokeu</a>
+                        <a class="nav-link" routerLinkActive="active" 
+                            [routerLink]="['/peta-simbol', 'view']"
+                            [queryParams]="{ bidang: 'PAMSTRA' }">Peta Pamstra</a>
+                        <a class="nav-link" routerLinkActive="active" 
+                            [routerLink]="['/peta-simbol', 'view']"
+                            [queryParams]="{ bidang: 'TIPRODIN' }">Peta TI & Produk</a>
+                        </nav>
                 </div>
                 <!-- <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapsePages" aria-expanded="false" aria-controls="collapsePages">
                     <div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>

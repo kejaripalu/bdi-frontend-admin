@@ -90,6 +90,9 @@ import { DataPetaListComponent } from './peta/data-peta/data-peta-list/data-peta
 import { DataPetaHelpComponent } from './peta/data-peta/data-peta-help/data-peta-help.component';
 import { DataPetaFormComponent } from './peta/data-peta/data-peta-form/data-peta-form.component';
 import { NgxCurrencyDirective } from 'ngx-currency';
+import { PetaSimbolComponent } from './peta/peta-simbol/peta-simbol.component';
+import { PetaSimbolHelpComponent } from './peta/peta-simbol/peta-simbol-help/peta-simbol-help.component';
+import { PetaSimbolViewComponent } from './peta/peta-simbol/peta-simbol-view/peta-simbol-view.component';
 
 @NgModule({ declarations: [
         AppComponent,
@@ -173,12 +176,16 @@ import { NgxCurrencyDirective } from 'ngx-currency';
         DataPetaComponent,
         DataPetaListComponent,
         DataPetaHelpComponent,
-        DataPetaFormComponent
+        DataPetaFormComponent,
+        PetaSimbolComponent,
+        PetaSimbolViewComponent,
+        PetaSimbolHelpComponent
     ],
     exports: [
         NgxCurrencyDirective
     ],
-    bootstrap: [AppComponent], imports: [BrowserModule,
+    bootstrap: [AppComponent], imports: [
+        BrowserModule,
         CommonModule,
         ReactiveFormsModule,
         FormsModule,

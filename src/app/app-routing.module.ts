@@ -55,6 +55,8 @@ import { PenkumluhkumDetailComponent } from "./register/penkumluhkum/penkumluhku
 import { DataPetaComponent } from "./peta/data-peta/data-peta.component";
 import { DataPetaListComponent } from "./peta/data-peta/data-peta-list/data-peta-list.component";
 import { DataPetaFormComponent } from "./peta/data-peta/data-peta-form/data-peta-form.component";
+import { PetaSimbolComponent } from "./peta/peta-simbol/peta-simbol.component";
+import { PetaSimbolViewComponent } from "./peta/peta-simbol/peta-simbol-view/peta-simbol-view.component";
 
 const appRoutes: Routes = [
     { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
@@ -186,7 +188,12 @@ const appRoutes: Routes = [
         { path: 'list', component: DataPetaListComponent, title: 'Daftar Data Peta' },
         { path: 'list/form', component: DataPetaFormComponent, title: 'Form Data Peta' },
         { path: 'list/:id/form', component: DataPetaFormComponent, title: 'Form Data Peta' },
-        // { path: 'list/:id/detail', component: DataPetaDetailComponent }
+    ]},
+    { path: 'peta-simbol', component: PetaSimbolComponent, title: 'Peta & Simbol', 
+        canActivate: [AuthGuard],
+        children:[
+        { path: '', redirectTo: '/peta-simbol/view', pathMatch: 'full' },
+        { path: 'view', component: PetaSimbolViewComponent, title: 'Data Peta & Simbol' },
     ]},
     { path: 'page-not-found', component: PageNotFoundComponent, canActivate: [AuthGuard] },
     { path: '**', redirectTo: 'page-not-found', pathMatch: 'full' }

@@ -1,0 +1,25 @@
+<main>
+    <div class="container-fluid px-4">
+        <div class="d-flex bd-highlight">
+            <div class="p-2 w-100 bd-highlight">
+                <h2 class="mt-4">
+                    <i class="bi bi-pin-map-fill"></i> Peta & Simbol</h2>
+            </div>
+            <div class="p-2 flex-shrink-1 bd-highlight">
+                <h4 class="mt-4 text-success" 
+                    placement="start" 
+                    ngbTooltip="Peta & Simbol {{ namaBidang }}"
+                    (click)="onOpenHelp()"
+                    style="cursor: pointer;">{{ kodeRegister }}</h4>
+            </div>
+        </div>
+        <hr>
+        <div class="row">
+            <div class="col-md-12">
+                <label for="bidangDirektorat" class="col-sm-12 col-form-label">Bidang: <strong class="text-success">{{ namaBidang }}</strong></label>
+            </div>
+        </div>
+        <hr>
+        <router-outlet></router-outlet>
+    </div>
+</main>
