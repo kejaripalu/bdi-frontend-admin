@@ -33,6 +33,7 @@ export class PetaSimbolViewComponent implements OnInit, OnDestroy, AfterViewInit
   private dataPetaSub!: Subscription;
   error: string = null as any;
   private message: Message = new Message();
+  sektorList: any[] = [];
 
   // Maps
   private map!: L.Map;  
@@ -91,12 +92,58 @@ export class PetaSimbolViewComponent implements OnInit, OnDestroy, AfterViewInit
           this.isLoading = false;
         }    
     });
+    
+    this.loadSektorData();
+  }
+
+  loadSektorData() {
+    this.sektorList = [];
+    let startIndex: number = 0;
+    let endIndex: number = 0;
+
+    switch (this.namaBidang) {
+      case 'IPOLHANKAM':
+        startIndex = 0;
+        endIndex = 12;          
+        break;
+      case 'SOSBUDMAS':
+        startIndex = 12;
+        endIndex = 24;          
+        break;
+      case 'EKOKEU':
+        startIndex = 24;
+        endIndex = 40;          
+        break;
+      case 'PAMSTRA':
+        startIndex = 40;
+        endIndex = 60;          
+        break;
+      case 'TIPRODIN':
+        startIndex = 60;
+        endIndex = 74;          
+        break;
+      default: {
+        startIndex = 0;
+        endIndex = 12;
+      };
+    }
+
+    const sektorArray = this.sektorPetaService.getSektor();
+    const selectedSektor = sektorArray.slice(startIndex, endIndex);
+    this.sektorList = selectedSektor.map(sektor => ({
+      deskripsiSektor: sektor.deskripsiSektor!,
+      namaSektor: sektor.namaSektor!
+    }));
   }
 
   getYear() {
     for (let startYear = 2019; startYear <= this.currentYear; startYear++) {
       this.year.push(startYear);
     }
+  }
+
+  getImageSektor(namaSektor: string): string {
+    return `assets/images/simbol-sektor/${namaSektor}.png`;
   }
 
   private initMap(): void {
@@ -144,12 +191,11 @@ export class PetaSimbolViewComponent implements OnInit, OnDestroy, AfterViewInit
       const marker = L.marker(coords, { icon: dynamicIcon });
       
       const popupContent = `
-          <b>Lokasi:</b>
+          <b>Sektor:</b> ${waypoint.sektor.replace(/_/g, ' ')}<br>
           <hr style="margin: 5px 0;">
-          <strong>Lat:</strong> ${waypoint.latitude.toFixed(6)}<br>
-          <strong>Lon:</strong> ${waypoint.longitude.toFixed(6)}<br>
+          <strong>Apa yang terjadi:</strong> ${waypoint.apa}<br>
           <hr style="margin: 5px 0;">
-          <strong>Alamat:</strong> ${waypoint.lokasi}
+          <strong>Lokasi:</strong> ${waypoint.lokasi}
       `;
       
       marker.bindPopup(popupContent);

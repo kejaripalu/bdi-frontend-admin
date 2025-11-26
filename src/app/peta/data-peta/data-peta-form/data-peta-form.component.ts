@@ -138,68 +138,7 @@ export class DataPetaFormComponent implements OnInit, OnDestroy, AfterViewInit {
       'keterangan': new FormControl(null as any, Validators.maxLength(255))
     });
 
-      switch (this.namaBidang) {
-        case 'IPOLHANKAM':
-          for (let i = 0; i < 12; i++) {
-            this.sektorList.push({
-              deskripsiSektor: this.sektorPetaService.getSektor()[i].deskripsiSektor!,
-              namaSektor: this.sektorPetaService.getSektor()[i].namaSektor!
-            });
-          }
-          this.namaSektorSelected = this.sektorList[0].namaSektor!;
-          this.deskripsiSektorSelected = this.sektorList[0].deskripsiSektor!;
-          break;
-        case 'SOSBUDMAS':
-          for (let i = 12; i < 24; i++) {
-            this.sektorList.push({
-              deskripsiSektor: this.sektorPetaService.getSektor()[i].deskripsiSektor!,
-              namaSektor: this.sektorPetaService.getSektor()[i].namaSektor!
-            });
-          }
-          this.namaSektorSelected = this.sektorList[0].namaSektor!;
-          this.deskripsiSektorSelected = this.sektorList[0].deskripsiSektor!;
-          break;
-        case 'EKOKEU':
-          for (let i = 24; i < 40; i++) {
-            this.sektorList.push({
-              deskripsiSektor: this.sektorPetaService.getSektor()[i].deskripsiSektor!,
-              namaSektor: this.sektorPetaService.getSektor()[i].namaSektor!
-            });
-          }
-          this.namaSektorSelected = this.sektorList[0].namaSektor!;
-          this.deskripsiSektorSelected = this.sektorList[0].deskripsiSektor!;
-          break;
-        case 'PAMSTRA':
-          for (let i = 40; i < 60; i++) {
-            this.sektorList.push({
-              deskripsiSektor: this.sektorPetaService.getSektor()[i].deskripsiSektor!,
-              namaSektor: this.sektorPetaService.getSektor()[i].namaSektor!
-            });
-          }
-          this.namaSektorSelected = this.sektorList[0].namaSektor!;
-          this.deskripsiSektorSelected = this.sektorList[0].deskripsiSektor!;
-          break;
-        case 'TIPRODIN':
-          for (let i = 60; i < 74; i++) {
-            this.sektorList.push({
-              deskripsiSektor: this.sektorPetaService.getSektor()[i].deskripsiSektor!,
-              namaSektor: this.sektorPetaService.getSektor()[i].namaSektor!
-            });
-          }
-          this.namaSektorSelected = this.sektorList[0].namaSektor!;
-          this.deskripsiSektorSelected = this.sektorList[0].deskripsiSektor!;
-          break;
-        default: {
-          for (let i = 0; i < 12; i++) {
-            this.sektorList.push({
-              deskripsiSektor: this.sektorPetaService.getSektor()[i].deskripsiSektor!,
-              namaSektor: this.sektorPetaService.getSektor()[i].namaSektor!
-            });
-          }
-          this.namaSektorSelected = this.sektorList[0].namaSektor!;
-          this.deskripsiSektorSelected = this.sektorList[0].deskripsiSektor!;
-        };
-      }
+    this.loadSektorData();
 
       if (this.isEditMode) {
         this.isLoadingEditForm = true;
@@ -219,7 +158,7 @@ export class DataPetaFormComponent implements OnInit, OnDestroy, AfterViewInit {
               'siapa': new FormControl(peta.siapa, [Validators.required, Validators.minLength(3), Validators.maxLength(255)]),
               'apa': new FormControl(peta.apa, [Validators.required, Validators.minLength(5)]),
               'mengapa': new FormControl(peta.mengapa, [Validators.required, Validators.minLength(5)]),
-              'bagaimana': new FormControl(peta.bagaimana, [Validators.required, Validators.minLength(10), Validators.maxLength(255)]),
+              'bagaimana': new FormControl(peta.bagaimana, [Validators.required, Validators.minLength(10)]),
               'keterangan': new FormControl(peta.keterangan, Validators.maxLength(255))
             });
 
@@ -271,7 +210,47 @@ export class DataPetaFormComponent implements OnInit, OnDestroy, AfterViewInit {
           }   
         });
       }
-  }  
+  }
+  
+  loadSektorData() {
+    this.sektorList = [];
+    let startIndex: number = 0;
+    let endIndex: number = 0;
+
+    switch (this.namaBidang) {
+      case 'IPOLHANKAM':
+        startIndex = 0;
+        endIndex = 12;          
+        break;
+      case 'SOSBUDMAS':
+        startIndex = 12;
+        endIndex = 24;          
+        break;
+      case 'EKOKEU':
+        startIndex = 24;
+        endIndex = 40;          
+        break;
+      case 'PAMSTRA':
+        startIndex = 40;
+        endIndex = 60;          
+        break;
+      case 'TIPRODIN':
+        startIndex = 60;
+        endIndex = 74;          
+        break;
+      default: {
+        startIndex = 0;
+        endIndex = 12;
+      };
+    }
+    
+    const sektorArray = this.sektorPetaService.getSektor();
+    const selectedSektor = sektorArray.slice(startIndex, endIndex);
+    this.sektorList = selectedSektor.map(sektor => ({
+      deskripsiSektor: sektor.deskripsiSektor!,
+      namaSektor: sektor.namaSektor!
+    }));
+  }
 
   onSubmit() {
     this.isLoading = true;
