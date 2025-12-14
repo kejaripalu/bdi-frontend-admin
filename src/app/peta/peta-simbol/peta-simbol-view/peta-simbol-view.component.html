@@ -1,31 +1,46 @@
-@if (isLoading) {
-  <div class="mt-4" style="text-align: center;">
-      <app-loading-spinner></app-loading-spinner>
+<hr>
+<div class="d-flex align-items-center bd-highlight">
+  <div class="p-2 w-100 bd-highlight">
+    <label for="bidangDirektorat" class="col-sm-12 col-form-label">Bidang: <strong class="text-success">{{
+        title }}</strong></label>
   </div>
+  <div class="p-2 w-25 flex-shrink-1 bd-highlight">
+    <select (change)="updateYearSelected($any($event.target).value)" class="form-select"
+      aria-label=".form-select-sm example">
+      @for (y of year | reverse; track y; let i = $index) {
+      <option [value]="y" [selected]="currentYear === y">Tahun {{ y }}</option>
+      }
+    </select>
+  </div>
+</div>
+<hr>
+
+@if (isLoading) {
+<div class="mt-4" style="text-align: center;">
+  <app-loading-spinner></app-loading-spinner>
+</div>
 }
 @if (error) {
-  <app-danger-alert [message]="error"></app-danger-alert>
+<app-danger-alert [message]="error"></app-danger-alert>
 }
 
 <div class="row">
   <div class="col-md-10 mb-3">
     <div class="w-100 shadow rounded">
-      <div id="map"></div> 
+      <div id="map"></div>
     </div>
   </div>
   <div class="col-md-2 col-sm-8 mb-3">
-    <h6 class="text-muted">Keterangan Gambar:</h6> 
+    <h6 class="text-muted">Keterangan Gambar:</h6>
     <ul class="list-group">
       @for (s of sektorList; track s) {
-        <li class="list-group-item d-flex align-items-center">
-          <div class="image-parent me-2">
-            <img [src]="getImageSektor(s.namaSektor!)" class="img-fluid" [alt]="s.namaSektor">
-          </div>
-          <small>{{ s.deskripsiSektor }}</small>
-        </li>
+      <li class="list-group-item d-flex align-items-center">
+        <div class="image-parent me-2">
+          <img [src]="getImageSektor(s.namaSektor!)" class="img-fluid" [alt]="s.namaSektor">
+        </div>
+        <small>{{ s.deskripsiSektor }}</small>
+      </li>
       }
     </ul>
+  </div>
 </div>
-</div>
-
-

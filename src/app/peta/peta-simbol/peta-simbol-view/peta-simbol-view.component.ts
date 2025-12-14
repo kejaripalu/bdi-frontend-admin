@@ -137,9 +137,15 @@ export class PetaSimbolViewComponent implements OnInit, OnDestroy, AfterViewInit
   }
 
   getYear() {
+    this.year = []; // Clear previous years
     for (let startYear = 2019; startYear <= this.currentYear; startYear++) {
       this.year.push(startYear);
     }
+  }
+
+  updateYearSelected(year: number) {
+    this.currentYear = +year;
+    this.loadDataPeta();
   }
 
   getImageSektor(namaSektor: string): string {

@@ -250,6 +250,7 @@ export class DataPetaFormComponent implements OnInit, OnDestroy, AfterViewInit {
       deskripsiSektor: sektor.deskripsiSektor!,
       namaSektor: sektor.namaSektor!
     }));
+    this.namaSektorSelected = this.sektorList[0].namaSektor!; // set default selected sektor
   }
 
   onSubmit() {
