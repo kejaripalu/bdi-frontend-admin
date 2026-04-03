@@ -11,6 +11,18 @@
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
  */
 :root {
+  --bdi-primary: #6366f1; /* Pastel blue-indigo */
+  --bdi-accent-success: #10b981;
+  --bdi-accent-info: #3b82f6;
+  --bdi-accent-danger: #ef4444;
+  --bdi-bg-soft: #f9fafb;
+  --bdi-text-main: #111827;
+  --bdi-text-muted: #6b7280;
+  --bdi-border-soft: #e5e7eb;
+  --bdi-shadow-soft: 0 4px 20px -2px rgba(0, 0, 0, 0.05), 0 2px 10px -2px rgba(0, 0, 0, 0.03);
+  --bdi-border-radius-lg: 16px;
+  --bdi-border-radius-md: 12px;
+
   --bs-blue: #0d6efd;
   --bs-indigo: #6610f2;
   --bs-purple: #6f42c1;
@@ -51,17 +63,17 @@
   --bs-dark-rgb: 33, 37, 41;
   --bs-white-rgb: 255, 255, 255;
   --bs-black-rgb: 0, 0, 0;
-  --bs-body-color-rgb: 33, 37, 41;
-  --bs-body-bg-rgb: 255, 255, 255;
-  --bs-font-sans-serif: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  --bs-body-color-rgb: 17, 24, 39;
+  --bs-body-bg-rgb: 249, 250, 251;
+  --bs-font-sans-serif: 'Inter', -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   --bs-font-monospace: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
   --bs-gradient: linear-gradient(180deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0));
   --bs-body-font-family: var(--bs-font-sans-serif);
-  --bs-body-font-size: 1rem;
+  --bs-body-font-size: 0.9375rem;
   --bs-body-font-weight: 400;
-  --bs-body-line-height: 1.5;
-  --bs-body-color: #212529;
-  --bs-body-bg: #fff;
+  --bs-body-line-height: 1.6;
+  --bs-body-color: #111827;
+  --bs-body-bg: #f9fafb;
 }
 
 *,
