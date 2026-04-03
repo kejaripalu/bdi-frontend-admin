@@ -1,238 +1,166 @@
 <main>
-  <div class="container-fluid px-4">
-    <div class="d-flex bd-highlight">
+  <div class="container-fluid px-4 py-3">
+    <div class="d-flex bd-highlight align-items-center mb-4">
       <div class="p-2 w-100 bd-highlight">
-        <h1 class="mt-4"><i class="bi bi-speedometer"></i> Dashboard</h1>
-        <ol class="breadcrumb mb-4">
-          <li class="breadcrumb-item active"><i class="bi bi-calendar3"></i> Data Tahun <span class="fw-bold">{{ currentYear }}</span></li>
-        </ol>
+        <h1 class="mt-4 mb-2"><i class="bi bi-speedometer2"></i> Ikhtisar Data</h1>
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb mb-0">
+            <li class="breadcrumb-item active" aria-current="page">
+              <i class="bi bi-calendar3"></i> Data Tahun <span class="fw-bold text-primary">{{ currentYear }}</span>
+            </li>
+          </ol>
+        </nav>
       </div>
-      <div class="p-2 w-25 flex-shrink-1 bd-highlight">
-        <div class="row">
-          <select (change)="updateYearSelected($any($event.target).value)" name="tahun" id="tahun" class="form-select mt-5" aria-label="Default select example">
+      <div class="p-2 bd-highlight ms-auto" style="min-width: 200px;">
+        <div class="input-group mt-5">
+          <label class="input-group-text bg-white border-end-0 text-muted" for="tahun">
+            <i class="bi bi-funnel"></i>
+          </label>
+          <select (change)="updateYearSelected($any($event.target).value)" name="tahun" id="tahun" class="form-select border-start-0" aria-label="Select year">
             <option value="{{ currentYear }}" selected>Pilih Tahun</option>
             @for (y of year | reverse; track y) {
-              <option
-              [value]="y">{{ y }}</option>
+              <option [value]="y">{{ y }}</option>
             }
           </select>
         </div>
-
       </div>
     </div>
 
-    <div class="row">
+    <!-- Statistik Prodin -->
+    <h5 class="mb-3 text-muted fw-bold small text-uppercase letter-spacing-1">Produk Intelijen</h5>
+    <div class="row g-4 mb-5">
+      <!-- LAPINHAR -->
       <div class="col-xl-3 col-md-6">
-        @if (isLoading) {
-          <div class="mt-4" style="text-align: center;">
-            <app-loading-spinner></app-loading-spinner>
-          </div>
-        }
-        @if (!isLoading) {
-          <div class="card bg-success text-white mb-4">
-            <div class="card-body">
-              <div class="row">
-                <div class="d-flex justify-content-between">
-                  <div>
-                    <i class="bi bi-journal-text"></i><span class="fw-normal"> LAPINHAR</span>
-                  </div>
-                  <h2>{{ countLapinhar | number:'1.' : 'it' }}</h2>
-                </div>
-              </div>
-            </div>
-            <div class="card-footer d-flex align-items-center justify-content-between">
-              <!-- <a class="small text-white stretched-link" href="#"> -->
-              <i class="bi bi-chevron-right"></i>
-            <!-- </a> -->
-            <div class="small text-white">Laporan</div>
-          </div>
-        </div>
-      }
-    </div>
-    <div class="col-xl-3 col-md-6">
-      @if (isLoading) {
-        <div class="mt-4" style="text-align: center;">
-          <app-loading-spinner></app-loading-spinner>
-        </div>
-      }
-      @if (!isLoading) {
-        <div class="card bg-success text-white mb-4">
+        <div class="card card-prodin h-100">
           <div class="card-body">
-            <div class="row">
-              <div class="d-flex justify-content-between">
-                <div>
-                  <i class="bi bi-journal-text"></i><span class="fw-normal"> LAPINSUS</span>
-                </div>
-                <h2>{{ countLapinsus | number:'1.' : 'it' }}</h2>
-              </div>
-            </div>
+            @if (isLoading) {
+              <div class="py-3 text-center"><app-loading-spinner></app-loading-spinner></div>
+            } @else {
+              <div class="stat-icon"><i class="bi bi-journal-text"></i></div>
+              <div class="text-muted stat-label">LAPINHAR</div>
+              <h2 class="stat-value">{{ countLapinhar | number:'1.' : 'it' }}</h2>
+            }
           </div>
-          <div class="card-footer d-flex align-items-center justify-content-between">
-            <!-- <a class="small text-white stretched-link" href="#"> -->
-            <i class="bi bi-chevron-right"></i>
-          <!-- </a> -->
-          <div class="small text-white">Laporan</div>
+          <div class="card-footer small text-muted">Laporan Harian</div>
         </div>
       </div>
-    }
-  </div>
-  <div class="col-xl-3 col-md-6">
-    @if (isLoading) {
-      <div class="mt-4" style="text-align: center;">
-        <app-loading-spinner></app-loading-spinner>
-      </div>
-    }
-    @if (!isLoading) {
-      <div class="card bg-success text-white mb-4">
-        <div class="card-body">
-          <div class="row">
-            <div class="d-flex justify-content-between">
-              <div>
-                <i class="bi bi-journal-text"></i><span class="fw-normal"> LAPHASTUG</span>
-              </div>
-              <h2>{{ countLaphastug | number:'1.' : 'it' }}</h2>
-            </div>
+      <!-- LAPINSUS -->
+      <div class="col-xl-3 col-md-6">
+        <div class="card card-prodin h-100">
+          <div class="card-body">
+            @if (isLoading) {
+              <div class="py-3 text-center"><app-loading-spinner></app-loading-spinner></div>
+            } @else {
+              <div class="stat-icon"><i class="bi bi-journal-text"></i></div>
+              <div class="text-muted stat-label">LAPINSUS</div>
+              <h2 class="stat-value">{{ countLapinsus | number:'1.' : 'it' }}</h2>
+            }
           </div>
+          <div class="card-footer small text-muted">Laporan Khusus</div>
         </div>
-        <div class="card-footer d-flex align-items-center justify-content-between">
-          <!-- <a class="small text-white stretched-link" href="#"> -->
-          <i class="bi bi-chevron-right"></i>
-        <!-- </a> -->
-        <div class="small text-white">Laporan</div>
+      </div>
+      <!-- LAPHASTUG -->
+      <div class="col-xl-3 col-md-6">
+        <div class="card card-prodin h-100">
+          <div class="card-body">
+            @if (isLoading) {
+              <div class="py-3 text-center"><app-loading-spinner></app-loading-spinner></div>
+            } @else {
+              <div class="stat-icon"><i class="bi bi-journal-text"></i></div>
+              <div class="text-muted stat-label">LAPHASTUG</div>
+              <h2 class="stat-value">{{ countLaphastug | number:'1.' : 'it' }}</h2>
+            }
+          </div>
+          <div class="card-footer small text-muted">Laporan Hasil Tugas</div>
+        </div>
+      </div>
+      <!-- LAPOPSIN -->
+      <div class="col-xl-3 col-md-6">
+        <div class="card card-prodin h-100">
+          <div class="card-body">
+            @if (isLoading) {
+              <div class="py-3 text-center"><app-loading-spinner></app-loading-spinner></div>
+            } @else {
+              <div class="stat-icon"><i class="bi bi-journal-text"></i></div>
+              <div class="text-muted stat-label">LAPOPSIN</div>
+              <h2 class="stat-value">{{ countLapopsin | number:'1.' : 'it' }}</h2>
+            }
+          </div>
+          <div class="card-footer small text-muted">Laporan Operasi Intelijen</div>
+        </div>
       </div>
     </div>
-  }
-</div>
-<div class="col-xl-3 col-md-6">
-  @if (isLoading) {
-    <div class="mt-4" style="text-align: center;">
-      <app-loading-spinner></app-loading-spinner>
-    </div>
-  }
-  @if (!isLoading) {
-    <div class="card bg-success text-white mb-4">
-      <div class="card-body">
-        <div class="row">
-          <div class="d-flex justify-content-between">
-            <div>
-              <i class="bi bi-journal-text"></i><span class="fw-normal"> LAPOPSIN</span>
-            </div>
-            <h2>{{ countLapopsin | number:'1.' : 'it' }}</h2>
-          </div>
-        </div>
-      </div>
-      <div class="card-footer d-flex align-items-center justify-content-between">
-        <!-- <a class="small text-white stretched-link" href="#"> -->
-        <i class="bi bi-chevron-right"></i>
-      <!-- </a> -->
-      <div class="small text-white">Laporan</div>
-    </div>
-  </div>
-}
-</div>
-</div>
-<div class="row">
-  <div class="col-xl-3 col-md-6">
-    @if (isLoading) {
-      <div class="mt-4" style="text-align: center;">
-        <app-loading-spinner></app-loading-spinner>
-      </div>
-    }
-    @if (!isLoading) {
-      <div class="card bg-primary text-white mb-4">
-        <div class="card-body">
-          <div class="row">
-            <div class="d-flex justify-content-between">
-              <div>
-                <i class="bi bi-chat-square-text-fill"></i><span class="fw-normal"> Pelayanan <br>Hukum</span>
-              </div>
-              <h2>{{ countPPH | number:'1.' : 'it' }}</h2>
-            </div>
-          </div>
-        </div>
-        <div class="card-footer d-flex align-items-center justify-content-between">
-          <a class="small text-white stretched-link" href="#"><i class="bi bi-chevron-right"></i></a>
-          <div class="small text-white">Kegiatan</div>
-        </div>
-      </div>
-    }
-  </div>
-  <div class="col-xl-3 col-md-6">
-    @if (isLoading) {
-      <div class="mt-4" style="text-align: center;">
-        <app-loading-spinner></app-loading-spinner>
-      </div>
-    }
-    @if (!isLoading) {
-      <div class="card bg-primary text-white mb-4">
-        <div class="card-body">
-          <div class="row">
-            <div class="d-flex justify-content-between">
-              <div>
-                <i class="bi bi-chat-square-text"></i><span class="fw-normal"> Pengaduan <br>Masyarakat</span>
-              </div>
-              <h2>{{ countPPM | number:'1.' : 'it' }}</h2>
-            </div>
-          </div>
-        </div>
-        <div class="card-footer d-flex align-items-center justify-content-between">
-          <a class="small text-white stretched-link" href="#"><i class="bi bi-chevron-right"></i></a>
-          <div class="small text-white">Kegiatan</div>
-        </div>
-      </div>
-    }
-  </div>
-  <div class="col-xl-3 col-md-6">
-    @if (isLoading) {
-      <div class="mt-4" style="text-align: center;">
-        <app-loading-spinner></app-loading-spinner>
-      </div>
-    }
-    @if (!isLoading) {
-      <div class="card bg-danger text-white mb-4">
-        <div class="card-body">
-          <div class="row">
-            <div class="d-flex justify-content-between">
-              <div>
-                <i class="bi bi-megaphone"></i><span class="fw-normal"> JMS</span>
-              </div>
-              <h2>{{ countJms | number:'1.' : 'it' }}</h2>
-            </div>
-          </div>
-        </div>
-        <div class="card-footer d-flex align-items-center justify-content-between">
-          <a class="small text-white stretched-link" href="#"><i class="bi bi-chevron-right"></i></a>
-          <div class="small text-white">Kegiatan</div>
-        </div>
-      </div>
-    }
-  </div>
-  <div class="col-xl-3 col-md-6">
-    @if (isLoading) {
-      <div class="mt-4" style="text-align: center;">
-        <app-loading-spinner></app-loading-spinner>
-      </div>
-    }
-    @if (!isLoading) {
-      <div class="card bg-danger text-white mb-4">
-        <div class="card-body">
-          <div class="row">
-            <div class="d-flex justify-content-between">
-              <div>
-                <i class="bi bi-megaphone-fill"></i><span class="fw-normal"> BINMATKUM</span>
-              </div>
-              <h2>{{ countBinmatkum | number:'1.' : 'it' }}</h2>
-            </div>
-          </div>
-        </div>
-        <div class="card-footer d-flex align-items-center justify-content-between">
-          <a class="small text-white stretched-link" href="#"><i class="bi bi-chevron-right"></i></a>
-          <div class="small text-white">Kegiatan</div>
-        </div>
-      </div>
-    }
-  </div>
-</div>
 
-</div>
-</main>
+    <div class="row g-4">
+      <!-- PPH & PPM -->
+      <div class="col-xl-6">
+        <h5 class="mb-3 text-muted fw-bold small text-uppercase letter-spacing-1">PPH & PPM</h5>
+        <div class="row g-4">
+          <div class="col-md-6">
+            <div class="card card-pphppm h-100">
+              <div class="card-body">
+                @if (isLoading) {
+                  <div class="py-3 text-center"><app-loading-spinner></app-loading-spinner></div>
+                } @else {
+                  <div class="stat-icon"><i class="bi bi-chat-square-text-fill"></i></div>
+                  <div class="text-muted stat-label">Pelayanan Hukum</div>
+                  <h2 class="stat-value">{{ countPPH | number:'1.' : 'it' }}</h2>
+                }
+              </div>
+              <div class="card-footer"><a class="text-primary small stretched-link" href="#">Detail Kegiatan <i class="bi bi-arrow-right"></i></a></div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="card card-pphppm h-100">
+              <div class="card-body">
+                @if (isLoading) {
+                  <div class="py-3 text-center"><app-loading-spinner></app-loading-spinner></div>
+                } @else {
+                  <div class="stat-icon"><i class="bi bi-chat-square-text"></i></div>
+                  <div class="text-muted stat-label">Pengaduan Masyarakat</div>
+                  <h2 class="stat-value">{{ countPPM | number:'1.' : 'it' }}</h2>
+                }
+              </div>
+              <div class="card-footer"><a class="text-primary small stretched-link" href="#">Detail Kegiatan <i class="bi bi-arrow-right"></i></a></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Penkum & Luhkum -->
+      <div class="col-xl-6">
+        <h5 class="mb-3 text-muted fw-bold small text-uppercase letter-spacing-1">Penkum & Luhkum</h5>
+        <div class="row g-4">
+          <div class="col-md-6">
+            <div class="card card-penkumluhkum h-100">
+              <div class="card-body">
+                @if (isLoading) {
+                  <div class="py-3 text-center"><app-loading-spinner></app-loading-spinner></div>
+                } @else {
+                  <div class="stat-icon"><i class="bi bi-megaphone"></i></div>
+                  <div class="text-muted stat-label">JMS</div>
+                  <h2 class="stat-value">{{ countJms | number:'1.' : 'it' }}</h2>
+                }
+              </div>
+              <div class="card-footer"><a class="text-primary small stretched-link" href="#">Detail Kegiatan <i class="bi bi-arrow-right"></i></a></div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="card card-penkumluhkum h-100">
+              <div class="card-body">
+                @if (isLoading) {
+                  <div class="py-3 text-center"><app-loading-spinner></app-loading-spinner></div>
+                } @else {
+                  <div class="stat-icon"><i class="bi bi-megaphone-fill"></i></div>
+                  <div class="text-muted stat-label">BINMATKUM</div>
+                  <h2 class="stat-value">{{ countBinmatkum | number:'1.' : 'it' }}</h2>
+                }
+              </div>
+              <div class="card-footer"><a class="text-primary small stretched-link" href="#">Detail Kegiatan <i class="bi bi-arrow-right"></i></a></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>

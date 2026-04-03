@@ -1,19 +1,27 @@
 <div class="container">
-  <div class="row justify-content-center">
-    <div class="col-lg-5 mt-5">
-      <div class="card shadow-lg border-0 rounded-lg mt-4 mb-5 ms-2 me-2">
-        <div class="card-header"><h3 class="text-center font-weight-light my-4"><i class="bi bi-lock-fill"></i> Login</h3></div>
+  <div class="row justify-content-center w-100">
+    <div class="col-lg-5 col-md-8">
+      <div class="card">
+        <div class="card-header border-0 pb-0">
+          <h3 class="text-center mb-0">
+            <i class="bi bi-shield-lock"></i> Bank Data Intelijen
+          </h3>
+        </div>
         <div class="card-body">
+          <p class="text-center text-muted small mb-4">Masuk untuk mengelola data intelijen kejaksaan</p>
+
           @if (errorText && !isLoading) {
-            <div class="alert alert-danger" style="text-align: center;">
-              <p class="small">{{ errorText }}</p>
+            <div class="alert alert-danger border-0 rounded-3 mb-4 shadow-sm" style="background-color: #fef2f2; color: #991b1b;">
+              <p class="small mb-0 text-center fw-medium">{{ errorText }}</p>
             </div>
           }
+
           @if (isLoading) {
-            <div class="mt-4 mb-4" style="text-align: center;">
+            <div class="py-5 text-center">
               <app-loading-spinner></app-loading-spinner>
             </div>
           }
+
           @if (!isLoading) {
             <form #autForm="ngForm" (ngSubmit)="onSubmit(autForm)">
               <div class="form-floating mb-3">
@@ -27,7 +35,7 @@
                   required />
                   <label for="username">Username</label>
                 </div>
-                <div class="form-floating mb-3">
+                <div class="form-floating mb-4">
                   <input
                     class="form-control"
                     id="inputPassword"
@@ -39,25 +47,17 @@
                     minlength="6" />
                     <label for="password">Password</label>
                   </div>
-                  <!-- <div class="form-check mb-3">
-                  <input class="form-check-input" id="inputRememberPassword" type="checkbox" value="" />
-                  <label class="form-check-label" for="inputRememberPassword">Remember Password</label>
-                </div> -->
-                <div class="d-flex align-items-center justify-content-between mt-4 mb-0">
-                  <span></span>
-                  <!-- <a class="small" href="password.html">Forgot Password?</a> -->
-                  <button class="btn btn-primary" type="submit"
-                  [disabled]="!autForm.valid">Login</button>
-                </div>
+                
+                <button class="btn btn-primary w-100 mb-2 py-3 shadow-sm" type="submit"
+                [disabled]="!autForm.valid">Masuk Sekarang</button>
               </form>
             }
           </div>
-          <div class="card-footer text-center py-3">
-            <div class="small text-success">Butuh akun atau lupa password? Hubungi Admin!</div>
-            <div class="text-muted" style="margin-top: 5px;">&copy;{{ tahun }} Bank Data Intelijen</div>
-            <div>
-            </div>
+          <div class="card-footer border-0">
+            <div class="small text-success text-center mb-2">Butuh bantuan? Hubungi Admin!</div>
+            <div class="text-muted text-center x-small" style="font-size: 0.75rem;">&copy; {{ tahun }} Bank Data Intelijen Kejaksaan</div>
           </div>
         </div>
       </div>
     </div>
+  </div>
