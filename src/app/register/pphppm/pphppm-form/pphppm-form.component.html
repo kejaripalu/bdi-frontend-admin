@@ -1,397 +1,455 @@
-<div *ngIf="isLoadingEditForm && isEditMode" class="mt-4" style="text-align: center;">
+@if (isLoadingEditForm && isEditMode) {
+  <div class="mt-4" style="text-align: center;">
     <app-loading-spinner></app-loading-spinner>
-</div>
-<div class="alert alert-danger mt-4" *ngIf="editModeError && isEditMode" role="alert">
-    {{ error }} 
+  </div>
+}
+@if (editModeError && isEditMode) {
+  <div class="alert alert-danger mt-4" role="alert">
+    {{ error }}
     <br>
-    <a 
+      <a
         [routerLink]="['/pphppm', 'list']"
-        class="alert-link">Kembali</a>
-</div>
-<div class="mt-4" style="margin-bottom: 50px;" *ngIf="!isLoadingEditForm && !editModeError">
-    <div class="row">
+      class="alert-link">Kembali</a>
+    </div>
+  }
+  @if (!isLoadingEditForm && !editModeError) {
+    <div class="mt-4" style="margin-bottom: 50px;">
+      <div class="row">
         <div class="col-sm-10 col-md-8 col-xl-8 offset-sm-2 col-md-2 offset-xl-2">
-            <form [formGroup]="pphppmForm" (ngSubmit)="onSubmit()">
-                <div class="row">
-                    <div class="col-sm-12">
-                        <div class="form-group">
-                            <label for="jenisPelayanan">Jenis Pelayanan:</label>
-                                <div class="col-sm-auto col-md-6 col-xl-6 col-xxl-4 mb-3">
-                                    <select (change)="onJenisPelayananChange($any($event.target).value)" class="form-select">
-                                        <option value="PPH" [selected]="jenisPelayanan === 'PPH'">Pelayanan Hukum</option>
-                                        <option value="PPM" [selected]="jenisPelayanan === 'PPM'">Pengaduan Masyarakat</option>
-                                    </select>
-                                </div>
-                        </div>
-                    </div>
+          <form [formGroup]="pphppmForm" (ngSubmit)="onSubmit()">
+            <div class="row">
+              <div class="col-sm-12">
+                <div class="form-group">
+                  <label for="jenisPelayanan">Jenis Pelayanan:</label>
+                  <div class="col-sm-auto col-md-6 col-xl-6 col-xxl-4 mb-3">
+                    <select (change)="onJenisPelayananChange($any($event.target).value)" class="form-select">
+                      <option value="PPH" [selected]="jenisPelayanan === 'PPH'">Pelayanan Hukum</option>
+                      <option value="PPM" [selected]="jenisPelayanan === 'PPM'">Pengaduan Masyarakat</option>
+                    </select>
+                  </div>
                 </div>
-                <div class="row">
-                    <div class="col-sm-8">
-                        <div class="form-group">
-                            <label for="namaPetugasPenerima">Nama Petugas Penerima:</label>
-                            <input 
-                                type="text" 
-                                name="namaPetugasPenerima" 
-                                class="form-control"
-                                formControlName="namaPetugasPenerima">
-                        </div>
-                        <small 
-                            class="text-alert" 
-                            *ngIf="pphppmForm.get('namaPetugasPenerima')?.errors?.['required'] && 
-                                    pphppmForm.get('namaPetugasPenerima')?.touched">
-                            Wajib diisi!!!</small>
-                        <small 
-                            class="text-alert" 
-                            *ngIf="pphppmForm.get('namaPetugasPenerima')?.errors?.['minlength'] && 
-                                    pphppmForm.get('namaPetugasPenerima')?.touched">
-                                Minimal 3 karakter!!!</small>
-                        <small 
-                            class="text-alert" 
-                            *ngIf="pphppmForm.get('namaPetugasPenerima')?.errors?.['maxlength'] && 
-                                pphppmForm.get('namaPetugasPenerima')?.touched">
-                                Tidak boleh lebih dari 255 karakter!!!</small>
-                    </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-8">
+                <div class="form-group">
+                  <label for="namaPetugasPenerima">Nama Petugas Penerima:</label>
+                  <input
+                    type="text"
+                    name="namaPetugasPenerima"
+                    class="form-control"
+                    formControlName="namaPetugasPenerima">
                 </div>
-                <div class="row">
-                    <div class="col-sm-auto">
-                        <div class="form-group">
-                            <label for="tanggal">Tanggal:</label>
-                                <div class="input-group">
-                                    <input
-                                        type="text"
-                                        name="tanggal"
-                                        class="form-control"
-                                        placeholder="yyyy-mm-dd"
-                                        formControlName="tanggal"
-                                        #d="ngbDatepicker"
-                                        ngbDatepicker
-                                        (dateSelect)="onDateTanggalSelect($event)">
-                                    <button class="btn btn-outline-secondary" type="button" (click)="d.toggle()">
-                                        <i class="bi bi-calendar3"></i>
-                                    </button>
-                                </div>
-                        </div>
-                        <small 
-                            class="text-alert" 
-                            *ngIf="pphppmForm.get('tanggal')?.errors?.['required'] && 
-                                    pphppmForm.get('tanggal')?.touched">
-                                Wajib diisi!!!</small>
-                        <small 
-                            class="text-alert" 
-                            *ngIf="pphppmForm.get('tanggal')?.errors?.['minlength'] && 
-                                    pphppmForm.get('tanggal')?.touched">
-                                Minimal 10 karakter dengan format "yyyy-MM-dd" !!!</small>
-                    </div>
-                    <div class="col-sm-auto">
-                        <div class="form-group">
-                            <label for="jam">Jam:</label>
-                            <input 
-                                type="time"
-                                name="jam"
-                                class="form-control"
-                                formControlName="jam">
-                        </div>
-                        <small 
-                            class="text-alert" 
-                            *ngIf="pphppmForm.get('jam')?.errors?.['required'] && 
-                                    pphppmForm.get('jam')?.touched">
-                                Wajib diisi!!!</small>
-                        <small 
-                            class="text-alert" 
-                            *ngIf="pphppmForm.get('jam')?.errors?.['minlength'] && 
-                                    pphppmForm.get('jam')?.touched">
-                                Minimal 5 karakter dengan format "HH:mm" !!!</small>
-                    </div>   
+                @if (pphppmForm.get('namaPetugasPenerima')?.errors?.['required'] &&
+                  pphppmForm.get('namaPetugasPenerima')?.touched) {
+                  <small
+                    class="text-alert"
+                    >
+                  Wajib diisi!!!</small>
+                }
+                @if (pphppmForm.get('namaPetugasPenerima')?.errors?.['minlength'] &&
+                  pphppmForm.get('namaPetugasPenerima')?.touched) {
+                  <small
+                    class="text-alert"
+                    >
+                  Minimal 3 karakter!!!</small>
+                }
+                @if (pphppmForm.get('namaPetugasPenerima')?.errors?.['maxlength'] &&
+                  pphppmForm.get('namaPetugasPenerima')?.touched) {
+                  <small
+                    class="text-alert"
+                    >
+                  Tidak boleh lebih dari 255 karakter!!!</small>
+                }
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-auto">
+                <div class="form-group">
+                  <label for="tanggal">Tanggal:</label>
+                  <div class="input-group">
+                    <input
+                      type="text"
+                      name="tanggal"
+                      class="form-control"
+                      placeholder="yyyy-mm-dd"
+                      formControlName="tanggal"
+                      #d="ngbDatepicker"
+                      ngbDatepicker
+                      (dateSelect)="onDateTanggalSelect($event)">
+                    <button class="btn btn-outline-secondary" type="button" (click)="d.toggle()">
+                      <i class="bi bi-calendar3"></i>
+                    </button>
+                  </div>
                 </div>
-                <div class="row">
-                    <div class="col-sm-8">
-                        <div class="form-group">
-                            <label for="namaTamu">Nama Tamu:</label>
-                            <input 
-                                type="text" 
-                                name="namaTamu" 
-                                class="form-control"
-                                formControlName="namaTamu">
-                        </div>
-                        <small 
-                            class="text-alert" 
-                            *ngIf="pphppmForm.get('namaTamu')?.errors?.['required'] && 
-                                    pphppmForm.get('namaTamu')?.touched">
-                            Wajib diisi!!!</small>
-                        <small 
-                            class="text-alert" 
-                            *ngIf="pphppmForm.get('namaTamu')?.errors?.['minlength'] && 
-                                    pphppmForm.get('namaTamu')?.touched">
-                                Minimal 3 karakter!!!</small>
-                        <small 
-                            class="text-alert" 
-                            *ngIf="pphppmForm.get('namaTamu')?.errors?.['maxlength'] && 
-                                pphppmForm.get('namaTamu')?.touched">
-                                Tidak boleh lebih dari 255 karakter!!!</small>
-                    </div>
+                @if (pphppmForm.get('tanggal')?.errors?.['required'] &&
+                  pphppmForm.get('tanggal')?.touched) {
+                  <small
+                    class="text-alert"
+                    >
+                  Wajib diisi!!!</small>
+                }
+                @if (pphppmForm.get('tanggal')?.errors?.['minlength'] &&
+                  pphppmForm.get('tanggal')?.touched) {
+                  <small
+                    class="text-alert"
+                    >
+                  Minimal 10 karakter dengan format "yyyy-MM-dd" !!!</small>
+                }
+              </div>
+              <div class="col-sm-auto">
+                <div class="form-group">
+                  <label for="jam">Jam:</label>
+                  <input
+                    type="time"
+                    name="jam"
+                    class="form-control"
+                    formControlName="jam">
                 </div>
-                <div class="row">
-                    <div class="col-sm-auto">
-                        <div class="form-group">
-                            <label for="tempatLahirTamu">Tempat Lahir Tamu:</label>
-                            <input 
-                                type="text" 
-                                name="tempatLahirTamu" 
-                                class="form-control"
-                                formControlName="tempatLahirTamu">
-                        </div>
-                        <small 
-                            class="text-alert" 
-                            *ngIf="pphppmForm.get('tempatLahirTamu')?.errors?.['maxlength'] && 
-                                pphppmForm.get('tempatLahirTamu')?.touched">
-                                Tidak boleh lebih dari 255 karakter!!!</small>
-                    </div>
-                    <div class="col-sm-auto">
-                        <div class="form-group">
-                            <label for="tanggalLahirTamu">Tanggal Lahir Tamu:</label>
-                                <div class="input-group">
-                                    <input
-                                        type="text"
-                                        name="tanggalLahirTamu"
-                                        class="form-control"
-                                        placeholder="yyyy-mm-dd"
-                                        formControlName="tanggalLahirTamu"
-                                        #dt="ngbDatepicker"
-                                        ngbDatepicker
-                                        (dateSelect)="onDateTanggalLahirTamuSelect($event)">
-                                    <button class="btn btn-outline-secondary" type="button" (click)="dt.toggle()">
-                                        <i class="bi bi-calendar3"></i>
-                                    </button>
-                                </div>
-                        </div>
-                        <!-- <small 
-                            class="text-alert" 
+                @if (pphppmForm.get('jam')?.errors?.['required'] &&
+                  pphppmForm.get('jam')?.touched) {
+                  <small
+                    class="text-alert"
+                    >
+                  Wajib diisi!!!</small>
+                }
+                @if (pphppmForm.get('jam')?.errors?.['minlength'] &&
+                  pphppmForm.get('jam')?.touched) {
+                  <small
+                    class="text-alert"
+                    >
+                  Minimal 5 karakter dengan format "HH:mm" !!!</small>
+                }
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-8">
+                <div class="form-group">
+                  <label for="namaTamu">Nama Tamu:</label>
+                  <input
+                    type="text"
+                    name="namaTamu"
+                    class="form-control"
+                    formControlName="namaTamu">
+                </div>
+                @if (pphppmForm.get('namaTamu')?.errors?.['required'] &&
+                  pphppmForm.get('namaTamu')?.touched) {
+                  <small
+                    class="text-alert"
+                    >
+                  Wajib diisi!!!</small>
+                }
+                @if (pphppmForm.get('namaTamu')?.errors?.['minlength'] &&
+                  pphppmForm.get('namaTamu')?.touched) {
+                  <small
+                    class="text-alert"
+                    >
+                  Minimal 3 karakter!!!</small>
+                }
+                @if (pphppmForm.get('namaTamu')?.errors?.['maxlength'] &&
+                  pphppmForm.get('namaTamu')?.touched) {
+                  <small
+                    class="text-alert"
+                    >
+                  Tidak boleh lebih dari 255 karakter!!!</small>
+                }
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-auto">
+                <div class="form-group">
+                  <label for="tempatLahirTamu">Tempat Lahir Tamu:</label>
+                  <input
+                    type="text"
+                    name="tempatLahirTamu"
+                    class="form-control"
+                    formControlName="tempatLahirTamu">
+                </div>
+                @if (pphppmForm.get('tempatLahirTamu')?.errors?.['maxlength'] &&
+                  pphppmForm.get('tempatLahirTamu')?.touched) {
+                  <small
+                    class="text-alert"
+                    >
+                  Tidak boleh lebih dari 255 karakter!!!</small>
+                }
+              </div>
+              <div class="col-sm-auto">
+                <div class="form-group">
+                  <label for="tanggalLahirTamu">Tanggal Lahir Tamu:</label>
+                  <div class="input-group">
+                    <input
+                      type="text"
+                      name="tanggalLahirTamu"
+                      class="form-control"
+                      placeholder="yyyy-mm-dd"
+                      formControlName="tanggalLahirTamu"
+                      #dt="ngbDatepicker"
+                      ngbDatepicker
+                      (dateSelect)="onDateTanggalLahirTamuSelect($event)">
+                    <button class="btn btn-outline-secondary" type="button" (click)="dt.toggle()">
+                      <i class="bi bi-calendar3"></i>
+                    </button>
+                  </div>
+                </div>
+                <!-- <small
+                class="text-alert"
                             *ngIf="pphppmForm.get('tanggalLahirTamu')?.errors?.['required'] && 
                                     pphppmForm.get('tanggalLahirTamu')?.touched">
-                                Wajib diisi!!!</small> -->
-                        <small 
-                            class="text-alert" 
-                            *ngIf="pphppmForm.get('tanggalLahirTamu')?.errors?.['minlength'] && 
-                                    pphppmForm.get('tanggalLahirTamu')?.touched">
-                                Minimal 10 karakter dengan format "yyyy-MM-dd" !!!</small>
+              Wajib diisi!!!</small> -->
+              @if (pphppmForm.get('tanggalLahirTamu')?.errors?.['minlength'] &&
+                pphppmForm.get('tanggalLahirTamu')?.touched) {
+                <small
+                  class="text-alert"
+                  >
+                Minimal 10 karakter dengan format "yyyy-MM-dd" !!!</small>
+              }
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-12">
+              <div class="form-group">
+                <label for="alamat">Alamat:</label>
+                <textarea
+                  rows="3"
+                  type="text"
+                  name="alamat"
+                  class="form-control"
+                formControlName="alamat"></textarea>
+              </div>
+              @if (pphppmForm.get('alamat')?.errors?.['maxlength'] &&
+                pphppmForm.get('alamat')?.touched) {
+                <small
+                  class="text-alert"
+                  >
+                Tidak boleh lebih dari 255 karakter!!!</small>
+              }
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-12">
+              <div class="form-group">
+                <label for="nomorHandphone">Nomor Telepon/Handphone:</label>
+                <input
+                  type="text"
+                  name="nomorHandphone"
+                  class="form-control"
+                  formControlName="nomorHandphone">
+              </div>
+              @if (pphppmForm.get('nomorHandphone')?.errors?.['maxlength'] &&
+                pphppmForm.get('nomorHandphone')?.touched) {
+                <small
+                  class="text-alert"
+                  >
+                Tidak boleh lebih dari 13 karakter!!!</small>
+              }
+              @if (pphppmForm.get('nomorHandphone')?.errors?.['pattern'] &&
+                pphppmForm.get('nomorHandphone')?.touched) {
+                <small
+                  class="text-alert"
+                  >
+                Format nomor Telepon/HP harus angka!!!</small>
+              }
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-12">
+              <div class="form-group">
+                <label for="jenisKelamin">Jenis Kelamin:</label>
+                <div class="col-sm-auto col-md-6 col-xl-6 col-xxl-4 mb-3">
+                  <select (change)="onJenisKelaminChange($any($event.target).value)" class="form-select">
+                    <option value="LAKILAKI" [selected]="jenisKelamin === 'LAKILAKI'">Laki-Laki</option>
+                    <option value="PEREMPUAN" [selected]="jenisKelamin === 'PEREMPUAN'">Perempuan</option>
+                    <option value="TIDAK_DITENTUKAN" [selected]="jenisKelamin === 'TIDAK_DITENTUKAN'">Tidak Ditentukan</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-12">
+              <div class="form-group">
+                <label for="email">Email:</label>
+                <input
+                  type="text"
+                  name="email"
+                  class="form-control"
+                  email
+                  formControlName="email">
+              </div>
+              @if (pphppmForm.get('email')?.errors?.['maxlength'] &&
+                pphppmForm.get('email')?.touched) {
+                <small
+                  class="text-alert"
+                  >
+                Tidak boleh lebih dari 50 karakter!!!</small>
+              }
+              @if (pphppmForm.get('email')?.invalid &&
+                pphppmForm.get('email')?.touched) {
+                <small
+                  class="text-alert"
+                  >
+                Format Email tidak sesuai!!!</small>
+              }
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-12">
+              <div class="form-group">
+                <label for="pekerjaan">Pekerjaan:</label>
+                <input
+                  type="text"
+                  name="pekerjaan"
+                  class="form-control"
+                  formControlName="pekerjaan">
+              </div>
+              @if (pphppmForm.get('pekerjaan')?.errors?.['maxlength'] &&
+                pphppmForm.get('pekerjaan')?.touched) {
+                <small
+                  class="text-alert"
+                  >
+                Tidak boleh lebih dari 255 karakter!!!</small>
+              }
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-12">
+              <div class="form-group">
+                <label for="nomorIdentitas">Nomor Identitas:</label>
+                <input
+                  type="text"
+                  name="nomorIdentitas"
+                  class="form-control"
+                  formControlName="nomorIdentitas">
+              </div>
+              @if (pphppmForm.get('nomorIdentitas')?.errors?.['maxlength'] &&
+                pphppmForm.get('nomorIdentitas')?.touched) {
+                <small
+                  class="text-alert"
+                  >
+                Tidak boleh lebih dari 16 karakter!!!</small>
+              }
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-12">
+              <div class="form-group">
+                <label for="namaOrganisasi">Nama Organisasi:</label>
+                <input
+                  type="text"
+                  name="namaOrganisasi"
+                  class="form-control"
+                  formControlName="namaOrganisasi">
+              </div>
+              @if (pphppmForm.get('namaOrganisasi')?.errors?.['maxlength'] &&
+                pphppmForm.get('namaOrganisasi')?.touched) {
+                <small
+                  class="text-alert"
+                  >
+                Tidak boleh lebih dari 255 karakter!!!</small>
+              }
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-12">
+              <div class="form-group">
+                <label for="informasiYangDisampaikan">Informasi yang disampaikan:</label>
+                <textarea
+                  rows="3"
+                  type="text"
+                  name="informasiYangDisampaikan"
+                  class="form-control"
+                formControlName="informasiYangDisampaikan"></textarea>
+              </div>
+              @if (pphppmForm.get('informasiYangDisampaikan')?.errors?.['required'] &&
+                pphppmForm.get('informasiYangDisampaikan')?.touched) {
+                <small
+                  class="text-alert"
+                  >
+                Wajib diisi!!!</small>
+              }
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-12">
+              <div class="form-group">
+                <label for="dokumenYangDisampaikan">Dokumen yang disampaikan:</label>
+                <textarea
+                  rows="3"
+                  type="text"
+                  name="dokumenYangDisampaikan"
+                  class="form-control"
+                formControlName="dokumenYangDisampaikan"></textarea>
+              </div>
+              @if (pphppmForm.get('dokumenYangDisampaikan')?.errors?.['maxlength'] &&
+                pphppmForm.get('dokumenYangDisampaikan')?.touched) {
+                <small
+                  class="text-alert"
+                  >
+                Tidak boleh lebih dari 255 karakter!!!</small>
+              }
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-12">
+              <div class="form-group">
+                <label for="keterangan">Keterangan:</label>
+                <textarea
+                  rows="3"
+                  name="keterangan"
+                  class="form-control"
+                formControlName="keterangan"></textarea>
+              </div>
+              @if (pphppmForm.get('keterangan')?.errors?.['maxlength'] &&
+                pphppmForm.get('keterangan')?.touched) {
+                <small
+                  class="text-alert"
+                  >
+                Tidak boleh lebih dari 255 karakter!!!</small>
+              }
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-12">
+              <div class="form-group">
+                <label for="urlFile">Link File:</label>
+                <textarea
+                  rows="3"
+                  name="urlFile"
+                  class="form-control"
+                formControlName="urlFile"></textarea>
+              </div>
+            </div>
+          </div>
+          @if (error) {
+            <app-danger-alert [message]="error"></app-danger-alert>
+          }
+          @if (isLoading) {
+            <div class="mt-4">
+              <app-loading-spinner></app-loading-spinner>
+            </div>
+          }
+          @if (!isLoading) {
+            <div>
+              <div class="d-flex justify-content-between">
+                <div class="p-2">
+                  <button
+                    class="btn btn-success"
+                    type="submit"
+                    [disabled]="!pphppmForm.valid"
+                    style="margin-top: 20px;"><i class="bi bi-floppy"></i> Simpan</button>
+                  </div>
+                  <div class="p-2">
+                    <button
+                      class="btn btn-danger"
+                      type="button"
+                      (click)="onCancel()"
+                      style="margin-top: 20px;"><i class="bi bi-backspace-fill"></i> Batal</button>
                     </div>
+                  </div>
                 </div>
-                <div class="row">
-                    <div class="col-sm-12">
-                        <div class="form-group">
-                            <label for="alamat">Alamat:</label>
-                            <textarea
-                                rows="3"
-                                type="text" 
-                                name="alamat" 
-                                class="form-control"
-                                formControlName="alamat"></textarea>
-                        </div>
-                        <small 
-                            class="text-alert" 
-                            *ngIf="pphppmForm.get('alamat')?.errors?.['maxlength'] && 
-                                pphppmForm.get('alamat')?.touched">
-                                Tidak boleh lebih dari 255 karakter!!!</small>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-sm-12">
-                        <div class="form-group">
-                            <label for="nomorHandphone">Nomor Telepon/Handphone:</label>
-                            <input 
-                                type="text" 
-                                name="nomorHandphone" 
-                                class="form-control"
-                                formControlName="nomorHandphone">
-                        </div>
-                        <small 
-                            class="text-alert" 
-                            *ngIf="pphppmForm.get('nomorHandphone')?.errors?.['maxlength'] && 
-                                pphppmForm.get('nomorHandphone')?.touched">
-                                Tidak boleh lebih dari 13 karakter!!!</small>
-                        <small 
-                            class="text-alert" 
-                            *ngIf="pphppmForm.get('nomorHandphone')?.errors?.['pattern'] && 
-                                pphppmForm.get('nomorHandphone')?.touched">
-                                Format nomor Telepon/HP harus angka!!!</small>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-sm-12">
-                        <div class="form-group">
-                            <label for="jenisKelamin">Jenis Kelamin:</label>
-                                <div class="col-sm-auto col-md-6 col-xl-6 col-xxl-4 mb-3">
-                                    <select (change)="onJenisKelaminChange($any($event.target).value)" class="form-select">
-                                        <option value="LAKILAKI" [selected]="jenisKelamin === 'LAKILAKI'">Laki-Laki</option>
-                                        <option value="PEREMPUAN" [selected]="jenisKelamin === 'PEREMPUAN'">Perempuan</option>
-                                        <option value="TIDAK_DITENTUKAN" [selected]="jenisKelamin === 'TIDAK_DITENTUKAN'">Tidak Ditentukan</option>
-                                    </select>
-                                </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-sm-12">
-                        <div class="form-group">
-                            <label for="email">Email:</label>
-                            <input 
-                                type="text" 
-                                name="email" 
-                                class="form-control"
-                                email
-                                formControlName="email">
-                        </div>
-                        <small 
-                            class="text-alert" 
-                            *ngIf="pphppmForm.get('email')?.errors?.['maxlength'] && 
-                                pphppmForm.get('email')?.touched">
-                                Tidak boleh lebih dari 50 karakter!!!</small>
-                        <small 
-                            class="text-alert" 
-                            *ngIf="pphppmForm.get('email')?.invalid && 
-                                pphppmForm.get('email')?.touched">
-                                Format Email tidak sesuai!!!</small>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-sm-12">
-                        <div class="form-group">
-                            <label for="pekerjaan">Pekerjaan:</label>
-                            <input 
-                                type="text" 
-                                name="pekerjaan" 
-                                class="form-control"
-                                formControlName="pekerjaan">
-                        </div>
-                        <small 
-                            class="text-alert" 
-                            *ngIf="pphppmForm.get('pekerjaan')?.errors?.['maxlength'] && 
-                                pphppmForm.get('pekerjaan')?.touched">
-                                Tidak boleh lebih dari 255 karakter!!!</small>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-sm-12">
-                        <div class="form-group">
-                            <label for="nomorIdentitas">Nomor Identitas:</label>
-                            <input 
-                                type="text" 
-                                name="nomorIdentitas" 
-                                class="form-control"
-                                formControlName="nomorIdentitas">
-                        </div>
-                        <small 
-                            class="text-alert" 
-                            *ngIf="pphppmForm.get('nomorIdentitas')?.errors?.['maxlength'] && 
-                                pphppmForm.get('nomorIdentitas')?.touched">
-                                Tidak boleh lebih dari 16 karakter!!!</small>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-sm-12">
-                        <div class="form-group">
-                            <label for="namaOrganisasi">Nama Organisasi:</label>
-                            <input 
-                                type="text" 
-                                name="namaOrganisasi" 
-                                class="form-control"
-                                formControlName="namaOrganisasi">
-                        </div>
-                        <small 
-                            class="text-alert" 
-                            *ngIf="pphppmForm.get('namaOrganisasi')?.errors?.['maxlength'] && 
-                                pphppmForm.get('namaOrganisasi')?.touched">
-                                Tidak boleh lebih dari 255 karakter!!!</small>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-sm-12">
-                        <div class="form-group">
-                            <label for="informasiYangDisampaikan">Informasi yang disampaikan:</label>
-                            <textarea
-                                rows="3"
-                                type="text" 
-                                name="informasiYangDisampaikan" 
-                                class="form-control"
-                                formControlName="informasiYangDisampaikan"></textarea>
-                        </div>
-                        <small 
-                            class="text-alert" 
-                            *ngIf="pphppmForm.get('informasiYangDisampaikan')?.errors?.['required'] && 
-                                    pphppmForm.get('informasiYangDisampaikan')?.touched">
-                                Wajib diisi!!!</small>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-sm-12">
-                        <div class="form-group">
-                            <label for="dokumenYangDisampaikan">Dokumen yang disampaikan:</label>
-                            <textarea
-                                rows="3"
-                                type="text" 
-                                name="dokumenYangDisampaikan" 
-                                class="form-control"
-                                formControlName="dokumenYangDisampaikan"></textarea>
-                        </div>
-                        <small 
-                            class="text-alert" 
-                            *ngIf="pphppmForm.get('dokumenYangDisampaikan')?.errors?.['maxlength'] && 
-                                pphppmForm.get('dokumenYangDisampaikan')?.touched">
-                                Tidak boleh lebih dari 255 karakter!!!</small>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-sm-12">
-                        <div class="form-group">
-                            <label for="keterangan">Keterangan:</label>
-                            <textarea
-                                rows="3"
-                                name="keterangan" 
-                                class="form-control"
-                                formControlName="keterangan"></textarea>
-                        </div>
-                        <small 
-                            class="text-alert" 
-                            *ngIf="pphppmForm.get('keterangan')?.errors?.['maxlength'] && 
-                                pphppmForm.get('keterangan')?.touched">
-                                Tidak boleh lebih dari 255 karakter!!!</small>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-sm-12">
-                        <div class="form-group">
-                            <label for="urlFile">Link File:</label>
-                            <textarea
-                                rows="3"
-                                name="urlFile" 
-                                class="form-control"
-                                formControlName="urlFile"></textarea>
-                        </div>
-                    </div>
-                </div>
-                <app-danger-alert [message]="error" *ngIf="error"></app-danger-alert>
-                <div class="mt-4" *ngIf="isLoading">
-                    <app-loading-spinner></app-loading-spinner>
-                </div>
-                <div *ngIf="!isLoading">
-                    <div class="d-flex justify-content-between">
-                        <div class="p-2">
-                            <button
-                                class="btn btn-success"
-                                type="submit"
-                                [disabled]="!pphppmForm.valid"
-                                style="margin-top: 20px;"><i class="bi bi-floppy"></i> Simpan</button>
-                        </div>
-                        <div class="p-2">
-                            <button
-                                class="btn btn-danger"
-                                type="button"
-                                (click)="onCancel()"
-                                style="margin-top: 20px;"><i class="bi bi-backspace-fill"></i> Batal</button>  
-                        </div>
-                    </div> 
-                </div>       
+              }
             </form>
+          </div>
         </div>
-    </div>
-</div>
+      </div>
+    }

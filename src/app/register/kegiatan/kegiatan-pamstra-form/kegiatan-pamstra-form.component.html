@@ -1,498 +1,563 @@
-<div *ngIf="isLoadingEditForm && isEditMode" class="mt-4" style="text-align: center;">
+@if (isLoadingEditForm && isEditMode) {
+  <div class="mt-4" style="text-align: center;">
     <app-loading-spinner></app-loading-spinner>
-</div>
-<div class="alert alert-danger mt-4" *ngIf="editModeError && isEditMode" role="alert">
-    {{ error }} 
+  </div>
+}
+@if (editModeError && isEditMode) {
+  <div class="alert alert-danger mt-4" role="alert">
+    {{ error }}
     <br>
-    <a 
+      <a
         [routerLink]="['/kegiatan', 'list', 'pamstra-list']"
-        [queryParams]="{bidang: namaBidang}" 
-        class="alert-link">Kembali</a>
-</div>
-<div class="mt-4" style="margin-bottom: 50px;" *ngIf="!isLoadingEditForm && !editModeError">
-    <div class="row">
-        <div class="col-sm-10 col-md-8 col-xl-8 offset-sm-2 col-md-2 offset-xl-2">
-           <form [formGroup]="giatForm" (ngSubmit)="onSubmit()">
-                <div class="row">
-                    <div class="col-sm-auto">
-                        <div class="form-group">
-                            <label for="sektor">Sektor:</label>
-                                <div class="input-group">
-                                    <div class="col-sm-auto mb-3">
-                                        <select (change)="sektorChange($any($event.target).value)" class="form-select">
-                                            <option
-                                                *ngFor="let s of sektorList" 
-                                                [value]="s.namaSektor" 
-                                                [selected]="s.namaSektor === namaSektorSelected">{{ s.deskripsiSektor }}</option>
-                                        </select>
-                                    </div>
-                                </div>                        
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-sm-12">
-                        <div class="form-group">
-                            <label for="namaKegiatan">Nama Kegiatan:</label>
-                            <textarea
-                                rows="3" 
-                                type="text"
-                                name="namaKegiatan"
-                                class="form-control"
-                                formControlName="namaKegiatan"></textarea>
-                        </div>
-                        <small 
-                            class="text-alert" 
-                            *ngIf="giatForm.get('namaKegiatan')?.errors?.['required'] && 
-                                   giatForm.get('namaKegiatan')?.touched">
-                                Wajib diisi!!!</small>
-                        <small 
-                            class="text-alert" 
-                            *ngIf="giatForm.get('namaKegiatan')?.errors?.['minlength'] && 
-                                   giatForm.get('namaKegiatan')?.touched">
-                                Minimal 5 karakter!!!</small>
-                        <small 
-                            class="text-alert" 
-                            *ngIf="giatForm.get('namaKegiatan')?.errors?.['maxlength'] && 
-                                    giatForm.get('namaKegiatan')?.touched">
-                                Tidak boleh lebih dari 255 karakter!!!</small>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-sm-12">
-                        <div class="form-group">
-                            <label for="sumberDana">Sumber Dana:</label>
-                            <input
-                                type="text" 
-                                name="sumberDana" 
-                                class="form-control"
-                                formControlName="sumberDana">
-                        </div>
-                        <small 
-                            class="text-alert" 
-                            *ngIf="giatForm.get('sumberDana')?.errors?.['required'] && 
-                                   giatForm.get('sumberDana')?.touched">
-                                Wajib diisi!!!</small>
-                        <small 
-                            class="text-alert" 
-                            *ngIf="giatForm.get('sumberDana')?.errors?.['minlength'] && 
-                                    giatForm.get('sumberDana')?.touched">
-                                Minimal 3 karakter!!!</small>
-                        <small 
-                            class="text-alert" 
-                            *ngIf="giatForm.get('sumberDana')?.errors?.['maxlength'] && 
-                                   giatForm.get('sumberDana')?.touched">
-                                Tidak boleh lebih dari 255 karakter!!!</small>
-                    </div>                  
-                </div>              
-                <div class="row">
-                    <div class="col-sm-12">
-                        <div class="form-group">
-                            <label for="instansi">Instansi:</label>
-                            <input
-                                type="text" 
-                                name="sumberDana" 
-                                class="form-control"
-                                formControlName="instansi">
-                        </div>
-                        <small 
-                            class="text-alert" 
-                            *ngIf="giatForm.get('instansi')?.errors?.['required'] && 
-                                   giatForm.get('instansi')?.touched">
-                                Wajib diisi!!!</small>
-                        <small 
-                            class="text-alert" 
-                            *ngIf="giatForm.get('instansi')?.errors?.['minlength'] && 
-                                    giatForm.get('instansi')?.touched">
-                                Minimal 3 karakter!!!</small>
-                        <small 
-                            class="text-alert" 
-                            *ngIf="giatForm.get('instansi')?.errors?.['maxlength'] && 
-                                   giatForm.get('instansi')?.touched">
-                                Tidak boleh lebih dari 255 karakter!!!</small>
-                    </div>                  
-                </div>              
-                <div class="row">
-                    <div class="col-sm-12">
-                        <div class="form-group">
-                            <label for="paguAnggaran">Jumlah Pagu Anggaran:</label>
-                            <input
-                                type="text" 
-                                name="paguAnggaran" 
-                                class="form-control"
-                                formControlName="paguAnggaran"
-                                currencyMask
-                                [options]="{ align: 'left', prefix: 'Rp. ', thousands: '.', decimal: ',', precision: 2 }">
-                        </div>
-                        <small 
-                            class="text-alert" 
-                            *ngIf="giatForm.get('paguAnggaran')?.errors?.['required'] && 
-                                   giatForm.get('paguAnggaran')?.touched">
-                                Wajib diisi!!!</small>
-                        <small 
-                            class="text-alert" 
-                            *ngIf="giatForm.get('paguAnggaran')?.errors?.['minlength'] && 
-                                    giatForm.get('paguAnggaran')?.touched">
-                                Minimal 3 karakter!!!</small>
-                        <small 
-                            class="text-alert" 
-                            *ngIf="giatForm.get('paguAnggaran')?.errors?.['maxlength'] && 
-                                   giatForm.get('paguAnggaran')?.touched">
-                                Tidak boleh lebih dari 255 karakter!!!</small>
-                    </div>                  
-                </div>   
-                <div class="row">
-                    <div class="col-sm-12">
-                        <div class="form-group">
-                            <label for="nomorSuratPermohonan">Nomor Surat Permohonan:</label>
-                            <input 
-                                type="text"
-                                name="nomorSuratPermohonan"
-                                class="form-control"
-                                formControlName="nomorSuratPermohonan">
-                        </div>
-                        <small 
-                            class="text-alert" 
-                            *ngIf="giatForm.get('nomorSuratPermohonan')?.errors?.['required'] && 
-                                   giatForm.get('nomorSuratPermohonan')?.touched">
-                                Wajib diisi!!!</small>
-                        <small 
-                            class="text-alert" 
-                            *ngIf="giatForm.get('nomorSuratPermohonan')?.errors?.['minlength'] && 
-                                   giatForm.get('nomorSuratPermohonan')?.touched">
-                                Minimal 3 karakter!!!</small>
-                        <small 
-                            class="text-alert" 
-                            *ngIf="giatForm.get('nomorSuratPermohonan')?.errors?.['maxlength'] && 
-                                    giatForm.get('nomorSuratPermohonan')?.touched">
-                                Tidak boleh lebih dari 255 karakter!!!</small>
-                    </div>
-                </div>    
-                <div class="row">
-                    <div class="col-sm-auto">
-                        <div class="form-group">
-                            <label for="tanggalSuratPermohonan">Tanggal Surat Permohonan:</label>
-                                <div class="input-group">
-                                    <input
-                                        type="text"
-                                        name="tanggalSuratPermohonan"
-                                        class="form-control"
-                                        placeholder="yyyy-mm-dd"
-                                        formControlName="tanggalSuratPermohonan"
-                                        #dp1="ngbDatepicker"
-                                        ngbDatepicker
-                                        (dateSelect)="onDateTanggalSuratPermohonanSelect($event)">
-                                    <button class="btn btn-outline-secondary" type="button" (click)="dp1.toggle()">
-                                        <i class="bi bi-calendar3"></i>
-                                    </button>
-                                </div>                        
-                        </div>
-                        <small 
-                            class="text-alert" 
-                            *ngIf="giatForm.get('tanggalSuratPermohonan')?.errors?.['required'] && 
-                                   giatForm.get('tanggalSuratPermohonan')?.touched">
-                                Wajib diisi!!!</small>
-                        <small 
-                            class="text-alert" 
-                            *ngIf="giatForm.get('tanggalSuratPermohonan')?.errors?.['minlength'] && 
-                                   giatForm.get('tanggalSuratPermohonan')?.touched">
-                                Minimal 10 karakter dengan format "yyyy-MM-dd" !!!</small>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-sm-12">
-                        <div class="form-group">
-                            <label for="tempatPemaparan">Tempat Pemaparan:</label>
-                            <input
-                                rows="3"
-                                name="tempatPemaparan" 
-                                class="form-control"
-                                formControlName="tempatPemaparan">
-                        </div>
-                        <small 
-                            class="text-alert" 
-                            *ngIf="giatForm.get('tempatPemaparan')?.errors?.['maxlength'] && 
-                                    giatForm.get('tempatPemaparan')?.touched">
-                                Tidak boleh lebih dari 255 karakter!!!</small>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-sm-auto">
-                        <div class="form-group">
-                            <label for="tanggalPemaparan">Tanggal Pemaparan:</label>
-                                <div class="input-group">
-                                    <input
-                                        type="text"
-                                        name="tanggalPemaparan"
-                                        class="form-control"
-                                        placeholder="yyyy-mm-dd"
-                                        formControlName="tanggalPemaparan"
-                                        #dp4="ngbDatepicker"
-                                        ngbDatepicker
-                                        (dateSelect)="onDateTanggalPemaparanSelect($event)">
-                                    <button class="btn btn-outline-secondary" type="button" (click)="dp4.toggle()">
-                                        <i class="bi bi-calendar3"></i>
-                                    </button>
-                                </div>                        
-                        </div>
-                        <small 
-                            class="text-alert" 
-                            *ngIf="giatForm.get('tanggalPemaparan')?.errors?.['minlength'] && 
-                                   giatForm.get('tanggalPemaparan')?.touched">
-                                Minimal 10 karakter dengan format "yyyy-MM-dd" !!!</small>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-sm-12">        
-                        <div class="form-group">
-                            <label for="telaahanIntelijen">Telaahan Intelijen:</label>
-                            <textarea
-                                rows="3"
-                                name="telaahanIntelijen" 
-                                class="form-control"
-                                formControlName="telaahanIntelijen"></textarea>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-sm-12">        
-                        <div class="form-group">
-                            <label for="tindakLanjut">Tindak Lanjut:</label>
-                                <div class="input-group">
-                                    <div class="col-sm-auto mb-3">
-                                        <select (change)="tindakLanjutChange($any($event.target).value)" class="form-select">
-                                            <option
-                                                [value]="true" 
-                                                [selected]="tindakLanjutValue === true">Ditindaklanjuti</option>
-                                            <option
-                                                [value]="false" 
-                                                [selected]="tindakLanjutValue === false">Tidak Ditindaklanjuti</option>
-                                        </select>
-                                    </div>
-                                </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-sm-12">        
-                        <div class="form-group">
-                            <label for="tindakLanjutKeterangan">Alasan Tindak Lanjut:</label>
-                            <textarea
-                                rows="3"
-                                name="tindakLanjutKeterangan" 
-                                class="form-control"
-                                formControlName="tindakLanjutKeterangan"></textarea>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-sm-12">
-                        <div class="form-group">
-                            <label for="nomorSprintWalpam">Nomor Sprint Walpam:</label>
-                            <input
-                                rows="3"
-                                name="nomorSprintWalpam" 
-                                class="form-control"
-                                formControlName="nomorSprintWalpam">
-                        </div>
-                        <small 
-                            class="text-alert" 
-                            *ngIf="giatForm.get('nomorSprintWalpam')?.errors?.['maxlength'] && 
-                                    giatForm.get('nomorSprintWalpam')?.touched">
-                                Tidak boleh lebih dari 255 karakter!!!</small>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-sm-auto">
-                        <div class="form-group">
-                            <label for="tanggalSprintWalpam">Tanggal Sprint Walpam:</label>
-                                <div class="input-group">
-                                    <input
-                                        type="text"
-                                        name="tanggalSprintWalpam"
-                                        class="form-control"
-                                        placeholder="yyyy-mm-dd"
-                                        formControlName="tanggalSprintWalpam"
-                                        #dp2="ngbDatepicker"
-                                        ngbDatepicker
-                                        (dateSelect)="onDateTanggalSprintWalpamSelect($event)">
-                                    <button class="btn btn-outline-secondary" type="button" (click)="dp2.toggle()">
-                                        <i class="bi bi-calendar3"></i>
-                                    </button>
-                                </div>                        
-                        </div>
-                        <small 
-                            class="text-alert" 
-                            *ngIf="giatForm.get('tanggalSprintWalpam')?.errors?.['minlength'] && 
-                                   giatForm.get('tanggalSprintWalpam')?.touched">
-                                Minimal 10 karakter dengan format "yyyy-MM-dd" !!!</small>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-sm-12"> 
-                        <div class="form-group">
-                            <label for="namaPetugasPelaksana">Nama Petugas Pelaksana:</label>
-                            <textarea
-                                rows="3"
-                                name="namaPetugasPelaksana" 
-                                class="form-control"
-                                formControlName="namaPetugasPelaksana"></textarea>
-                        </div>
-                        <small 
-                            class="text-alert" 
-                            *ngIf="giatForm.get('namaPetugasPelaksana')?.errors?.['minlength'] && 
-                                    giatForm.get('namaPetugasPelaksana')?.touched">
-                                Minimal 3 karakter!!!</small>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-sm-12">
-                        <div class="form-group">
-                            <label for="nilaiKontrak">Nilai Kontrak:</label>
-                            <input
-                                rows="3"
-                                name="nilaiKontrak" 
-                                class="form-control"
-                                formControlName="nilaiKontrak"
-                                currencyMask
-                                [options]="{ align: 'left', prefix: 'Rp. ', thousands: '.', decimal: ',', precision: 2 }">
-                        </div>
-                        <small 
-                            class="text-alert" 
-                            *ngIf="giatForm.get('nilaiKontrak')?.errors?.['maxlength'] && 
-                                    giatForm.get('nilaiKontrak')?.touched">
-                                Tidak boleh lebih dari 255 karakter!!!</small>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-sm-12">        
-                        <div class="form-group">
-                            <label for="hasilPelaksanaan">Status Pelaksanaan Pendampingan:</label>
-                                <div class="input-group">
-                                    <div class="col-sm-auto mb-3">
-                                        <select (change)="tindakPelaksanaanChange($any($event.target).value)" class="form-select">
-                                            <option
-                                                [value]="pelaksanaanList[0]" 
-                                                [selected]="pelaksanaanList[0] === pelaksanaanSelected">Sedang Berjalan</option>
-                                            <option
-                                                [value]="pelaksanaanList[1]" 
-                                                [selected]="pelaksanaanList[1] === pelaksanaanSelected">Selesai</option>
-                                            <option
-                                                [value]="pelaksanaanList[2]" 
-                                                [selected]="pelaksanaanList[2] === pelaksanaanSelected">Dihentikan</option>
-                                        </select>
-                                    </div>
-                                </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-sm-12"> 
-                        <div class="form-group">
-                            <label for="hasilPelaksanaanKeterangan">Keterangan Status Pelaksanaan Pendampingan:</label>
-                            <textarea
-                                rows="3"
-                                name="hasilPelaksanaanKeterangan" 
-                                class="form-control"
-                                formControlName="hasilPelaksanaanKeterangan"></textarea>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-sm-12">
-                        <div class="form-group">
-                            <label for="nomorKertasKerja">Nomor Kertas Kerja:</label>
-                            <input
-                                rows="3"
-                                name="nomorKertasKerja" 
-                                class="form-control"
-                                formControlName="nomorKertasKerja">
-                        </div>
-                        <small 
-                            class="text-alert" 
-                            *ngIf="giatForm.get('nomorKertasKerja')?.errors?.['maxlength'] && 
-                                    giatForm.get('nomorKertasKerja')?.touched">
-                                Tidak boleh lebih dari 255 karakter!!!</small>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-sm-auto">
-                        <div class="form-group">
-                            <label for="tanggalKertasKerja">Tanggal Kertas Kerja:</label>
-                                <div class="input-group">
-                                    <input
-                                        type="text"
-                                        name="tanggalKertasKerja"
-                                        class="form-control"
-                                        placeholder="yyyy-mm-dd"
-                                        formControlName="tanggalKertasKerja"
-                                        #dp3="ngbDatepicker"
-                                        ngbDatepicker
-                                        (dateSelect)="onDateTanggalKertasKerjaSelect($event)">
-                                    <button class="btn btn-outline-secondary" type="button" (click)="dp3.toggle()">
-                                        <i class="bi bi-calendar3"></i>
-                                    </button>
-                                </div>                        
-                        </div>
-                        <small 
-                            class="text-alert" 
-                            *ngIf="giatForm.get('tanggalSprintWalpam')?.errors?.['minlength'] && 
-                                   giatForm.get('tanggalSprintWalpam')?.touched">
-                                Minimal 10 karakter dengan format "yyyy-MM-dd" !!!</small>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-sm-12"> 
-                        <div class="form-group">
-                            <label for="keterangan">Keterangan:</label>
-                            <textarea
-                                rows="3"
-                                name="keterangan" 
-                                class="form-control"
-                                formControlName="keterangan"></textarea>
-                        </div>
-                        <small 
-                            class="text-alert" 
-                            *ngIf="giatForm.get('keterangan')?.errors?.['maxlength'] && 
-                                    giatForm.get('keterangan')?.touched">
-                                Tidak boleh lebih dari 255 karakter!!!</small>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-sm-12"> 
-                        <div class="form-group">
-                            <label for="urlFile">Link File:</label>
-                            <textarea
-                                rows="3"
-                                name="urlFile" 
-                                class="form-control"
-                                formControlName="urlFile"></textarea>
-                        </div>
-                    </div>
-                </div>
-                <app-danger-alert [message]="error" *ngIf="error"></app-danger-alert>
-                <div class="mt-4" *ngIf="isLoading">
-                    <app-loading-spinner></app-loading-spinner>
-                </div>
-                <div *ngIf="!isLoading">
-                    <div class="d-flex justify-content-between">
-                        <div class="p-2">
-                            <button
-                                class="btn btn-success"
-                                type="submit"
-                                [disabled]="!giatForm.valid"
-                                style="margin-top: 20px;"><i class="bi bi-floppy"></i> Simpan</button>
-                        </div>
-                        <div class="p-2">
-                            <button
-                                class="btn btn-danger"
-                                type="button"
-                                (click)="onCancel()"
-                                style="margin-top: 20px;"><i class="bi bi-backspace-fill"></i> Batal</button>  
-                        </div>
-                    </div> 
-                </div>       
-            </form>
-        </div>
+        [queryParams]="{bidang: namaBidang}"
+      class="alert-link">Kembali</a>
     </div>
-</div>
+  }
+  @if (!isLoadingEditForm && !editModeError) {
+    <div class="mt-4" style="margin-bottom: 50px;">
+      <div class="row">
+        <div class="col-sm-10 col-md-8 col-xl-8 offset-sm-2 col-md-2 offset-xl-2">
+          <form [formGroup]="giatForm" (ngSubmit)="onSubmit()">
+            <div class="row">
+              <div class="col-sm-auto">
+                <div class="form-group">
+                  <label for="sektor">Sektor:</label>
+                  <div class="input-group">
+                    <div class="col-sm-auto mb-3">
+                      <select (change)="sektorChange($any($event.target).value)" class="form-select">
+                        @for (s of sektorList; track s) {
+                          <option
+                            [value]="s.namaSektor"
+                          [selected]="s.namaSektor === namaSektorSelected">{{ s.deskripsiSektor }}</option>
+                        }
+                      </select>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-12">
+                <div class="form-group">
+                  <label for="namaKegiatan">Nama Kegiatan:</label>
+                  <textarea
+                    rows="3"
+                    type="text"
+                    name="namaKegiatan"
+                    class="form-control"
+                  formControlName="namaKegiatan"></textarea>
+                </div>
+                @if (giatForm.get('namaKegiatan')?.errors?.['required'] &&
+                  giatForm.get('namaKegiatan')?.touched) {
+                  <small
+                    class="text-alert"
+                    >
+                  Wajib diisi!!!</small>
+                }
+                @if (giatForm.get('namaKegiatan')?.errors?.['minlength'] &&
+                  giatForm.get('namaKegiatan')?.touched) {
+                  <small
+                    class="text-alert"
+                    >
+                  Minimal 5 karakter!!!</small>
+                }
+                @if (giatForm.get('namaKegiatan')?.errors?.['maxlength'] &&
+                  giatForm.get('namaKegiatan')?.touched) {
+                  <small
+                    class="text-alert"
+                    >
+                  Tidak boleh lebih dari 255 karakter!!!</small>
+                }
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-12">
+                <div class="form-group">
+                  <label for="sumberDana">Sumber Dana:</label>
+                  <input
+                    type="text"
+                    name="sumberDana"
+                    class="form-control"
+                    formControlName="sumberDana">
+                </div>
+                @if (giatForm.get('sumberDana')?.errors?.['required'] &&
+                  giatForm.get('sumberDana')?.touched) {
+                  <small
+                    class="text-alert"
+                    >
+                  Wajib diisi!!!</small>
+                }
+                @if (giatForm.get('sumberDana')?.errors?.['minlength'] &&
+                  giatForm.get('sumberDana')?.touched) {
+                  <small
+                    class="text-alert"
+                    >
+                  Minimal 3 karakter!!!</small>
+                }
+                @if (giatForm.get('sumberDana')?.errors?.['maxlength'] &&
+                  giatForm.get('sumberDana')?.touched) {
+                  <small
+                    class="text-alert"
+                    >
+                  Tidak boleh lebih dari 255 karakter!!!</small>
+                }
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-12">
+                <div class="form-group">
+                  <label for="instansi">Instansi:</label>
+                  <input
+                    type="text"
+                    name="sumberDana"
+                    class="form-control"
+                    formControlName="instansi">
+                </div>
+                @if (giatForm.get('instansi')?.errors?.['required'] &&
+                  giatForm.get('instansi')?.touched) {
+                  <small
+                    class="text-alert"
+                    >
+                  Wajib diisi!!!</small>
+                }
+                @if (giatForm.get('instansi')?.errors?.['minlength'] &&
+                  giatForm.get('instansi')?.touched) {
+                  <small
+                    class="text-alert"
+                    >
+                  Minimal 3 karakter!!!</small>
+                }
+                @if (giatForm.get('instansi')?.errors?.['maxlength'] &&
+                  giatForm.get('instansi')?.touched) {
+                  <small
+                    class="text-alert"
+                    >
+                  Tidak boleh lebih dari 255 karakter!!!</small>
+                }
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-12">
+                <div class="form-group">
+                  <label for="paguAnggaran">Jumlah Pagu Anggaran:</label>
+                  <input
+                    type="text"
+                    name="paguAnggaran"
+                    class="form-control"
+                    formControlName="paguAnggaran"
+                    currencyMask
+                    [options]="{ align: 'left', prefix: 'Rp. ', thousands: '.', decimal: ',', precision: 2 }">
+                </div>
+                @if (giatForm.get('paguAnggaran')?.errors?.['required'] &&
+                  giatForm.get('paguAnggaran')?.touched) {
+                  <small
+                    class="text-alert"
+                    >
+                  Wajib diisi!!!</small>
+                }
+                @if (giatForm.get('paguAnggaran')?.errors?.['minlength'] &&
+                  giatForm.get('paguAnggaran')?.touched) {
+                  <small
+                    class="text-alert"
+                    >
+                  Minimal 3 karakter!!!</small>
+                }
+                @if (giatForm.get('paguAnggaran')?.errors?.['maxlength'] &&
+                  giatForm.get('paguAnggaran')?.touched) {
+                  <small
+                    class="text-alert"
+                    >
+                  Tidak boleh lebih dari 255 karakter!!!</small>
+                }
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-12">
+                <div class="form-group">
+                  <label for="nomorSuratPermohonan">Nomor Surat Permohonan:</label>
+                  <input
+                    type="text"
+                    name="nomorSuratPermohonan"
+                    class="form-control"
+                    formControlName="nomorSuratPermohonan">
+                </div>
+                @if (giatForm.get('nomorSuratPermohonan')?.errors?.['required'] &&
+                  giatForm.get('nomorSuratPermohonan')?.touched) {
+                  <small
+                    class="text-alert"
+                    >
+                  Wajib diisi!!!</small>
+                }
+                @if (giatForm.get('nomorSuratPermohonan')?.errors?.['minlength'] &&
+                  giatForm.get('nomorSuratPermohonan')?.touched) {
+                  <small
+                    class="text-alert"
+                    >
+                  Minimal 3 karakter!!!</small>
+                }
+                @if (giatForm.get('nomorSuratPermohonan')?.errors?.['maxlength'] &&
+                  giatForm.get('nomorSuratPermohonan')?.touched) {
+                  <small
+                    class="text-alert"
+                    >
+                  Tidak boleh lebih dari 255 karakter!!!</small>
+                }
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-auto">
+                <div class="form-group">
+                  <label for="tanggalSuratPermohonan">Tanggal Surat Permohonan:</label>
+                  <div class="input-group">
+                    <input
+                      type="text"
+                      name="tanggalSuratPermohonan"
+                      class="form-control"
+                      placeholder="yyyy-mm-dd"
+                      formControlName="tanggalSuratPermohonan"
+                      #dp1="ngbDatepicker"
+                      ngbDatepicker
+                      (dateSelect)="onDateTanggalSuratPermohonanSelect($event)">
+                    <button class="btn btn-outline-secondary" type="button" (click)="dp1.toggle()">
+                      <i class="bi bi-calendar3"></i>
+                    </button>
+                  </div>
+                </div>
+                @if (giatForm.get('tanggalSuratPermohonan')?.errors?.['required'] &&
+                  giatForm.get('tanggalSuratPermohonan')?.touched) {
+                  <small
+                    class="text-alert"
+                    >
+                  Wajib diisi!!!</small>
+                }
+                @if (giatForm.get('tanggalSuratPermohonan')?.errors?.['minlength'] &&
+                  giatForm.get('tanggalSuratPermohonan')?.touched) {
+                  <small
+                    class="text-alert"
+                    >
+                  Minimal 10 karakter dengan format "yyyy-MM-dd" !!!</small>
+                }
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-12">
+                <div class="form-group">
+                  <label for="tempatPemaparan">Tempat Pemaparan:</label>
+                  <input
+                    rows="3"
+                    name="tempatPemaparan"
+                    class="form-control"
+                    formControlName="tempatPemaparan">
+                </div>
+                @if (giatForm.get('tempatPemaparan')?.errors?.['maxlength'] &&
+                  giatForm.get('tempatPemaparan')?.touched) {
+                  <small
+                    class="text-alert"
+                    >
+                  Tidak boleh lebih dari 255 karakter!!!</small>
+                }
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-auto">
+                <div class="form-group">
+                  <label for="tanggalPemaparan">Tanggal Pemaparan:</label>
+                  <div class="input-group">
+                    <input
+                      type="text"
+                      name="tanggalPemaparan"
+                      class="form-control"
+                      placeholder="yyyy-mm-dd"
+                      formControlName="tanggalPemaparan"
+                      #dp4="ngbDatepicker"
+                      ngbDatepicker
+                      (dateSelect)="onDateTanggalPemaparanSelect($event)">
+                    <button class="btn btn-outline-secondary" type="button" (click)="dp4.toggle()">
+                      <i class="bi bi-calendar3"></i>
+                    </button>
+                  </div>
+                </div>
+                @if (giatForm.get('tanggalPemaparan')?.errors?.['minlength'] &&
+                  giatForm.get('tanggalPemaparan')?.touched) {
+                  <small
+                    class="text-alert"
+                    >
+                  Minimal 10 karakter dengan format "yyyy-MM-dd" !!!</small>
+                }
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-12">
+                <div class="form-group">
+                  <label for="telaahanIntelijen">Telaahan Intelijen:</label>
+                  <textarea
+                    rows="3"
+                    name="telaahanIntelijen"
+                    class="form-control"
+                  formControlName="telaahanIntelijen"></textarea>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-12">
+                <div class="form-group">
+                  <label for="tindakLanjut">Tindak Lanjut:</label>
+                  <div class="input-group">
+                    <div class="col-sm-auto mb-3">
+                      <select (change)="tindakLanjutChange($any($event.target).value)" class="form-select">
+                        <option
+                          [value]="true"
+                        [selected]="tindakLanjutValue === true">Ditindaklanjuti</option>
+                        <option
+                          [value]="false"
+                        [selected]="tindakLanjutValue === false">Tidak Ditindaklanjuti</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-12">
+                <div class="form-group">
+                  <label for="tindakLanjutKeterangan">Alasan Tindak Lanjut:</label>
+                  <textarea
+                    rows="3"
+                    name="tindakLanjutKeterangan"
+                    class="form-control"
+                  formControlName="tindakLanjutKeterangan"></textarea>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-12">
+                <div class="form-group">
+                  <label for="nomorSprintWalpam">Nomor Sprint Walpam:</label>
+                  <input
+                    rows="3"
+                    name="nomorSprintWalpam"
+                    class="form-control"
+                    formControlName="nomorSprintWalpam">
+                </div>
+                @if (giatForm.get('nomorSprintWalpam')?.errors?.['maxlength'] &&
+                  giatForm.get('nomorSprintWalpam')?.touched) {
+                  <small
+                    class="text-alert"
+                    >
+                  Tidak boleh lebih dari 255 karakter!!!</small>
+                }
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-auto">
+                <div class="form-group">
+                  <label for="tanggalSprintWalpam">Tanggal Sprint Walpam:</label>
+                  <div class="input-group">
+                    <input
+                      type="text"
+                      name="tanggalSprintWalpam"
+                      class="form-control"
+                      placeholder="yyyy-mm-dd"
+                      formControlName="tanggalSprintWalpam"
+                      #dp2="ngbDatepicker"
+                      ngbDatepicker
+                      (dateSelect)="onDateTanggalSprintWalpamSelect($event)">
+                    <button class="btn btn-outline-secondary" type="button" (click)="dp2.toggle()">
+                      <i class="bi bi-calendar3"></i>
+                    </button>
+                  </div>
+                </div>
+                @if (giatForm.get('tanggalSprintWalpam')?.errors?.['minlength'] &&
+                  giatForm.get('tanggalSprintWalpam')?.touched) {
+                  <small
+                    class="text-alert"
+                    >
+                  Minimal 10 karakter dengan format "yyyy-MM-dd" !!!</small>
+                }
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-12">
+                <div class="form-group">
+                  <label for="namaPetugasPelaksana">Nama Petugas Pelaksana:</label>
+                  <textarea
+                    rows="3"
+                    name="namaPetugasPelaksana"
+                    class="form-control"
+                  formControlName="namaPetugasPelaksana"></textarea>
+                </div>
+                @if (giatForm.get('namaPetugasPelaksana')?.errors?.['minlength'] &&
+                  giatForm.get('namaPetugasPelaksana')?.touched) {
+                  <small
+                    class="text-alert"
+                    >
+                  Minimal 3 karakter!!!</small>
+                }
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-12">
+                <div class="form-group">
+                  <label for="nilaiKontrak">Nilai Kontrak:</label>
+                  <input
+                    rows="3"
+                    name="nilaiKontrak"
+                    class="form-control"
+                    formControlName="nilaiKontrak"
+                    currencyMask
+                    [options]="{ align: 'left', prefix: 'Rp. ', thousands: '.', decimal: ',', precision: 2 }">
+                </div>
+                @if (giatForm.get('nilaiKontrak')?.errors?.['maxlength'] &&
+                  giatForm.get('nilaiKontrak')?.touched) {
+                  <small
+                    class="text-alert"
+                    >
+                  Tidak boleh lebih dari 255 karakter!!!</small>
+                }
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-12">
+                <div class="form-group">
+                  <label for="hasilPelaksanaan">Status Pelaksanaan Pendampingan:</label>
+                  <div class="input-group">
+                    <div class="col-sm-auto mb-3">
+                      <select (change)="tindakPelaksanaanChange($any($event.target).value)" class="form-select">
+                        <option
+                          [value]="pelaksanaanList[0]"
+                        [selected]="pelaksanaanList[0] === pelaksanaanSelected">Sedang Berjalan</option>
+                        <option
+                          [value]="pelaksanaanList[1]"
+                        [selected]="pelaksanaanList[1] === pelaksanaanSelected">Selesai</option>
+                        <option
+                          [value]="pelaksanaanList[2]"
+                        [selected]="pelaksanaanList[2] === pelaksanaanSelected">Dihentikan</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-12">
+                <div class="form-group">
+                  <label for="hasilPelaksanaanKeterangan">Keterangan Status Pelaksanaan Pendampingan:</label>
+                  <textarea
+                    rows="3"
+                    name="hasilPelaksanaanKeterangan"
+                    class="form-control"
+                  formControlName="hasilPelaksanaanKeterangan"></textarea>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-12">
+                <div class="form-group">
+                  <label for="nomorKertasKerja">Nomor Kertas Kerja:</label>
+                  <input
+                    rows="3"
+                    name="nomorKertasKerja"
+                    class="form-control"
+                    formControlName="nomorKertasKerja">
+                </div>
+                @if (giatForm.get('nomorKertasKerja')?.errors?.['maxlength'] &&
+                  giatForm.get('nomorKertasKerja')?.touched) {
+                  <small
+                    class="text-alert"
+                    >
+                  Tidak boleh lebih dari 255 karakter!!!</small>
+                }
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-auto">
+                <div class="form-group">
+                  <label for="tanggalKertasKerja">Tanggal Kertas Kerja:</label>
+                  <div class="input-group">
+                    <input
+                      type="text"
+                      name="tanggalKertasKerja"
+                      class="form-control"
+                      placeholder="yyyy-mm-dd"
+                      formControlName="tanggalKertasKerja"
+                      #dp3="ngbDatepicker"
+                      ngbDatepicker
+                      (dateSelect)="onDateTanggalKertasKerjaSelect($event)">
+                    <button class="btn btn-outline-secondary" type="button" (click)="dp3.toggle()">
+                      <i class="bi bi-calendar3"></i>
+                    </button>
+                  </div>
+                </div>
+                @if (giatForm.get('tanggalSprintWalpam')?.errors?.['minlength'] &&
+                  giatForm.get('tanggalSprintWalpam')?.touched) {
+                  <small
+                    class="text-alert"
+                    >
+                  Minimal 10 karakter dengan format "yyyy-MM-dd" !!!</small>
+                }
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-12">
+                <div class="form-group">
+                  <label for="keterangan">Keterangan:</label>
+                  <textarea
+                    rows="3"
+                    name="keterangan"
+                    class="form-control"
+                  formControlName="keterangan"></textarea>
+                </div>
+                @if (giatForm.get('keterangan')?.errors?.['maxlength'] &&
+                  giatForm.get('keterangan')?.touched) {
+                  <small
+                    class="text-alert"
+                    >
+                  Tidak boleh lebih dari 255 karakter!!!</small>
+                }
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-12">
+                <div class="form-group">
+                  <label for="urlFile">Link File:</label>
+                  <textarea
+                    rows="3"
+                    name="urlFile"
+                    class="form-control"
+                  formControlName="urlFile"></textarea>
+                </div>
+              </div>
+            </div>
+            @if (error) {
+              <app-danger-alert [message]="error"></app-danger-alert>
+            }
+            @if (isLoading) {
+              <div class="mt-4">
+                <app-loading-spinner></app-loading-spinner>
+              </div>
+            }
+            @if (!isLoading) {
+              <div>
+                <div class="d-flex justify-content-between">
+                  <div class="p-2">
+                    <button
+                      class="btn btn-success"
+                      type="submit"
+                      [disabled]="!giatForm.valid"
+                      style="margin-top: 20px;"><i class="bi bi-floppy"></i> Simpan</button>
+                    </div>
+                    <div class="p-2">
+                      <button
+                        class="btn btn-danger"
+                        type="button"
+                        (click)="onCancel()"
+                        style="margin-top: 20px;"><i class="bi bi-backspace-fill"></i> Batal</button>
+                      </div>
+                    </div>
+                  </div>
+                }
+              </form>
+            </div>
+          </div>
+        </div>
+      }

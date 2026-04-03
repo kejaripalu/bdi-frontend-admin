@@ -1,37 +1,36 @@
-<div *ngIf="!isAuthenticated">
+@if (!isAuthenticated) {
+  <div>
     <app-login-page></app-login-page>
-</div>
-<div *ngIf="isAuthenticated">
+  </div>
+}
+@if (isAuthenticated) {
+  <div>
     <app-navbar></app-navbar>
-
     <div id="layoutSidenav">
-
-        <app-sidebar></app-sidebar>
-
-        <div id="layoutSidenav_content">
-
-            <router-outlet></router-outlet>
-
-            <footer class="py-4 bg-light mt-auto">
-                <div class="container-fluid px-4">
-                    <div class="d-flex align-items-center justify-content-between small">
-                        <div class="text-muted"> {{ tahun }} &middot; Bank Data Intelijen Kejaksaan</div>
-                        <div>
-                            <a href="/page-not-found">Tentang</a>
-                            &middot;
-                            <a href="/page-not-found">Dokumentasi</a>
-                            &middot;
-                            <a href="/page-not-found">Privacy Policy</a>
-                            &middot;
-                            <a href="/page-not-found">Terms &amp; Conditions</a>
-                            &nbsp;
-                            <span class="text-muted version-text">
-                                &copy; Ucup TopekoX 🐒
-                            </span>
-                        </div>
-                    </div>
-                </div>
-            </footer>
-        </div>
+      <app-sidebar></app-sidebar>
+      <div id="layoutSidenav_content">
+        <router-outlet></router-outlet>
+        <footer class="py-4 bg-light mt-auto">
+          <div class="container-fluid px-4">
+            <div class="d-flex align-items-center justify-content-between small">
+              <div class="text-muted"> {{ tahun }} &middot; Bank Data Intelijen Kejaksaan</div>
+              <div>
+                <a href="/page-not-found">Tentang</a>
+                &middot;
+                <a href="/page-not-found">Dokumentasi</a>
+                &middot;
+                <a href="/page-not-found">Privacy Policy</a>
+                &middot;
+                <a href="/page-not-found">Terms &amp; Conditions</a>
+                &nbsp;
+                <span class="text-muted version-text">
+                  &copy; Ucup TopekoX 🐒
+                </span>
+              </div>
+            </div>
+          </div>
+        </footer>
+      </div>
     </div>
-</div>
+  </div>
+}

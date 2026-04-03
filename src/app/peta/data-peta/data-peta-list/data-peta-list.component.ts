@@ -18,7 +18,6 @@ import { BidangDirektoratSektorPetaService } from 'src/app/shared/bidang-direkto
 })
 export class DataPetaListComponent implements OnInit, OnDestroy {
 
-  private name: string = "Data Peta";
   private message: Message = new Message();
   dataPeta: DataPeta[] = [];
   title?: string;
@@ -76,7 +75,6 @@ export class DataPetaListComponent implements OnInit, OnDestroy {
       });
     this.checkMessage();
   }
- 
 
   fetchDataPeta() {
     this.dataPetaSub = this.dataPetaService.getAll(

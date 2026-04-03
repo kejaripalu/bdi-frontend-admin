@@ -1,252 +1,298 @@
-<div *ngIf="isLoadingEditForm && isEditMode" class="mt-4" style="text-align: center;">
+@if (isLoadingEditForm && isEditMode) {
+  <div class="mt-4" style="text-align: center;">
     <app-loading-spinner></app-loading-spinner>
-</div>
-<div class="alert alert-danger mt-4" *ngIf="editModeError && isEditMode" role="alert">
-    {{ error }} 
+  </div>
+}
+@if (editModeError && isEditMode) {
+  <div class="alert alert-danger mt-4" role="alert">
+    {{ error }}
     <br>
-    <a 
+      <a
         [routerLink]="['/arsip', 'list']"
-        class="alert-link">Kembali</a>
-</div>
-<div class="mt-4" style="margin-bottom: 50px;" *ngIf="!isLoadingEditForm && !editModeError">
-    <div class="row">
-        <div class="col-sm-10 col-md-8 col-xl-8 offset-sm-2 col-md-2 offset-xl-2">
-            <form [formGroup]="arsipForm" (ngSubmit)="onSubmit()">
-                <div class="row">
-                    <div class="col-sm-auto">
-                        <div class="form-group">
-                            <label for="tanggalPenerimaanArsip">Tanggal Penerimaan Arsip:</label>
-                                <div class="input-group">
-                                    <input
-                                        type="text"
-                                        name="tanggalPenerimaanArsip"
-                                        class="form-control"
-                                        placeholder="yyyy-mm-dd"
-                                        formControlName="tanggalPenerimaanArsip"
-                                        #dps="ngbDatepicker"
-                                        ngbDatepicker
-                                        (dateSelect)="onDateTanggalPenerimaanSelect($event)">
-                                    <button class="btn btn-outline-secondary" type="button" (click)="dps.toggle()">
-                                        <i class="bi bi-calendar3"></i>
-                                    </button>
-                                </div>                        
-                        </div>
-                        <small 
-                            class="text-alert" 
-                            *ngIf="arsipForm.get('tanggalPenerimaanArsip')?.errors?.['required'] && 
-                                   arsipForm.get('tanggalPenerimaanArsip')?.touched">
-                                Wajib diisi!!!</small>
-                        <small 
-                            class="text-alert" 
-                            *ngIf="arsipForm.get('tanggalPenerimaanArsip')?.errors?.['minlength'] && 
-                                    arsipForm.get('tanggalPenerimaanArsip')?.touched">
-                                Minimal 10 karakter dengan format "yyyy-MM-dd" !!!</small>
-                    </div>
-                    <div class="col-sm-auto">
-                        <div class="form-group">
-                            <label for="jamPenerimaanArsip">Jam Penerimaan Arsip:</label>
-                            <input 
-                                type="time"
-                                name="jamPenerimaanArsip"
-                                class="form-control"
-                                formControlName="jamPenerimaanArsip">
-                        </div>
-                        <small 
-                            class="text-alert" 
-                            *ngIf="arsipForm.get('jamPenerimaanArsip')?.errors?.['required'] && 
-                                   arsipForm.get('jamPenerimaanArsip')?.touched">
-                                Wajib diisi!!!</small>
-                        <small 
-                            class="text-alert" 
-                            *ngIf="arsipForm.get('jamPenerimaanArsip')?.errors?.['minlength'] && 
-                                    arsipForm.get('jamPenerimaanArsip')?.touched">
-                                Minimal 5 karakter dengan format "HH:mm" !!!</small>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-sm-12">
-                        <div class="form-group">
-                            <label for="asal">Diterima Dari:</label>
-                            <textarea
-                                rows="3"
-                                type="text" 
-                                name="asal" 
-                                class="form-control"
-                                formControlName="diterimaDari"></textarea>
-                        </div>
-                        <small 
-                            class="text-alert" 
-                            *ngIf="arsipForm.get('diterimaDari')?.errors?.['required'] && 
-                                    arsipForm.get('diterimaDari')?.touched">
-                                Wajib diisi!!!</small>
-                        <small 
-                            class="text-alert" 
-                            *ngIf="arsipForm.get('diterimaDari')?.errors?.['minlength'] && 
-                                   arsipForm.get('diterimaDari')?.touched">
-                                Minimal 5 karakter!!!</small>
-                        <small 
-                            class="text-alert" 
-                            *ngIf="arsipForm.get('diterimaDari')?.errors?.['maxlength'] && 
-                                arsipForm.get('diterimaDari')?.touched">
-                                Tidak boleh lebih dari 255 karakter!!!</small>
-                    </div>                  
-                </div>              
-                <div class="row">
-                    <div class="col-sm-8">
-                        <div class="form-group">
-                            <label for="nomorSurat">Nomor Surat:</label>
-                            <input 
-                                type="text" 
-                                name="nomorSurat" 
-                                class="form-control"
-                                formControlName="nomorSurat">
-                        </div>
-                        <small 
-                            class="text-alert" 
-                            *ngIf="arsipForm.get('nomorSurat')?.errors?.['required'] && 
-                                    arsipForm.get('nomorSurat')?.touched">
-                                Wajib diisi!!!</small>
-                        <small 
-                            class="text-alert" 
-                            *ngIf="arsipForm.get('nomorSurat')?.errors?.['maxlength'] && 
-                                arsipForm.get('nomorSurat')?.touched">
-                                Tidak boleh lebih dari 255 karakter!!!</small>
-    
-                    </div>
-                    <div class="col-sm-4">
-                        <div class="row">
-                            <div class="col-sm-auto">
-                                <div class="form-group">
-                                    <label for="tanggalSurat">Tanggal Surat:</label>
-                                        <div class="input-group">
-                                            <input
-                                                type="text"
-                                                name="tanggalSurat"
-                                                class="form-control"
-                                                placeholder="yyyy-mm-dd"
-                                                formControlName="tanggalSurat"
-                                                #d="ngbDatepicker"
-                                                ngbDatepicker
-                                                (dateSelect)="onDateTanggalSuratSelect($event)">
-                                            <button class="btn btn-outline-secondary" type="button" (click)="d.toggle()">
-                                                <i class="bi bi-calendar3"></i>
-                                            </button>
-                                        </div>
-                                </div>
-                                <small 
-                                    class="text-alert" 
-                                    *ngIf="arsipForm.get('tanggalSurat')?.errors?.['required'] && 
-                                            arsipForm.get('tanggalSurat')?.touched">
-                                        Wajib diisi!!!</small>
-                                <small 
-                                    class="text-alert" 
-                                    *ngIf="arsipForm.get('tanggalSurat')?.errors?.['minlength'] && 
-                                            arsipForm.get('tanggalSurat')?.touched">
-                                        Minimal 10 karakter dengan format "yyyy-MM-dd" !!!</small>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="perihal">Perihal:</label>
-                    <textarea
-                        rows="3"
-                        type="text" 
-                        name="perihal" 
-                        class="form-control"
-                        formControlName="perihal"></textarea>
-                </div>
-                <small 
-                    class="text-alert" 
-                    *ngIf="arsipForm.get('perihal')?.errors?.['required'] && 
-                            arsipForm.get('perihal')?.touched">
-                        Wajib diisi!!!</small>
-                <small 
-                    class="text-alert" 
-                    *ngIf="arsipForm.get('perihal')?.errors?.['minlength'] && 
-                            arsipForm.get('perihal')?.touched">
-                        Minimal 5 karakter!!!</small>
-                <small 
-                    class="text-alert" 
-                    *ngIf="arsipForm.get('perihal')?.errors?.['maxlength'] && 
-                        arsipForm.get('perihal')?.touched">
-                        Tidak boleh lebih dari 255 karakter!!!</small>
-
-                <div class="form-group">
-                    <label for="lampiran">Lampiran:</label>
-                    <textarea
-                        rows="3"
-                        name="lampiran" 
-                        class="form-control"
-                        formControlName="lampiran"></textarea>
-                </div>
-                <small 
-                    class="text-alert" 
-                    *ngIf="arsipForm.get('lampiran')?.errors?.['maxlength'] && 
-                        arsipForm.get('lampiran')?.touched">
-                        Tidak boleh lebih dari 255 karakter!!!</small>
-                <div class="form-group">
-                    <label for="kodePenyimpanan">Kode Penyimpanan Arsip:</label>
-                    <input
-                        type="text"
-                        name="kodePenyimpanan" 
-                        class="form-control"
-                        formControlName="kodePenyimpanan">
-                </div>
-                <small 
-                class="text-alert" 
-                    *ngIf="arsipForm.get('kodePenyimpanan')?.errors?.['required'] && 
-                        arsipForm.get('kodePenyimpanan')?.touched">
-                        Wajib diisi!!!</small>
-                <small 
-                    class="text-alert" 
-                    *ngIf="arsipForm.get('kodePenyimpanan')?.errors?.['maxlength'] && 
-                        arsipForm.get('kodePenyimpanan')?.touched">
-                        Tidak boleh lebih dari 255 karakter!!!</small>
-                <div class="form-group">
-                    <label for="keterangan">Keterangan:</label>
-                    <textarea
-                        rows="3"
-                        name="keterangan" 
-                        class="form-control"
-                        formControlName="keterangan"></textarea>
-                </div>
-                <small 
-                    class="text-alert" 
-                    *ngIf="arsipForm.get('keterangan')?.errors?.['maxlength'] && 
-                        arsipForm.get('keterangan')?.touched">
-                        Tidak boleh lebih dari 255 karakter!!!</small>
-                <div class="form-group">
-                    <label for="urlFile">Link File:</label>
-                    <textarea
-                        rows="3"
-                        name="urlFile" 
-                        class="form-control"
-                        formControlName="urlFile"></textarea>
-                </div>
-                <app-danger-alert [message]="error" *ngIf="error"></app-danger-alert>
-                <div class="mt-4" *ngIf="isLoading">
-                    <app-loading-spinner></app-loading-spinner>
-                </div>
-                <div *ngIf="!isLoading">
-                    <div class="d-flex justify-content-between">
-                        <div class="p-2">
-                            <button
-                                class="btn btn-success"
-                                type="submit"
-                                [disabled]="!arsipForm.valid"
-                                style="margin-top: 20px;"><i class="bi bi-floppy"></i> Simpan</button>
-                        </div>
-                        <div class="p-2">
-                            <button
-                                class="btn btn-danger"
-                                type="button"
-                                (click)="onCancel()"
-                                style="margin-top: 20px;"><i class="bi bi-backspace-fill"></i> Batal</button>  
-                        </div>
-                    </div> 
-                </div>       
-            </form>
-        </div>
+      class="alert-link">Kembali</a>
     </div>
-</div>
+  }
+  @if (!isLoadingEditForm && !editModeError) {
+    <div class="mt-4" style="margin-bottom: 50px;">
+      <div class="row">
+        <div class="col-sm-10 col-md-8 col-xl-8 offset-sm-2 col-md-2 offset-xl-2">
+          <form [formGroup]="arsipForm" (ngSubmit)="onSubmit()">
+            <div class="row">
+              <div class="col-sm-auto">
+                <div class="form-group">
+                  <label for="tanggalPenerimaanArsip">Tanggal Penerimaan Arsip:</label>
+                  <div class="input-group">
+                    <input
+                      type="text"
+                      name="tanggalPenerimaanArsip"
+                      class="form-control"
+                      placeholder="yyyy-mm-dd"
+                      formControlName="tanggalPenerimaanArsip"
+                      #dps="ngbDatepicker"
+                      ngbDatepicker
+                      (dateSelect)="onDateTanggalPenerimaanSelect($event)">
+                    <button class="btn btn-outline-secondary" type="button" (click)="dps.toggle()">
+                      <i class="bi bi-calendar3"></i>
+                    </button>
+                  </div>
+                </div>
+                @if (arsipForm.get('tanggalPenerimaanArsip')?.errors?.['required'] &&
+                  arsipForm.get('tanggalPenerimaanArsip')?.touched) {
+                  <small
+                    class="text-alert"
+                    >
+                  Wajib diisi!!!</small>
+                }
+                @if (arsipForm.get('tanggalPenerimaanArsip')?.errors?.['minlength'] &&
+                  arsipForm.get('tanggalPenerimaanArsip')?.touched) {
+                  <small
+                    class="text-alert"
+                    >
+                  Minimal 10 karakter dengan format "yyyy-MM-dd" !!!</small>
+                }
+              </div>
+              <div class="col-sm-auto">
+                <div class="form-group">
+                  <label for="jamPenerimaanArsip">Jam Penerimaan Arsip:</label>
+                  <input
+                    type="time"
+                    name="jamPenerimaanArsip"
+                    class="form-control"
+                    formControlName="jamPenerimaanArsip">
+                </div>
+                @if (arsipForm.get('jamPenerimaanArsip')?.errors?.['required'] &&
+                  arsipForm.get('jamPenerimaanArsip')?.touched) {
+                  <small
+                    class="text-alert"
+                    >
+                  Wajib diisi!!!</small>
+                }
+                @if (arsipForm.get('jamPenerimaanArsip')?.errors?.['minlength'] &&
+                  arsipForm.get('jamPenerimaanArsip')?.touched) {
+                  <small
+                    class="text-alert"
+                    >
+                  Minimal 5 karakter dengan format "HH:mm" !!!</small>
+                }
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-12">
+                <div class="form-group">
+                  <label for="asal">Diterima Dari:</label>
+                  <textarea
+                    rows="3"
+                    type="text"
+                    name="asal"
+                    class="form-control"
+                  formControlName="diterimaDari"></textarea>
+                </div>
+                @if (arsipForm.get('diterimaDari')?.errors?.['required'] &&
+                  arsipForm.get('diterimaDari')?.touched) {
+                  <small
+                    class="text-alert"
+                    >
+                  Wajib diisi!!!</small>
+                }
+                @if (arsipForm.get('diterimaDari')?.errors?.['minlength'] &&
+                  arsipForm.get('diterimaDari')?.touched) {
+                  <small
+                    class="text-alert"
+                    >
+                  Minimal 5 karakter!!!</small>
+                }
+                @if (arsipForm.get('diterimaDari')?.errors?.['maxlength'] &&
+                  arsipForm.get('diterimaDari')?.touched) {
+                  <small
+                    class="text-alert"
+                    >
+                  Tidak boleh lebih dari 255 karakter!!!</small>
+                }
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-8">
+                <div class="form-group">
+                  <label for="nomorSurat">Nomor Surat:</label>
+                  <input
+                    type="text"
+                    name="nomorSurat"
+                    class="form-control"
+                    formControlName="nomorSurat">
+                </div>
+                @if (arsipForm.get('nomorSurat')?.errors?.['required'] &&
+                  arsipForm.get('nomorSurat')?.touched) {
+                  <small
+                    class="text-alert"
+                    >
+                  Wajib diisi!!!</small>
+                }
+                @if (arsipForm.get('nomorSurat')?.errors?.['maxlength'] &&
+                  arsipForm.get('nomorSurat')?.touched) {
+                  <small
+                    class="text-alert"
+                    >
+                  Tidak boleh lebih dari 255 karakter!!!</small>
+                }
+              </div>
+              <div class="col-sm-4">
+                <div class="row">
+                  <div class="col-sm-auto">
+                    <div class="form-group">
+                      <label for="tanggalSurat">Tanggal Surat:</label>
+                      <div class="input-group">
+                        <input
+                          type="text"
+                          name="tanggalSurat"
+                          class="form-control"
+                          placeholder="yyyy-mm-dd"
+                          formControlName="tanggalSurat"
+                          #d="ngbDatepicker"
+                          ngbDatepicker
+                          (dateSelect)="onDateTanggalSuratSelect($event)">
+                        <button class="btn btn-outline-secondary" type="button" (click)="d.toggle()">
+                          <i class="bi bi-calendar3"></i>
+                        </button>
+                      </div>
+                    </div>
+                    @if (arsipForm.get('tanggalSurat')?.errors?.['required'] &&
+                      arsipForm.get('tanggalSurat')?.touched) {
+                      <small
+                        class="text-alert"
+                        >
+                      Wajib diisi!!!</small>
+                    }
+                    @if (arsipForm.get('tanggalSurat')?.errors?.['minlength'] &&
+                      arsipForm.get('tanggalSurat')?.touched) {
+                      <small
+                        class="text-alert"
+                        >
+                      Minimal 10 karakter dengan format "yyyy-MM-dd" !!!</small>
+                    }
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="perihal">Perihal:</label>
+              <textarea
+                rows="3"
+                type="text"
+                name="perihal"
+                class="form-control"
+              formControlName="perihal"></textarea>
+            </div>
+            @if (arsipForm.get('perihal')?.errors?.['required'] &&
+              arsipForm.get('perihal')?.touched) {
+              <small
+                class="text-alert"
+                >
+              Wajib diisi!!!</small>
+            }
+            @if (arsipForm.get('perihal')?.errors?.['minlength'] &&
+              arsipForm.get('perihal')?.touched) {
+              <small
+                class="text-alert"
+                >
+              Minimal 5 karakter!!!</small>
+            }
+            @if (arsipForm.get('perihal')?.errors?.['maxlength'] &&
+              arsipForm.get('perihal')?.touched) {
+              <small
+                class="text-alert"
+                >
+              Tidak boleh lebih dari 255 karakter!!!</small>
+            }
+            <div class="form-group">
+              <label for="lampiran">Lampiran:</label>
+              <textarea
+                rows="3"
+                name="lampiran"
+                class="form-control"
+              formControlName="lampiran"></textarea>
+            </div>
+            @if (arsipForm.get('lampiran')?.errors?.['maxlength'] &&
+              arsipForm.get('lampiran')?.touched) {
+              <small
+                class="text-alert"
+                >
+              Tidak boleh lebih dari 255 karakter!!!</small>
+            }
+            <div class="form-group">
+              <label for="kodePenyimpanan">Kode Penyimpanan Arsip:</label>
+              <input
+                type="text"
+                name="kodePenyimpanan"
+                class="form-control"
+                formControlName="kodePenyimpanan">
+            </div>
+            @if (arsipForm.get('kodePenyimpanan')?.errors?.['required'] &&
+              arsipForm.get('kodePenyimpanan')?.touched) {
+              <small
+                class="text-alert"
+                >
+              Wajib diisi!!!</small>
+            }
+            @if (arsipForm.get('kodePenyimpanan')?.errors?.['maxlength'] &&
+              arsipForm.get('kodePenyimpanan')?.touched) {
+              <small
+                class="text-alert"
+                >
+              Tidak boleh lebih dari 255 karakter!!!</small>
+            }
+            <div class="form-group">
+              <label for="keterangan">Keterangan:</label>
+              <textarea
+                rows="3"
+                name="keterangan"
+                class="form-control"
+              formControlName="keterangan"></textarea>
+            </div>
+            @if (arsipForm.get('keterangan')?.errors?.['maxlength'] &&
+              arsipForm.get('keterangan')?.touched) {
+              <small
+                class="text-alert"
+                >
+              Tidak boleh lebih dari 255 karakter!!!</small>
+            }
+            <div class="form-group">
+              <label for="urlFile">Link File:</label>
+              <textarea
+                rows="3"
+                name="urlFile"
+                class="form-control"
+              formControlName="urlFile"></textarea>
+            </div>
+            @if (error) {
+              <app-danger-alert [message]="error"></app-danger-alert>
+            }
+            @if (isLoading) {
+              <div class="mt-4">
+                <app-loading-spinner></app-loading-spinner>
+              </div>
+            }
+            @if (!isLoading) {
+              <div>
+                <div class="d-flex justify-content-between">
+                  <div class="p-2">
+                    <button
+                      class="btn btn-success"
+                      type="submit"
+                      [disabled]="!arsipForm.valid"
+                      style="margin-top: 20px;"><i class="bi bi-floppy"></i> Simpan</button>
+                    </div>
+                    <div class="p-2">
+                      <button
+                        class="btn btn-danger"
+                        type="button"
+                        (click)="onCancel()"
+                        style="margin-top: 20px;"><i class="bi bi-backspace-fill"></i> Batal</button>
+                      </div>
+                    </div>
+                  </div>
+                }
+              </form>
+            </div>
+          </div>
+        </div>
+      }

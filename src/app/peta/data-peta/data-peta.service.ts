@@ -130,6 +130,19 @@ export class DataPetaService {
         );
     }
 
+    getByBidangDirektoratTahun(bidang: string, tahun: string) {
+        const startDate = this.monthConverterService.getStartDate(1, tahun);        
+        const endDate = this.monthConverterService.getEndDate(12, tahun);    
+        const getEndPoint = `${this.endPoint}/peta-simbol?bidangDirektorat=${bidang}&startDate=${startDate}&endDate=${endDate}`;
+
+        return this.http.get<DataPetaResponse[]>(getEndPoint)
+          .pipe(
+            map(response => {
+                return response;
+            })
+        );
+    }
+
 }
 
 interface Response {
@@ -138,4 +151,19 @@ interface Response {
     totalElements: number,
     totalPages: number,
     number: number
+}
+
+interface DataPetaResponse {
+    ids: string,
+    bidangDirektorat: string,
+    sektor: string,
+    tanggal: string,
+    lokasi: string,
+    latitude: number,
+    longitude: number,
+    siapa: string,
+    apa: string,
+    mengapa: string,
+    bagaimana: string,
+    keterangan: string
 }
