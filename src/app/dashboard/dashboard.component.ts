@@ -26,9 +26,13 @@ export class DashboardComponent implements OnInit, OnDestroy {
   countJaksaMenyapa: number = 0;
   isAuthenticated: boolean = false;
   currentYear = new Date().getFullYear(); // get current year
-  error: string = null as any;
   year: number[] = [];
-  isLoading: boolean = false;
+  isLoadingProdin: boolean = false;
+  isLoadingPphPpm: boolean = false;
+  isLoadingPenkumLuhkum: boolean = false;
+  errorProdin: boolean = false;
+  errorPphPpm: boolean = false;
+  errorPenkumLuhkum: boolean = false;
 
   constructor(
     private authService: AuthService,
@@ -64,7 +68,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
   
   loadCardProdin() {
-    this.isLoading = true;
+    this.isLoadingProdin = true;
+    this.errorProdin = false;
     this.countProdinSub = this.dasboardService.getProdinCount(
       this.currentYear.toString())
       .subscribe({
@@ -73,34 +78,36 @@ export class DashboardComponent implements OnInit, OnDestroy {
           this.countLapinsus = response.countLapinsus;
           this.countLaphastug = response.countLaphastug;
           this.countLapopsin = response.countLapopsin;
-          this.isLoading = false;
+          this.isLoadingProdin = false;
         },
         error: () => {
-          this.error = "Error show data";
-          this.isLoading = false;
+          this.errorProdin = true;
+          this.isLoadingProdin = false;
         }
       });
   }
 
   loadCardPphPpm() {
-    this.isLoading = true;
+    this.isLoadingPphPpm = true;
+    this.errorPphPpm = false;
     this.countPphPpmSub = this.dasboardService.getPphPpmCount(
       this.currentYear.toString())
       .subscribe({
         next: (response) => {
           this.countPPH = response.countPPH;
           this.countPPM = response.countPPM;
-          this.isLoading = false;
+          this.isLoadingPphPpm = false;
         },
         error: () => {
-          this.error = "Error show data";
-          this.isLoading = false;
+          this.errorPphPpm = true;
+          this.isLoadingPphPpm = false;
         }
       });
   }
 
   loadCardProgramPenkumLuhkum() {
-    this.isLoading = true;
+    this.isLoadingPenkumLuhkum = true;
+    this.errorPenkumLuhkum = false;
     this.countProgramPenkumLuhkumSub = this.dasboardService.getProgramPenkumLuhkumCount(
       this.currentYear.toString())
       .subscribe({
@@ -108,11 +115,11 @@ export class DashboardComponent implements OnInit, OnDestroy {
           this.countBinmatkum = response.countBinmatkum;
           this.countJms = response.countJms;
           this.countJaksaMenyapa = response.countJaksaMenyapa;
-          this.isLoading = false;
+          this.isLoadingPenkumLuhkum = false;
         },
         error: () => {
-          this.error = "Error show data";
-          this.isLoading = false;
+          this.errorPenkumLuhkum = true;
+          this.isLoadingPenkumLuhkum = false;
         }
       });
   }
@@ -125,7 +132,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   updateYearSelected(year: any) {
     this.currentYear = +year;
-    this.isLoading = true;
     this.loadCardDataView();
   }
 

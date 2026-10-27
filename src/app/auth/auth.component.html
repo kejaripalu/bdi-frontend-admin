@@ -1,63 +1,104 @@
-<div class="container">
-  <div class="row justify-content-center w-100">
-    <div class="col-lg-5 col-md-8">
-      <div class="card">
-        <div class="card-header border-0 pb-0">
-          <h3 class="text-center mb-0">
-            <i class="bi bi-shield-lock"></i> Bank Data Intelijen
-          </h3>
+<div class="bdi-login">
+  <aside class="bdi-login-brand" aria-hidden="true">
+    <div class="bdi-login-brand-inner">
+      <span class="bdi-brand-mark bdi-brand-mark-lg"><i class="bi bi-shield-shaded"></i></span>
+      <h2 class="bdi-login-brand-title">Bank Data Intelijen</h2>
+      <p class="bdi-login-brand-text">Pengelolaan register dan data intelijen kejaksaan dalam satu aplikasi.</p>
+    </div>
+  </aside>
+
+  <section class="bdi-login-panel">
+    <button type="button" class="bdi-icon-btn bdi-login-theme" (click)="onToggleTheme()"
+      [attr.aria-label]="theme === 'dark' ? 'Ganti ke tema terang' : 'Ganti ke tema gelap'"
+      [attr.title]="theme === 'dark' ? 'Tema terang' : 'Tema gelap'">
+      <i class="bi" [class.bi-sun]="theme === 'dark'" [class.bi-moon-stars]="theme !== 'dark'" aria-hidden="true"></i>
+    </button>
+
+    <div class="bdi-login-card">
+      <div class="bdi-login-mobile-brand">
+        <span class="bdi-brand-mark"><i class="bi bi-shield-shaded" aria-hidden="true"></i></span>
+        <span>Bank Data Intelijen</span>
+      </div>
+
+      <h1 class="bdi-login-title">Masuk</h1>
+      <p class="bdi-login-subtitle">Masuk untuk mengelola data intelijen kejaksaan.</p>
+
+      @if (errorText && !isLoading) {
+        <div class="alert alert-danger d-flex align-items-start gap-2" role="alert">
+          <i class="bi bi-exclamation-triangle-fill mt-1" aria-hidden="true"></i>
+          <div>{{ errorText }}</div>
         </div>
-        <div class="card-body">
-          <p class="text-center text-muted small mb-4">Masuk untuk mengelola data intelijen kejaksaan</p>
+      }
 
-          @if (errorText && !isLoading) {
-            <div class="alert alert-danger border-0 rounded-3 mb-4 shadow-sm" style="background-color: #fef2f2; color: #991b1b;">
-              <p class="small mb-0 text-center fw-medium">{{ errorText }}</p>
-            </div>
-          }
-
-          @if (isLoading) {
-            <div class="py-5 text-center">
-              <app-loading-spinner></app-loading-spinner>
-            </div>
-          }
-
-          @if (!isLoading) {
-            <form #autForm="ngForm" (ngSubmit)="onSubmit(autForm)">
-              <div class="form-floating mb-3">
-                <input
-                  class="form-control"
-                  id="username"
-                  type="text"
-                  placeholder="Username"
-                  ngModel
-                  name="username"
-                  required />
-                  <label for="username">Username</label>
-                </div>
-                <div class="form-floating mb-4">
-                  <input
-                    class="form-control"
-                    id="inputPassword"
-                    type="password"
-                    placeholder="Password"
-                    ngModel
-                    required
-                    name="password"
-                    minlength="6" />
-                    <label for="password">Password</label>
-                  </div>
-                
-                <button class="btn btn-primary w-100 mb-2 py-3 shadow-sm" type="submit"
-                [disabled]="!autForm.valid">Masuk Sekarang</button>
-              </form>
-            }
-          </div>
-          <div class="card-footer border-0">
-            <div class="small text-success text-center mb-2">Butuh bantuan? Hubungi Admin!</div>
-            <div class="text-muted text-center x-small" style="font-size: 0.75rem;">&copy; {{ tahun }} Bank Data Intelijen Kejaksaan</div>
-          </div>
+      @if (isLoading) {
+        <div class="bdi-login-loading" role="status" aria-live="polite">
+          <app-loading-spinner></app-loading-spinner>
+          <span>Memverifikasi akun...</span>
         </div>
+      }
+
+      @if (!isLoading) {
+        <form #autForm="ngForm" (ngSubmit)="onSubmit(autForm)" novalidate>
+          <div class="mb-3">
+            <label for="username" class="form-label">Username</label>
+            <input
+              class="form-control form-control-lg"
+              [class.is-invalid]="usernameCtl.invalid && usernameCtl.touched"
+              id="username"
+              type="text"
+              autocomplete="username"
+              autocapitalize="none"
+              spellcheck="false"
+              placeholder="Masukkan username"
+              ngModel
+              #usernameCtl="ngModel"
+              name="username"
+              required
+              [attr.aria-invalid]="usernameCtl.invalid && usernameCtl.touched"
+              aria-describedby="usernameHelp" />
+            <div id="usernameHelp" class="invalid-feedback">Username wajib diisi.</div>
+          </div>
+
+          <div class="mb-4">
+            <label for="password" class="form-label">Password</label>
+            <div class="input-group input-group-lg has-validation">
+              <input
+                class="form-control"
+                [class.is-invalid]="passwordCtl.invalid && passwordCtl.touched"
+                id="password"
+                [type]="showPassword ? 'text' : 'password'"
+                autocomplete="current-password"
+                placeholder="Masukkan password"
+                ngModel
+                #passwordCtl="ngModel"
+                required
+                name="password"
+                minlength="6"
+                [attr.aria-invalid]="passwordCtl.invalid && passwordCtl.touched"
+                aria-describedby="passwordHelp" />
+              <button type="button" class="btn btn-outline-secondary" (click)="onTogglePassword()"
+                [attr.aria-label]="showPassword ? 'Sembunyikan password' : 'Tampilkan password'"
+                [attr.aria-pressed]="showPassword">
+                <i class="bi" [class.bi-eye]="!showPassword" [class.bi-eye-slash]="showPassword" aria-hidden="true"></i>
+              </button>
+              <div id="passwordHelp" class="invalid-feedback">
+                @if (passwordCtl.errors?.['required']) {
+                  Password wajib diisi.
+                } @else {
+                  Password minimal 6 karakter.
+                }
+              </div>
+            </div>
+          </div>
+
+          <button class="btn btn-primary btn-lg w-100" type="submit" [disabled]="!autForm.valid">Masuk</button>
+        </form>
+      }
+
+      <div class="bdi-login-footer">
+        <div>Butuh bantuan? Hubungi Admin.</div>
+        <div>&copy; {{ tahun }} Bank Data Intelijen Kejaksaan</div>
       </div>
     </div>
-  </div>
+  </section>
+</div>

@@ -1,31 +1,42 @@
-.navbar-brand {
-    font-size: 1.1rem;
-    letter-spacing: -0.02em;
+.bdi-user-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    min-height: 40px;
+    padding: 0 0.5rem;
+    border: 0;
+    border-radius: var(--bdi-radius-sm);
+    background: transparent;
+    color: var(--bdi-text);
+    font-size: 0.875rem;
+    font-weight: 500;
+}
+
+.bdi-user-btn:hover {
+    background-color: var(--bdi-hover);
+}
+
+.bdi-user-name {
+    max-width: 160px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 .avatar-circle {
-    width: 32px;
-    height: 32px;
-    background-color: var(--bdi-primary);
-    border-radius: 50%;
-    display: flex;
+    display: inline-flex;
     align-items: center;
     justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background-color: var(--bdi-primary);
+    color: var(--bdi-on-primary);
     font-size: 0.875rem;
+    font-weight: 600;
 }
 
 .dropdown-item {
     font-size: 0.875rem;
     font-weight: 500;
-    border-radius: 8px;
-    margin: 0 4px;
-    width: auto;
-}
-
-.dropdown-item:hover {
-    background-color: var(--bdi-bg-soft);
-}
-
-.navbar-light .navbar-nav .nav-link {
-    color: var(--bdi-text-main);
 }

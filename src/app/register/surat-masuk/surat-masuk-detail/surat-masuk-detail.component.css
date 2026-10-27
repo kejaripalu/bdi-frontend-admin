@@ -1,6 +1,6 @@
 .biasa {
-    color: darkgreen;
+    color: var(--bdi-success-text);
 }
 .rahasia {
-    color: crimson;
+    color: var(--bdi-danger-text);
 }

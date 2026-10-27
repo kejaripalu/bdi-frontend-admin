@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
     <head>
         <meta charset="utf-8" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -8,9 +8,23 @@
         <meta name="author" content="Ucup Topekox" />
         <title>Bank Data Intelijen Kejaksaan</title>
         <base href="/">
+        <meta name="color-scheme" content="light dark" />
+        <script>
+            // Apply the saved (or system) theme before first paint to avoid a flash.
+            (function () {
+                var theme = 'light';
+                try {
+                    var saved = localStorage.getItem('bdi-theme');
+                    if (saved === 'light' || saved === 'dark') {
+                        theme = saved;
+                    } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                        theme = 'dark';
+                    }
+                } catch (e) { }
+                document.documentElement.setAttribute('data-bs-theme', theme);
+            })();
+        </script>
         <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-        <link href="/styles.css" rel="stylesheet" />
-        <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
         <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
     </head>
     <body class="sb-nav-fixed">

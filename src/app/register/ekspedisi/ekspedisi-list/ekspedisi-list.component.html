@@ -10,7 +10,7 @@
   <div class="mt-4">
     <div class="d-flex bd-highlight">
       <div class="p-2 w-100 bd-highlight">
-        <button type="button" class="btn btn-success" (click)="onNewEkspedisi()">
+        <button type="button" class="btn btn-primary" (click)="onNewEkspedisi()">
           <i class="bi bi-window-plus"></i> Tambah Data</button>
         </div>
         <div class="p-2 w-100 bd-highlight">
@@ -111,7 +111,7 @@
                       Tampilkan:
                     </div>
                     <div class="p-2 bd-highlight">
-                      <select (change)="updatePageSize($any($event.target).value)">
+                      <select class="form-select form-select-sm w-auto" aria-label="Jumlah data per halaman" (change)="updatePageSize($any($event.target).value)">
                         <option value="5" [selected]="pageSize === 5">5</option>
                         <option value="10" [selected]="pageSize === 10">10</option>
                         <option value="20" [selected]="pageSize === 20">20</option>

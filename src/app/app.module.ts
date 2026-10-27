@@ -11,6 +11,7 @@ import { SuratMasukComponent } from './register/surat-masuk/surat-masuk.componen
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { LoadingSpinnerComponent } from './shared/loading-spinner/loading-spinner.component';
+import { StatCardComponent } from './shared/stat-card/stat-card.component';
 import { ReversePipe } from './shared/reverse.pipe';
 import { SuratMasukFormComponent } from './register/surat-masuk/surat-masuk-form/surat-masuk-form.component';
 import { NoDataAlertComponent } from './shared/no-data-alert/no-data-alert.component';
@@ -68,6 +69,9 @@ import { LahinFormComponent } from './register/lahin/lahin-form/lahin-form.compo
 import { LahinDetailComponent } from './register/lahin/lahin-detail/lahin-detail.component';
 import { LahinHelpComponent } from './register/lahin/lahin-help/lahin-help.component';
 import { PageNotFoundComponent } from './pages/page-not-found/page-not-found.component';
+import { TentangComponent } from './pages/tentang/tentang.component';
+import { PrivacyPolicyComponent } from './pages/privacy-policy/privacy-policy.component';
+import { TermsConditionsComponent } from './pages/terms-conditions/terms-conditions.component';
 import { PphppmComponent } from './register/pphppm/pphppm.component';
 import { PphppmDetailComponent } from './register/pphppm/pphppm-detail/pphppm-detail.component';
 import { PphppmFormComponent } from './register/pphppm/pphppm-form/pphppm-form.component';
@@ -102,6 +106,7 @@ import { PetaSimbolViewComponent } from './peta/peta-simbol/peta-simbol-view/pet
         SuratMasukComponent,
         SuratMasukListComponent,
         LoadingSpinnerComponent,
+        StatCardComponent,
         SuratMasukFormComponent,
         ReversePipe,
         NoDataAlertComponent,
@@ -157,6 +162,9 @@ import { PetaSimbolViewComponent } from './peta/peta-simbol/peta-simbol-view/pet
         LahinDetailComponent,
         LahinHelpComponent,
         PageNotFoundComponent,
+        TentangComponent,
+        PrivacyPolicyComponent,
+        TermsConditionsComponent,
         PphppmComponent,
         PphppmDetailComponent,
         PphppmFormComponent,

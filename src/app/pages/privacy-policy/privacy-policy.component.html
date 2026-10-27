@@ -1,0 +1,65 @@
+<main>
+  <div class="container-fluid px-3 px-md-4 py-4">
+    <article class="bdi-doc">
+      <header class="bdi-doc-header">
+        <h1 class="bdi-page-title">Privacy Policy</h1>
+        <p class="bdi-doc-meta">Kebijakan privasi Bank Data Intelijen &middot; Diperbarui 27 Oktober 2026</p>
+      </header>
+
+      <section>
+        <p>
+          Dokumen ini menjelaskan data apa yang diproses oleh antarmuka aplikasi Bank Data Intelijen (BDI),
+          di mana data itu berada, dan layanan pihak ketiga yang dihubungi aplikasi.
+        </p>
+      </section>
+
+      <section>
+        <h2>1. Data yang diproses</h2>
+        <ul>
+          <li><strong>Kredensial login:</strong> username dan password dikirim ke server saat masuk. Aplikasi tidak menyimpan password di peramban.</li>
+          <li><strong>Data register:</strong> surat, laporan, kegiatan, operasi, arsip, dan data peta yang dimasukkan pengguna dikirim dan disimpan di server backend.</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2>2. Data yang disimpan di peramban</h2>
+        <p>Aplikasi memakai penyimpanan lokal peramban (<em>localStorage</em>), bukan cookie pelacakan, untuk:</p>
+        <ul>
+          <li><code>userData</code>: token sesi, waktu kedaluwarsa token, dan username. Dihapus saat logout atau ketika sesi berakhir.</li>
+          <li><code>appData</code>: penanda teknis bahwa sesi telah dimuat. Dihapus saat logout.</li>
+          <li><code>bdi-theme</code>: pilihan tema terang atau gelap.</li>
+        </ul>
+        <p>
+          Aplikasi ini tidak memuat layanan analitik atau pelacakan pengguna. Gunakan perangkat yang aman dan
+          logout setelah selesai, terutama pada komputer bersama.
+        </p>
+      </section>
+
+      <section>
+        <h2>3. Layanan pihak ketiga</h2>
+        <ul>
+          <li><strong>OpenStreetMap:</strong> ubin peta dimuat dari server OpenStreetMap saat halaman peta dibuka. Alamat IP perangkat terlihat oleh layanan tersebut.</li>
+          <li><strong>Nominatim (OpenStreetMap):</strong> saat memilih titik pada formulir Data Peta, koordinat titik dikirim untuk mencari alamat.</li>
+          <li><strong>Google Fonts:</strong> huruf Inter dimuat dari Google Fonts, sehingga alamat IP perangkat terlihat oleh layanan tersebut.</li>
+        </ul>
+        <p>Masing-masing layanan memiliki kebijakan privasi sendiri yang berlaku atas data yang mereka terima.</p>
+      </section>
+
+      <section>
+        <h2>4. Kerahasiaan dan akses</h2>
+        <p>
+          Data register, terutama yang berklasifikasi rahasia, hanya boleh diakses oleh pengguna yang berwenang.
+          Pengamanan data di server, pengelolaan akun, dan pencatatan akses diatur oleh pengelola sistem backend.
+        </p>
+      </section>
+
+      <section>
+        <h2>5. Pertanyaan</h2>
+        <p>
+          Untuk pertanyaan terkait privasi dan data, hubungi administrator aplikasi. Lihat juga
+          <a routerLink="/terms-conditions">Terms &amp; Conditions</a>.
+        </p>
+      </section>
+    </article>
+  </div>
+</main>

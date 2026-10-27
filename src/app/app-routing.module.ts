@@ -41,6 +41,9 @@ import { LahinListComponent } from "./register/lahin/lahin-list/lahin-list.compo
 import { LahinFormComponent } from "./register/lahin/lahin-form/lahin-form.component";
 import { LahinDetailComponent } from "./register/lahin/lahin-detail/lahin-detail.component";
 import { PageNotFoundComponent } from "./pages/page-not-found/page-not-found.component";
+import { TentangComponent } from "./pages/tentang/tentang.component";
+import { PrivacyPolicyComponent } from "./pages/privacy-policy/privacy-policy.component";
+import { TermsConditionsComponent } from "./pages/terms-conditions/terms-conditions.component";
 import { PphppmComponent } from "./register/pphppm/pphppm.component";
 import { PphppmListComponent } from "./register/pphppm/pphppm-list/pphppm-list.component";
 import { PphppmFormComponent } from "./register/pphppm/pphppm-form/pphppm-form.component";
@@ -195,6 +198,9 @@ const appRoutes: Routes = [
         { path: '', redirectTo: '/peta-simbol/view', pathMatch: 'full' },
         { path: 'view', component: PetaSimbolViewComponent, title: 'Data Peta & Simbol' },
     ]},
+    { path: 'tentang', component: TentangComponent, canActivate: [AuthGuard], title: 'Tentang - Bank Data Intelijen' },
+    { path: 'privacy-policy', component: PrivacyPolicyComponent, canActivate: [AuthGuard], title: 'Privacy Policy - Bank Data Intelijen' },
+    { path: 'terms-conditions', component: TermsConditionsComponent, canActivate: [AuthGuard], title: 'Terms & Conditions - Bank Data Intelijen' },
     { path: 'page-not-found', component: PageNotFoundComponent, canActivate: [AuthGuard] },
     { path: '**', redirectTo: 'page-not-found', pathMatch: 'full' }
 ];

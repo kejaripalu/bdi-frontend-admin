@@ -10,13 +10,13 @@ textarea.ng-invalid.ng-touched {
 
 .text-alert {
     --bs-text-opacity: 1;
-    color: red;
+    color: var(--bdi-danger-text);
     font-size: 0.875em;
 }
 
 .penkum {
-    color: darkgreen;
+    color: var(--bdi-success-text);
 }
 .luhkum {
-    color: rgb(47, 36, 202);
+    color: var(--bdi-info-text);
 }

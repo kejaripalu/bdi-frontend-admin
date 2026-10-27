@@ -1,0 +1,52 @@
+<main>
+  <div class="container-fluid px-3 px-md-4 py-4">
+    <article class="bdi-doc">
+      <header class="bdi-doc-header">
+        <h1 class="bdi-page-title">Tentang</h1>
+        <p class="bdi-doc-meta">Bank Data Intelijen Kejaksaan &middot; Versi {{ version }}</p>
+      </header>
+
+      <section>
+        <h2>Gambaran umum</h2>
+        <p>
+          Bank Data Intelijen (BDI) adalah aplikasi web untuk mengelola register dan data satuan kerja intelijen
+          Kejaksaan secara terpusat. Aplikasi ini menggantikan pencatatan manual dengan satu antarmuka yang
+          diakses setelah pengguna masuk dengan akun yang sah.
+        </p>
+      </section>
+
+      <section>
+        <h2>Fitur utama</h2>
+        <ul>
+          <li><strong>Persuratan:</strong> surat masuk, surat keluar, dan ekspedisi, termasuk surat biasa dan rahasia.</li>
+          <li><strong>Register intelijen:</strong> RKI, produk intelijen, telaahan intelijen, dan arsip.</li>
+          <li><strong>Kegiatan dan operasi intelijen:</strong> dikelompokkan menurut bidang (Ipolhankam, Sosbudmas, Ekokeu, Pamstra, TI &amp; Produk).</li>
+          <li><strong>PPM &amp; PPH serta Penkum/Luhkum:</strong> pencatatan layanan dan kegiatan penerangan hukum.</li>
+          <li><strong>Peta:</strong> data peta berikut koordinat dan tampilan peta dengan simbol sektor.</li>
+          <li><strong>Dashboard:</strong> ringkasan jumlah data per tahun.</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2>Cara kerja</h2>
+        <p>
+          Aplikasi ini adalah antarmuka (frontend) yang berkomunikasi dengan layanan backend melalui REST API.
+          Seluruh data register disimpan dan diproses di server, bukan di peramban.
+        </p>
+      </section>
+
+      <section>
+        <h2>Bantuan</h2>
+        <p>
+          Untuk kendala akses, permintaan akun, atau pertanyaan penggunaan, hubungi administrator aplikasi.
+        </p>
+        <p>
+          Lihat juga <a routerLink="/privacy-policy">Privacy Policy</a> dan
+          <a routerLink="/terms-conditions">Terms &amp; Conditions</a>.
+        </p>
+      </section>
+
+      <p class="bdi-doc-meta">&copy; {{ tahun }} Bank Data Intelijen Kejaksaan</p>
+    </article>
+  </div>
+</main>

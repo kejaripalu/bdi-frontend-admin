@@ -1,0 +1,28 @@
+<div class="card stat-card h-100" [class.stat-card-link]="link">
+  <div class="card-body">
+    <div class="d-flex align-items-start justify-content-between gap-3">
+      <div class="stat-main">
+        <div class="stat-label">{{ label }}</div>
+        @if (loading) {
+          <div class="stat-skeleton" aria-hidden="true"></div>
+          <span class="visually-hidden" role="status">Memuat {{ label }}</span>
+        } @else if (error) {
+          <div class="stat-error"><i class="bi bi-exclamation-circle" aria-hidden="true"></i> Gagal dimuat</div>
+        } @else {
+          <div class="stat-value">{{ value | number:'1.' : 'it' }}</div>
+        }
+        @if (description) {
+          <div class="stat-desc">{{ description }}</div>
+        }
+      </div>
+      <div class="stat-icon" aria-hidden="true"><i class="bi" [ngClass]="icon"></i></div>
+    </div>
+  </div>
+  @if (link) {
+    <div class="card-footer">
+      <a class="stat-link-anchor stretched-link" [routerLink]="link" [queryParams]="queryParams">
+        {{ linkLabel }} <i class="bi bi-arrow-right" aria-hidden="true"></i>
+      </a>
+    </div>
+  }
+</div>
