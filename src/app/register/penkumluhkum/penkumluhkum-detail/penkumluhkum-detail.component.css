@@ -1,8 +1,8 @@
 .penkum {
-    color: darkgreen;
+    color: var(--bdi-success-text);
 }
 .luhkum {
-    color: royalblue;
+    color: var(--bdi-info-text);
 }
 
 img {

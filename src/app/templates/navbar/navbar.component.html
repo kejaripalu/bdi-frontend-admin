@@ -1,31 +1,39 @@
-<nav class="sb-topnav navbar navbar-expand navbar-light bg-white border-bottom">
-  <!-- Navbar Brand-->
-  <a class="navbar-brand ps-4 fw-bold text-primary" routerLink="/dashboard">
-    <i class="bi bi-shield-shaded me-2"></i>Bank Data Intelijen
+<nav class="sb-topnav navbar navbar-expand" aria-label="Navigasi utama">
+  <a class="navbar-brand" routerLink="/dashboard">
+    <span class="bdi-brand-mark" aria-hidden="true"><i class="bi bi-shield-shaded"></i></span>
+    <span class="bdi-brand-text">Bank Data Intelijen</span>
   </a>
-  <!-- Sidebar Toggle-->
-  <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0 text-muted" id="sidebarToggle">
-    <i class="fas fa-bars"></i>
-  </button>
-  
-  <!-- Navbar Search (Hidden for now as per minimal requirement)-->
-  <div class="ms-auto"></div>
 
-  <!-- Navbar-->
-  @if (isAuthenticated) {
-    <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
+  <button type="button" class="bdi-icon-btn" id="sidebarToggle"
+    aria-label="Buka atau tutup menu navigasi" aria-controls="sidenavAccordion"
+    (click)="onToggleSidebar()">
+    <i class="bi bi-list" aria-hidden="true"></i>
+  </button>
+
+  <ul class="navbar-nav ms-auto align-items-center gap-1">
+    <li class="nav-item">
+      <button type="button" class="bdi-icon-btn" (click)="onToggleTheme()"
+        [attr.aria-label]="theme === 'dark' ? 'Ganti ke tema terang' : 'Ganti ke tema gelap'"
+        [attr.title]="theme === 'dark' ? 'Tema terang' : 'Tema gelap'">
+        <i class="bi" [class.bi-sun]="theme === 'dark'" [class.bi-moon-stars]="theme !== 'dark'" aria-hidden="true"></i>
+      </button>
+    </li>
+    @if (isAuthenticated) {
       <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle d-flex align-items-center" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-          <div class="avatar-circle me-2">
-            <i class="fas fa-user text-white"></i>
-          </div>
-        </a>
-        <ul class="dropdown-menu dropdown-menu-end shadow-sm border-0 mt-2" aria-labelledby="navbarDropdown">
-          <li><a class="dropdown-item py-2 px-3 d-flex align-items-center" style="cursor: pointer;" (click)="onLogout()">
-            <i class="bi bi-box-arrow-right me-2 text-danger"></i> Logout
-          </a></li>
+        <button type="button" class="bdi-user-btn dropdown-toggle" id="navbarDropdown"
+          data-bs-toggle="dropdown" aria-expanded="false" aria-label="Menu pengguna">
+          <span class="avatar-circle" aria-hidden="true">{{ username ? (username | slice:0:1 | uppercase) : '' }}</span>
+          <span class="bdi-user-name d-none d-md-inline">{{ username }}</span>
+        </button>
+        <ul class="dropdown-menu dropdown-menu-end mt-2" aria-labelledby="navbarDropdown">
+          <li class="dropdown-header d-md-none">{{ username }}</li>
+          <li>
+            <button type="button" class="dropdown-item d-flex align-items-center py-2" (click)="onLogout()">
+              <i class="bi bi-box-arrow-right me-2 text-danger" aria-hidden="true"></i> Logout
+            </button>
+          </li>
         </ul>
       </li>
-    </ul>
-  }
+    }
+  </ul>
 </nav>

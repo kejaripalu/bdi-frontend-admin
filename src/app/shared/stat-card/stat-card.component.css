@@ -1,0 +1,88 @@
+.stat-main {
+    min-width: 0;
+}
+
+.stat-label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--bdi-text-muted);
+}
+
+.stat-value {
+    margin-top: 0.25rem;
+    font-size: 1.875rem;
+    font-weight: 600;
+    line-height: 1.2;
+    letter-spacing: -0.01em;
+    color: var(--bdi-text);
+    font-variant-numeric: tabular-nums;
+}
+
+.stat-desc {
+    margin-top: 0.25rem;
+    font-size: 0.8125rem;
+    color: var(--bdi-text-muted);
+}
+
+.stat-error {
+    margin-top: 0.5rem;
+    font-size: 0.875rem;
+    color: var(--bdi-danger-text);
+}
+
+.stat-skeleton {
+    width: 5rem;
+    height: 1.875rem;
+    margin-top: 0.375rem;
+    border-radius: var(--bdi-radius-sm);
+    background-color: var(--bdi-hover);
+    animation: stat-pulse 1.2s ease-in-out infinite;
+}
+
+@keyframes stat-pulse {
+    50% {
+        opacity: 0.5;
+    }
+}
+
+.stat-icon {
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    border-radius: var(--bdi-radius);
+    background-color: var(--bdi-primary-subtle);
+    color: var(--bdi-primary-text);
+    font-size: 1.25rem;
+}
+
+.card-footer {
+    padding: 0.625rem 1rem;
+    background-color: var(--bdi-surface-2);
+    border-top: 1px solid var(--bdi-border);
+    font-size: 0.8125rem;
+    font-weight: 500;
+}
+
+.stat-link-anchor {
+    color: var(--bdi-primary-text);
+    text-decoration: none;
+}
+
+/* Only linked cards react to hover */
+.stat-card-link {
+    transition: border-color 150ms ease, box-shadow 150ms ease;
+}
+
+.stat-card-link:hover {
+    border-color: var(--bdi-primary);
+    box-shadow: var(--bdi-shadow);
+}
+
+.stat-card-link:hover .stat-link-anchor {
+    text-decoration: underline;
+}

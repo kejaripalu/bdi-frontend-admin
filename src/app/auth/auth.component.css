@@ -1,92 +1,140 @@
-.container {
-    min-height: 80vh;
+:host {
+    display: block;
+}
+
+.bdi-login {
     display: flex;
+    min-height: 100vh;
+    background-color: var(--bdi-bg);
+}
+
+/* Brand panel (large screens only) */
+.bdi-login-brand {
+    display: none;
+    flex: 0 0 42%;
+    max-width: 560px;
+    align-items: center;
+    padding: 3rem;
+    background-color: var(--bdi-primary);
+    color: var(--bdi-on-primary);
+}
+
+[data-bs-theme="dark"] .bdi-login-brand {
+    background-color: #14263f;
+    border-right: 1px solid var(--bdi-border);
+}
+
+.bdi-login-brand-inner {
+    max-width: 24rem;
+}
+
+.bdi-brand-mark-lg {
+    width: 56px;
+    height: 56px;
+    font-size: 1.75rem;
+    margin-bottom: 1.5rem;
+    background-color: rgba(255, 255, 255, 0.16);
+}
+
+.bdi-login-brand-title {
+    margin-bottom: 0.75rem;
+    font-size: 1.75rem;
+    font-weight: 600;
+    color: inherit;
+}
+
+.bdi-login-brand-text {
+    margin: 0;
+    font-size: 1rem;
+    line-height: 1.6;
+    opacity: 0.88;
+}
+
+@media (min-width: 992px) {
+    .bdi-login-brand {
+        display: flex;
+    }
+
+    .bdi-login-mobile-brand {
+        display: none !important;
+    }
+}
+
+/* Form panel */
+.bdi-login-panel {
+    position: relative;
+    display: flex;
+    flex: 1 1 auto;
+    min-width: 0;
     align-items: center;
     justify-content: center;
+    padding: 4.5rem 1rem 2rem;
 }
 
-.card {
-    border: none;
-    border-radius: var(--bdi-border-radius-lg);
-    box-shadow: var(--bdi-shadow-soft);
-    background: #ffffff;
-    overflow: hidden;
+.bdi-login-theme {
+    position: absolute;
+    top: 0.75rem;
+    right: 0.75rem;
 }
 
-.card-header {
-    background: transparent;
-    border-bottom: 1px solid var(--bdi-border-soft);
-    padding: 2.5rem 2rem 1.5rem;
+.bdi-login-card {
+    width: 100%;
+    max-width: 26rem;
+    padding: 2rem 1.5rem;
+    border: 1px solid var(--bdi-border);
+    border-radius: var(--bdi-radius-lg);
+    background-color: var(--bdi-surface);
+    box-shadow: var(--bdi-shadow);
 }
 
-.card-header h3 {
-    font-weight: 700;
-    color: var(--bdi-text-main);
-    letter-spacing: -0.025em;
+@media (min-width: 576px) {
+    .bdi-login-card {
+        padding: 2.5rem;
+    }
 }
 
-.card-header i {
-    color: var(--bdi-primary);
-    margin-right: 0.5rem;
+@media (min-width: 992px) {
+    .bdi-login-card {
+        border: 0;
+        background: transparent;
+        box-shadow: none;
+        padding: 0;
+    }
 }
 
-.card-body {
-    padding: 2rem;
-}
-
-.form-floating > .form-control {
-    border-radius: var(--bdi-border-radius-md);
-    border: 1px solid var(--bdi-border-soft);
-    padding-left: 1rem;
-    height: calc(3.5rem + 2px);
-    line-height: 1.25;
-}
-
-.form-floating > .form-control:focus {
-    border-color: var(--bdi-primary);
-    box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
-}
-
-.form-floating > label {
-    padding-left: 1rem;
-    color: var(--bdi-text-muted);
-}
-
-.btn-primary {
-    background-color: var(--bdi-primary);
-    border: none;
-    border-radius: var(--bdi-border-radius-md);
-    padding: 0.75rem 1.5rem;
+.bdi-login-mobile-brand {
+    display: flex;
+    align-items: center;
+    gap: 0.625rem;
+    margin-bottom: 1.5rem;
     font-weight: 600;
-    transition: all 0.2s ease;
+    color: var(--bdi-text);
 }
 
-.btn-primary:hover {
-    background-color: #4f46e5;
-    transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.25);
+.bdi-login-title {
+    margin-bottom: 0.25rem;
+    font-size: 1.625rem;
 }
 
-.btn-primary:active {
-    transform: translateY(0);
-}
-
-.btn-primary:disabled {
-    background-color: var(--bdi-border-soft);
+.bdi-login-subtitle {
+    margin-bottom: 1.5rem;
     color: var(--bdi-text-muted);
 }
 
-.card-footer {
-    background: var(--bdi-bg-soft);
-    border-top: 1px solid var(--bdi-border-soft);
-    padding: 1.5rem;
+.bdi-login-loading {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 2rem 0;
+    color: var(--bdi-text-muted);
 }
 
-.small.text-success {
-    color: var(--bdi-accent-success) !important;
-    font-weight: 500;
-}
-
-.text-muted {
-    color: var(--bdi-text-muted) !important;
+.bdi-login-footer {
+    margin-top: 2rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--bdi-border);
+    text-align: center;
+    font-size: 0.8125rem;
+    color: var(--bdi-text-muted);
 }

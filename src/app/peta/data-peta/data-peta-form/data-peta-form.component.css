@@ -10,7 +10,7 @@ textarea.ng-invalid.ng-touched {
 
 .text-alert {
     --bs-text-opacity: 1;
-    color: red;
+    color: var(--bdi-danger-text);
     font-size: 0.875em;
 }
 
