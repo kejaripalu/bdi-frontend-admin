@@ -12,6 +12,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { LoadingSpinnerComponent } from './shared/loading-spinner/loading-spinner.component';
 import { StatCardComponent } from './shared/stat-card/stat-card.component';
+import { CanWriteDirective } from './shared/can-write.directive';
 import { ReversePipe } from './shared/reverse.pipe';
 import { SuratMasukFormComponent } from './register/surat-masuk/surat-masuk-form/surat-masuk-form.component';
 import { NoDataAlertComponent } from './shared/no-data-alert/no-data-alert.component';
@@ -107,6 +108,7 @@ import { PetaSimbolViewComponent } from './peta/peta-simbol/peta-simbol-view/pet
         SuratMasukListComponent,
         LoadingSpinnerComponent,
         StatCardComponent,
+        CanWriteDirective,
         SuratMasukFormComponent,
         ReversePipe,
         NoDataAlertComponent,

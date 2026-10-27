@@ -220,13 +220,14 @@ export class KegiatanPamstraFormComponent implements OnInit, OnDestroy {
     giat.telaahanIntelijen = this.giatForm.value['telaahanIntelijen'];
     giat.tindakLanjut = this.giatForm.value['tindakLanjut'];
     giat.tindakLanjutKeterangan = this.giatForm.value['tindakLanjutKeterangan'];
-    giat.nomorSprintWalpam = this.giatForm.value['nomorSprintWalpam'];
+    // optional unique numbers: send null (not an empty string) when blank
+    giat.nomorSprintWalpam = this.giatForm.value['nomorSprintWalpam'] || null;
     giat.tanggalSprintWalpam = dateTanggalSprintWalpam;
     giat.namaPetugasPelaksana = this.giatForm.value['namaPetugasPelaksana'];
     giat.nilaiKontrak = this.giatForm.value['nilaiKontrak'];
     giat.hasilPelaksanaan = this.giatForm.value['hasilPelaksanaan'];
     giat.hasilPelaksanaanKeterangan = this.giatForm.value['hasilPelaksanaanKeterangan'];
-    giat.nomorKertasKerja = this.giatForm.value['nomorKertasKerja'];
+    giat.nomorKertasKerja = this.giatForm.value['nomorKertasKerja'] || null;
     giat.tanggalKertasKerja = dateTanggalKertasKerja;
     giat.keterangan = this.giatForm.value['keterangan'];
     giat.urlFile = this.giatForm.value['urlFile'];

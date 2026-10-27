@@ -1,3 +1,5 @@
+import { ApiError } from "src/app/shared/api-error";
+import { Page } from "src/app/shared/page";
 import { Injectable } from '@angular/core';
 import { DataPeta } from './data-peta.model';
 import { HttpClient } from '@angular/common/http';
@@ -22,7 +24,7 @@ export class DataPetaService {
         const getEndPoint = `${this.endPoint}?pages=${page}&sizes=${size}&bidangDirektorat=${bidang}&` +
             `startDate=${startDate}&endDate=${endDate}`;        
         
-        return this.http.get<Response>(getEndPoint)
+        return this.http.get<Page<DataPeta>>(getEndPoint)
           .pipe(
             map(response => {
               return response;
@@ -39,6 +41,10 @@ export class DataPetaService {
                 }),
                 catchError(errorResponse => {
                     let errorMessage =  'Aduh... Parah nih bos.. gagal ambil data dari server!!!';
+                const apiMessage = ApiError.messageFor(errorResponse);
+                if (apiMessage) {
+                    return throwError(() => apiMessage);
+                }
                     if (!errorResponse.error) {
                         return throwError(() => errorMessage);
                     }
@@ -58,6 +64,10 @@ export class DataPetaService {
         return this.http.post<DataPeta>(this.endPoint, dataPeta)
             .pipe(catchError(errorResponse => {
                 let errorMessage = 'Aduh!!!... Gawat nih bro... GAGAL terhubung ke server';
+                const apiMessage = ApiError.messageFor(errorResponse);
+                if (apiMessage) {
+                    return throwError(() => apiMessage);
+                }
                 if (!errorResponse.error) {
                     return throwError(() => errorMessage);
                 }
@@ -78,6 +88,10 @@ export class DataPetaService {
         return this.http.put<DataPeta>(updateEndPoint, dataPeta)
             .pipe(catchError(errorResponse => {
                 let errorMessage = 'Aduh!!!... Gawat nih bro... GAGAL terhubung ke server';
+                const apiMessage = ApiError.messageFor(errorResponse);
+                if (apiMessage) {
+                    return throwError(() => apiMessage);
+                }
                 if (!errorResponse.error) {
                     return throwError(() => errorMessage);
                 }
@@ -101,6 +115,10 @@ export class DataPetaService {
         return this.http.delete<DataPeta>(deleteEndPoint)
             .pipe(catchError(errorResponse => {
                 let errorMessage = 'Aduh!!!... Gawat nih bro... GAGAL terhubung ke server';
+                const apiMessage = ApiError.messageFor(errorResponse);
+                if (apiMessage) {
+                    return throwError(() => apiMessage);
+                }
                 if (!errorResponse.error) {
                     return throwError(() => errorMessage);
                 }
@@ -120,9 +138,9 @@ export class DataPetaService {
         const startDate = tahun + '-01-01';
         const endDate = tahun + '-12-31';
         const getEndPoint = `${this.endPoint}/search?pages=${page}&sizes=${size}&bidangDirektorat=${bidang}` +
-            `&startDate=${startDate}&endDate=${endDate}&value=${keyword}`;        
+            `&startDate=${startDate}&endDate=${endDate}&value=${encodeURIComponent(keyword)}`;        
         
-        return this.http.get<Response>(getEndPoint)
+        return this.http.get<Page<DataPeta>>(getEndPoint)
           .pipe(
             map(response => {
               return response;
@@ -145,13 +163,7 @@ export class DataPetaService {
 
 }
 
-interface Response {
-    content: DataPeta[],
-    size: number,
-    totalElements: number,
-    totalPages: number,
-    number: number
-}
+
 
 interface DataPetaResponse {
     ids: string,

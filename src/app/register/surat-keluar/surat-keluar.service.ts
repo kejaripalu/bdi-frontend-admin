@@ -1,4 +1,6 @@
 import { HttpClient } from "@angular/common/http";
+import { ApiError } from "src/app/shared/api-error";
+import { Page } from "src/app/shared/page";
 import { Injectable } from "@angular/core";
 import { catchError, map, throwError } from "rxjs";
 import { MonthConverterService } from "src/app/shared/month-converter.service";
@@ -18,7 +20,7 @@ export class SuratKeluarService {
         const endDate = this.monthConverterService.getEndDate(bulan, tahun);    
         const getEndPoint = `${this.endPoint}?pages=${page}&sizes=${size}&jenisSurat=${jenisSurat}&` +
             `startDate=${startDate}&endDate=${endDate}`;        
-        return this.httpClient.get<Response>(getEndPoint)
+        return this.httpClient.get<Page<SuratKeluar>>(getEndPoint)
             .pipe(
                 map(response => {
                     return response;
@@ -30,6 +32,10 @@ export class SuratKeluarService {
         return this.httpClient.post<SuratKeluar>(this.endPoint, suratKeluar)
             .pipe(catchError(errorResponse => {
                 let errorMessage = 'Aduh!!!... Gawat nih bro... GAGAL terhubung ke server';
+                const apiMessage = ApiError.messageFor(errorResponse);
+                if (apiMessage) {
+                    return throwError(() => apiMessage);
+                }
                 if (!errorResponse.error) {
                     return throwError(() => errorMessage);
                 }
@@ -51,6 +57,10 @@ export class SuratKeluarService {
                 }),
                 catchError(errorResponse => {
                     let errorMessage =  'Aduh... Parah nih bos.. gagal ambil data dari server!!!';
+                const apiMessage = ApiError.messageFor(errorResponse);
+                if (apiMessage) {
+                    return throwError(() => apiMessage);
+                }
                     if (!errorResponse.error) {
                         return throwError(() => errorMessage);
                     }
@@ -69,6 +79,10 @@ export class SuratKeluarService {
         return this.httpClient.put<SuratKeluar>(putEndPoint, suratKeluar)
             .pipe(catchError(errorResponse => {
                 let errorMessage = 'Aduh!!!... Gawat nih bro... GAGAL terhubung ke server';
+                const apiMessage = ApiError.messageFor(errorResponse);
+                if (apiMessage) {
+                    return throwError(() => apiMessage);
+                }
                 if (!errorResponse.error) {
                     return throwError(() => errorMessage);
                 }
@@ -89,6 +103,10 @@ export class SuratKeluarService {
         return this.httpClient.delete<SuratKeluar>(deleteEndPoint)
             .pipe(catchError(errorResponse => {
                 let errorMessage = 'Aduh!!!... Gawat nih bro... GAGAL terhubung ke server';
+                const apiMessage = ApiError.messageFor(errorResponse);
+                if (apiMessage) {
+                    return throwError(() => apiMessage);
+                }
                 if (!errorResponse.error) {
                     return throwError(() => errorMessage);
                 }
@@ -105,8 +123,8 @@ export class SuratKeluarService {
         const startDate = tahun + '-01-01';        
         const endDate = tahun + '-12-31';    
         const getEndPoint = `${this.endPoint}/search?pages=${page}&sizes=${size}&jenisSurat=${jenisSurat}&` +
-            `startDate=${startDate}&endDate=${endDate}&value=${value}`;  
-        return this.httpClient.get<Response>(getEndPoint)
+            `startDate=${startDate}&endDate=${endDate}&value=${encodeURIComponent(value)}`;  
+        return this.httpClient.get<Page<SuratKeluar>>(getEndPoint)
             .pipe(
                 map(response => {
                     return response;
@@ -116,10 +134,4 @@ export class SuratKeluarService {
 
 }
 
-interface Response {
-    content: SuratKeluar[],
-    size: number,
-    totalElements: number,
-    totalPages: number,
-    number: number
-}
+

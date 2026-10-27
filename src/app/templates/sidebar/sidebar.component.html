@@ -18,22 +18,22 @@
         <nav class="sb-sidenav-menu-nested nav" aria-label="Persuratan">
           <a class="nav-link" routerLinkActive="active"
              [routerLink]="['/surat-masuk', 'biasa']"
-         [queryParams]="{ jenisSurat: 'BIASA' }">Surat Masuk</a>
+         [queryParams]="{ jenisSurat: 'BIASA' }"><span class="sb-nav-code">(R.IN.1)</span> Surat Masuk</a>
           <a class="nav-link" routerLinkActive="active"
              [routerLink]="['/surat-keluar', 'biasa']"
-         [queryParams]="{ jenisSurat: 'B' }">Surat Keluar</a>
+         [queryParams]="{ jenisSurat: 'B' }"><span class="sb-nav-code">(R.IN.2)</span> Surat Keluar</a>
           <a class="nav-link" routerLinkActive="active"
              [routerLink]="['/rki', 'list']"
-         [queryParams]="{ bidang: 'IPOLHANKAM' }">RKI</a>
+         [queryParams]="{ bidang: 'IPOLHANKAM' }"><span class="sb-nav-code">(R.IN.3)</span> RKI</a>
           <a class="nav-link" routerLinkActive="active"
              [routerLink]="['/ekspedisi', 'biasa']"
-         [queryParams]="{ jenisSurat: 'BIASA' }">Ekspedisi</a>
+         [queryParams]="{ jenisSurat: 'BIASA' }"><span class="sb-nav-code">(R.IN.4)</span> Ekspedisi</a>
           <a class="nav-link" routerLinkActive="active"
-             [routerLink]="['/prodin', 'list']">Produk Intelijen</a>
+             [routerLink]="['/prodin', 'list']"><span class="sb-nav-code">(R.IN.5)</span> Produk Intelijen</a>
           <a class="nav-link" routerLinkActive="active"
-             [routerLink]="['/lahin', 'list']">Telaahan Intelijen</a>
+             [routerLink]="['/lahin', 'list']"><span class="sb-nav-code">(R.IN.19)</span> Telaahan Intelijen</a>
           <a class="nav-link" routerLinkActive="active"
-             [routerLink]="['/arsip', 'list']">Arsip</a>
+             [routerLink]="['/arsip', 'list']"><span class="sb-nav-code">(R.IN.6)</span> Arsip</a>
         </nav>
       </div>
           <a class="nav-link collapsed" href="#" role="button" data-bs-toggle="collapse" data-bs-target="#collapseKegiatan" aria-expanded="false" aria-controls="collapseKegiatan">
@@ -45,19 +45,19 @@
         <nav class="sb-sidenav-menu-nested nav" aria-label="Kegiatan Intelijen">
           <a class="nav-link" routerLinkActive="active"
              [routerLink]="['/kegiatan', 'list']"
-         [queryParams]="{ bidang: 'IPOLHANKAM' }">Ipolhankam</a>
+         [queryParams]="{ bidang: 'IPOLHANKAM' }"><span class="sb-nav-code">(R.IN.7)</span> Ipolhankam</a>
           <a class="nav-link" routerLinkActive="active"
              [routerLink]="['/kegiatan', 'list']"
-         [queryParams]="{ bidang: 'SOSBUDMAS' }">Sosbudmas</a>
+         [queryParams]="{ bidang: 'SOSBUDMAS' }"><span class="sb-nav-code">(R.IN.8)</span> Sosbudmas</a>
           <a class="nav-link" routerLinkActive="active"
              [routerLink]="['/kegiatan', 'list']"
-         [queryParams]="{ bidang: 'EKOKEU' }">Ekokeu</a>
+         [queryParams]="{ bidang: 'EKOKEU' }"><span class="sb-nav-code">(R.IN.9)</span> Ekokeu</a>
           <a class="nav-link" routerLinkActive="active"
              [routerLink]="['/kegiatan', 'list', 'pamstra-list']"
-         [queryParams]="{ bidang: 'PAMSTRA' }">Pamstra</a>
+         [queryParams]="{ bidang: 'PAMSTRA' }"><span class="sb-nav-code">(R.IN.10)</span> Pamstra</a>
           <a class="nav-link" routerLinkActive="active"
              [routerLink]="['/kegiatan', 'list']"
-         [queryParams]="{ bidang: 'TIPRODIN' }">TI &amp; Produk</a>
+         [queryParams]="{ bidang: 'TIPRODIN' }"><span class="sb-nav-code">(R.IN.11)</span> TI &amp; Produk</a>
         </nav>
       </div>
           <a class="nav-link collapsed" href="#" role="button" data-bs-toggle="collapse" data-bs-target="#collapseOpsin" aria-expanded="false" aria-controls="collapseOpsin">
@@ -69,19 +69,19 @@
         <nav class="sb-sidenav-menu-nested nav" aria-label="Operasi Intelijen">
           <a class="nav-link" routerLinkActive="active"
              [routerLink]="['/opsin', 'list']"
-         [queryParams]="{ bidang: 'IPOLHANKAM' }">Ipolhankam</a>
+         [queryParams]="{ bidang: 'IPOLHANKAM' }"><span class="sb-nav-code">(R.IN.12)</span> Ipolhankam</a>
           <a class="nav-link" routerLinkActive="active"
              [routerLink]="['/opsin', 'list']"
-         [queryParams]="{ bidang: 'SOSBUDMAS' }">Sosbudmas</a>
+         [queryParams]="{ bidang: 'SOSBUDMAS' }"><span class="sb-nav-code">(R.IN.13)</span> Sosbudmas</a>
           <a class="nav-link" routerLinkActive="active"
              [routerLink]="['/opsin', 'list']"
-         [queryParams]="{ bidang: 'EKOKEU' }">Ekokeu</a>
+         [queryParams]="{ bidang: 'EKOKEU' }"><span class="sb-nav-code">(R.IN.14)</span> Ekokeu</a>
           <a class="nav-link" routerLinkActive="active"
              [routerLink]="['/opsin', 'list']"
-         [queryParams]="{ bidang: 'PAMSTRA' }">Pamstra</a>
+         [queryParams]="{ bidang: 'PAMSTRA' }"><span class="sb-nav-code">(R.IN.15)</span> Pamstra</a>
           <a class="nav-link" routerLinkActive="active"
              [routerLink]="['/opsin', 'list']"
-         [queryParams]="{ bidang: 'TIPRODIN' }">TI &amp; Produk</a>
+         [queryParams]="{ bidang: 'TIPRODIN' }"><span class="sb-nav-code">(R.IN.16)</span> TI &amp; Produk</a>
         </nav>
       </div>
           <a class="nav-link collapsed" href="#" role="button" data-bs-toggle="collapse" data-bs-target="#collapsePPMPPH" aria-expanded="false" aria-controls="collapsePPMPPH">
@@ -92,7 +92,7 @@
       <div class="collapse" id="collapsePPMPPH" data-bs-parent="#sidenavAccordion">
         <nav class="sb-sidenav-menu-nested nav" aria-label="PPM &amp; PPH">
           <a class="nav-link" routerLinkActive="active"
-             [routerLink]="['/pphppm', 'list']">Register Tamu</a>
+             [routerLink]="['/pphppm', 'list']"><span class="sb-nav-code">(R.IN.21)</span> Register Tamu</a>
         </nav>
       </div>
           <a class="nav-link collapsed" href="#" role="button" data-bs-toggle="collapse" data-bs-target="#collapsePenkumLuhkum" aria-expanded="false" aria-controls="collapsePenkumLuhkum">
@@ -104,7 +104,7 @@
         <nav class="sb-sidenav-menu-nested nav" aria-label="Penkum/Luhkum">
           <a class="nav-link" routerLinkActive="active"
              [routerLink]="['/penkumluhkum', 'penkum']"
-         [queryParams]="{ jenisKegiatan: 'PENERANGAN_HUKUM' }">Register Kegiatan</a>
+         [queryParams]="{ jenisKegiatan: 'PENERANGAN_HUKUM' }"><span class="sb-nav-code">(R.IN.22)</span> Register Kegiatan</a>
         </nav>
       </div>
           <div class="sb-sidenav-menu-heading">Data &amp; Grafik</div>
@@ -117,22 +117,22 @@
         <nav class="sb-sidenav-menu-nested nav" aria-label="Peta">
           <a class="nav-link" routerLinkActive="active"
              [routerLink]="['/data-peta', 'list']"
-         [queryParams]="{ bidang: 'IPOLHANKAM' }">Data Peta</a>
+         [queryParams]="{ bidang: 'IPOLHANKAM' }"><span class="sb-nav-code">(D.IN.1)</span> Data Peta</a>
           <a class="nav-link" routerLinkActive="active"
              [routerLink]="['/peta-simbol', 'view']"
-         [queryParams]="{ bidang: 'IPOLHANKAM' }">Peta Ipolhankam</a>
+         [queryParams]="{ bidang: 'IPOLHANKAM' }"><span class="sb-nav-code">(D.IN.2)</span> Peta Ipolhankam</a>
           <a class="nav-link" routerLinkActive="active"
              [routerLink]="['/peta-simbol', 'view']"
-         [queryParams]="{ bidang: 'SOSBUDMAS' }">Peta Sosbudmas</a>
+         [queryParams]="{ bidang: 'SOSBUDMAS' }"><span class="sb-nav-code">(D.IN.3)</span> Peta Sosbudmas</a>
           <a class="nav-link" routerLinkActive="active"
              [routerLink]="['/peta-simbol', 'view']"
-         [queryParams]="{ bidang: 'EKOKEU' }">Peta Ekokeu</a>
+         [queryParams]="{ bidang: 'EKOKEU' }"><span class="sb-nav-code">(D.IN.4)</span> Peta Ekokeu</a>
           <a class="nav-link" routerLinkActive="active"
              [routerLink]="['/peta-simbol', 'view']"
-         [queryParams]="{ bidang: 'PAMSTRA' }">Peta Pamstra</a>
+         [queryParams]="{ bidang: 'PAMSTRA' }"><span class="sb-nav-code">(D.IN.5)</span> Peta Pamstra</a>
           <a class="nav-link" routerLinkActive="active"
              [routerLink]="['/peta-simbol', 'view']"
-         [queryParams]="{ bidang: 'TIPRODIN' }">Peta TI &amp; Produk</a>
+         [queryParams]="{ bidang: 'TIPRODIN' }"><span class="sb-nav-code">(D.IN.6)</span> Peta TI &amp; Produk</a>
         </nav>
       </div>
         </div>

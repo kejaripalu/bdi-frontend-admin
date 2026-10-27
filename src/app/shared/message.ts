@@ -9,7 +9,7 @@ export class Message {
     errorDataNotFound: string = 'Data tidak ditemukan!!!';
     errorShowData: string = 'Aduh!!!...GAGAL Menampilkan data!!!';
     errorConnection: string = 'Aduh!!!... GAGAL terhubung ke server';
-    errorDataInvalid: string = 'Aduh!!!... GAGAL Simpan Data, Cek lagi data isian!!!, data yang dimasukan SUDAH ADA atau format data yang dimasukan invalid!';
+    errorDataInvalid: string = 'GAGAL Simpan Data. Nomor sudah dipakai atau ada isian wajib (misalnya tanggal atau jam) yang belum lengkap!';
     errorSaveData: string = 'GAGAL Simpan data!!!';
     errorDeleteData: string = 'GAGAL menghapus data!!!';
 

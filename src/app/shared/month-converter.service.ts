@@ -53,7 +53,8 @@ export class MonthConverterService {
                 this.endDate = year + '-01-31';
                 break;
             case 2:
-                this.endDate = year + '-02-29';
+                // 29 only in leap years; the API rejects non-existent dates (INVALID_DATE_FORMAT)
+                this.endDate = year + (this.isLeapYear(+year) ? '-02-29' : '-02-28');
                 break;
             case 3:
                 this.endDate = year + '-03-31';
@@ -89,4 +90,7 @@ export class MonthConverterService {
         return this.endDate;
     }
 
+    private isLeapYear(year: number): boolean {
+        return (year % 4 === 0 && year % 100 !== 0) || year % 400 === 0;
+    }
 }

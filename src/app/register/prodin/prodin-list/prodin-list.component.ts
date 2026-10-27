@@ -152,7 +152,6 @@ export class ProdinListComponent implements OnInit, OnDestroy {
       value,
       this.pageNumber - 1,
       this.pageSize,
-      this.namaBidang,
       this.currentYear.toString())
       .subscribe({
         next: (responseData) => {

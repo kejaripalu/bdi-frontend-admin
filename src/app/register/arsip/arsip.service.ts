@@ -1,4 +1,6 @@
 import { HttpClient } from "@angular/common/http";
+import { ApiError } from "src/app/shared/api-error";
+import { Page } from "src/app/shared/page";
 import { Injectable } from "@angular/core";
 import { catchError, map, throwError } from "rxjs";
 import { MonthConverterService } from "src/app/shared/month-converter.service";
@@ -18,7 +20,7 @@ export class ArsipService {
         const endDate = this.monthConverterService.getEndDate(bulan, tahun);    
         const getEndPoint = `${this.endPoint}?pages=${page}&sizes=${size}&` +
             `startDate=${startDate}&endDate=${endDate}`;        
-        return this.httpClient.get<Response>(getEndPoint)
+        return this.httpClient.get<Page<Arsip>>(getEndPoint)
             .pipe(
                 map(response => {
                     return response;
@@ -30,6 +32,10 @@ export class ArsipService {
         return this.httpClient.post<Arsip>(this.endPoint, arsip)
             .pipe(catchError(errorResponse => {
                 let errorMessage = 'Aduh!!!... Gawat nih bro... GAGAL terhubung ke server';
+                const apiMessage = ApiError.messageFor(errorResponse);
+                if (apiMessage) {
+                    return throwError(() => apiMessage);
+                }
                 if (!errorResponse.error) {
                     return throwError(() => errorMessage);
                 }
@@ -53,6 +59,10 @@ export class ArsipService {
                 }),
                 catchError(errorResponse => {
                     let errorMessage =  'Aduh... Parah nih bos.. gagal ambil data dari server!!!';
+                const apiMessage = ApiError.messageFor(errorResponse);
+                if (apiMessage) {
+                    return throwError(() => apiMessage);
+                }
                     if (!errorResponse.error) {
                         return throwError(() => errorMessage);
                     }
@@ -73,6 +83,10 @@ export class ArsipService {
         return this.httpClient.put<Arsip>(putEndPoint, arsip)
             .pipe(catchError(errorResponse => {
                 let errorMessage = 'Aduh!!!... Gawat nih bro... GAGAL terhubung ke server';
+                const apiMessage = ApiError.messageFor(errorResponse);
+                if (apiMessage) {
+                    return throwError(() => apiMessage);
+                }
                 if (!errorResponse.error) {
                     return throwError(() => errorMessage);
                 }
@@ -95,6 +109,10 @@ export class ArsipService {
         return this.httpClient.delete<Arsip>(deleteEndPoint)
             .pipe(catchError(errorResponse => {
                 let errorMessage = 'Aduh!!!... Gawat nih bro... GAGAL terhubung ke server';
+                const apiMessage = ApiError.messageFor(errorResponse);
+                if (apiMessage) {
+                    return throwError(() => apiMessage);
+                }
                 if (!errorResponse.error) {
                     return throwError(() => errorMessage);
                 }
@@ -113,8 +131,8 @@ export class ArsipService {
         const startDate = tahun + '-01-01';        
         const endDate = tahun + '-12-31';    
         const getEndPoint = `${this.endPoint}/search?pages=${page}&sizes=${size}&` +
-            `startDate=${startDate}&endDate=${endDate}&value=${value}`;  
-        return this.httpClient.get<Response>(getEndPoint)
+            `startDate=${startDate}&endDate=${endDate}&value=${encodeURIComponent(value)}`;  
+        return this.httpClient.get<Page<Arsip>>(getEndPoint)
             .pipe(
                 map(response => {
                     return response;
@@ -124,10 +142,4 @@ export class ArsipService {
 
 }
 
-interface Response {
-    content: Arsip[],
-    size: number,
-    totalElements: number,
-    totalPages: number,
-    number: number
-}
+
