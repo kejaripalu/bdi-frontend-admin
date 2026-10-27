@@ -1,3 +1,4 @@
+import { PrintOptions, PrintService } from 'src/app/shared/print.service';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
@@ -35,7 +36,13 @@ export class SuratMasukListComponent implements OnInit, OnDestroy {
   isSearching: boolean = false;
   currentNotificationStatus: boolean = false;
 
-  constructor(private suratMasukService: SuratMasukService,
+  outputMode: 'print' | 'excel' | null = null;
+  private printSub!: Subscription;
+  private searchedValue: string | null = null;
+
+  constructor(
+    private printService: PrintService,
+    private suratMasukService: SuratMasukService,
     private router: Router,
     private route: ActivatedRoute,
     public toastService: ToastService,
@@ -72,6 +79,7 @@ export class SuratMasukListComponent implements OnInit, OnDestroy {
   }
 
   loadDataSuratMasuk() {
+    this.searchedValue = null;
     this.suratMasukSub = this.suratMasukService.getSuratMasuk(
       this.pageNumber - 1,
       this.pageSize,
@@ -170,6 +178,7 @@ export class SuratMasukListComponent implements OnInit, OnDestroy {
     if (value.trim() === '') {
       return;
     }
+    this.searchedValue = value;
     this.isLoading = true;
     this.pageNumber = 1;
     this.suratMasukSub = this.suratMasukService.getSearchSuratMasuk(
@@ -206,7 +215,61 @@ export class SuratMasukListComponent implements OnInit, OnDestroy {
       );
   }
 
+  onPrint() {
+    this.runOutput('print');
+  }
+
+  onExportExcel() {
+    this.runOutput('excel');
+  }
+
+  /** Loads every page for the current view, then prints it (PDF) or downloads it as Excel. */
+  private runOutput(mode: 'print' | 'excel') {
+    if (this.outputMode) {
+      return;
+    }
+    this.outputMode = mode;
+    const searchedValue = this.searchedValue;
+    const subtitle = ['Jenis Surat: ' + this.jenisSurat, searchedValue === null ? `${this.month[this.currentMonth - 1]} ${this.currentYear}` : `Pencarian "${searchedValue}" - Tahun ${this.currentYear}`].join(' | ');
+    const p = this.printService;
+    this.printSub = p.fetchAll<SuratMasuk>((page, size) => searchedValue === null
+      ? this.suratMasukService.getSuratMasuk(page, size, this.jenisSurat, +this.currentMonth, this.currentYear.toString())
+      : this.suratMasukService.getSearchSuratMasuk(searchedValue, page, size, this.jenisSurat, this.currentYear.toString()))
+      .subscribe({
+        next: (rows) => {
+          this.outputMode = null;
+          if (rows.length === 0) {
+            this.toastService.show('Tidak ada data untuk dicetak.', { classname: 'bg-warning', delay: 5000 });
+            return;
+          }
+          const options: PrintOptions<SuratMasuk> = {
+            title: 'Register Surat Masuk',
+            subtitle,
+            rows,
+            columns: [
+          { header: 'Waktu Penerimaan Surat', value: row => p.lines(p.date(row.tanggalPenerimaanSurat), row.jamPenerimaanSurat) },
+          { header: 'Asal Surat', value: row => row.asal },
+          { header: 'Nomor & Tgl Surat', value: row => p.lines(row.nomorSurat, p.date(row.tanggalSurat)) },
+          { header: 'Perihal', value: row => row.perihal }
+            ]
+          };
+          if (mode === 'print') {
+            p.print(options);
+          } else {
+            p.exportExcel(options);
+          }
+        },
+        error: () => {
+          this.outputMode = null;
+          this.toastService.show(this.message.errorGetData, { classname: 'bg-danger text-light', delay: 5000 });
+        }
+      });
+  }
+
   ngOnDestroy(): void {
+    if (this.printSub) {
+      this.printSub.unsubscribe();
+    }
     if (this.suratMasukSub) {
       this.suratMasukSub.unsubscribe();
     }

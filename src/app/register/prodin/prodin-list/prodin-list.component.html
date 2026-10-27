@@ -8,10 +8,26 @@
 }
 @if (!isLoading && !error) {
   <div class="mt-4">
-    <div class="d-flex bd-highlight">
-      <div class="p-2 w-100 bd-highlight">
-        <button type="button" class="btn btn-primary" (click)="onNewProdin()">
+    <div class="d-flex bd-highlight bdi-list-actions-row">
+      <div class="p-2 bd-highlight d-flex flex-wrap gap-2 align-items-start bdi-list-actions">
+        <button *appCanWrite type="button" class="btn btn-primary" (click)="onNewProdin()">
           <i class="bi bi-window-plus"></i> Tambah Data</button>
+        <button type="button" class="btn-output btn-output-print" (click)="onPrint()"
+          [disabled]="outputMode !== null" aria-label="Print data ke PDF">
+          @if (outputMode === 'print') {
+            <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>
+          } @else {
+            <i class="bi bi-printer-fill" aria-hidden="true"></i>
+          }
+          <span>{{ outputMode === 'print' ? 'Menyiapkan...' : 'Print' }}</span></button>
+        <button type="button" class="btn-output btn-output-excel" (click)="onExportExcel()"
+          [disabled]="outputMode !== null" aria-label="Export data ke Excel">
+          @if (outputMode === 'excel') {
+            <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>
+          } @else {
+            <i class="bi bi-file-earmark-excel-fill" aria-hidden="true"></i>
+          }
+          <span>{{ outputMode === 'excel' ? 'Menyiapkan...' : 'Export Excel' }}</span></button>
         </div>
         <div class="p-2 w-100 bd-highlight">
           <div class="row">
@@ -83,10 +99,10 @@
                       <td class="align-top">
                         <a class="dropdown-item text-primary"
                           [routerLink]="['/prodin', 'list', p.ids, 'detail']"><i class="bi bi-list-check"></i> Detail</a>
-                          <a class="dropdown-item text-success"
+                          <a *appCanWrite class="dropdown-item text-success"
                             [routerLink]="['/prodin', 'list', p.ids, 'form']">
                             <i class="bi bi-pencil-square"></i> Ubah</a>
-                            <a class="dropdown-item text-danger" (click)="openModalDelete(p.ids)" style="cursor: pointer;"><i
+                            <a *appCanWrite class="dropdown-item text-danger" (click)="openModalDelete(p.ids)" style="cursor: pointer;"><i
                             class="bi bi-trash3-fill"></i> Hapus</a>
                           </td>
                         </tr>

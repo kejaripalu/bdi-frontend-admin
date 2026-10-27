@@ -24,7 +24,7 @@
                     <i class="bi bi-backspace-fill"></i> Kembali</button>
                   </div>
                   <div class="p-2">
-                    <button type="button" class="btn btn-warning"
+                    <button *appCanWrite type="button" class="btn btn-warning"
                       [routerLink]="['/surat-keluar', jenisSurat === 'RAHASIA' ? 'rahasia' : 'biasa', suratKeluar.ids, 'form']"
                       [queryParams]="{edit: 1, jenisSurat: jenisSurat === 'RAHASIA' ? 'R' : 'B'}"><i class="bi bi-pencil-square"></i> Ubah</button>
                     </div>

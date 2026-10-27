@@ -24,7 +24,7 @@
                     <i class="bi bi-backspace-fill"></i> Kembali</button>
                   </div>
                   <div class="p-2">
-                    <button type="button" class="btn btn-warning"
+                    <button *appCanWrite type="button" class="btn btn-warning"
                       [routerLink]="['/kegiatan', 'list', giat.ids, 'form']"
                       [queryParams]="{edit: 1, bidang: namaBidang}"><i class="bi bi-pencil-square"></i> Ubah</button>
                     </div>

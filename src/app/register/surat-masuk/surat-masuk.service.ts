@@ -5,6 +5,8 @@ import { MonthConverterService } from "src/app/shared/month-converter.service";
 import { environment } from "src/environments/environment";
 import { SuratMasuk } from "./surat-masuk.model";
 import { Message } from "src/app/shared/message";
+import { ApiError } from "src/app/shared/api-error";
+import { Page } from "src/app/shared/page";
 
 @Injectable({ providedIn: 'root' })
 export class SuratMasukService {
@@ -20,7 +22,7 @@ export class SuratMasukService {
         const endDate = this.monthConverterService.getEndDate(bulan, tahun);    
         const getEndPoint = `${this.endPoint}?pages=${page}&sizes=${size}&jenisSurat=${jenisSurat}&` +
             `startDate=${startDate}&endDate=${endDate}`;        
-        return this.httpClient.get<Response>(getEndPoint)
+        return this.httpClient.get<Page<SuratMasuk>>(getEndPoint)
             .pipe(
                 map(response => {
                     return response;
@@ -32,8 +34,8 @@ export class SuratMasukService {
         const startDate = tahun + '-01-01';        
         const endDate = tahun + '-12-31';    
         const getEndPoint = `${this.endPoint}/search?pages=${page}&sizes=${size}&jenisSurat=${jenisSurat}&` +
-            `startDate=${startDate}&endDate=${endDate}&value=${value}`;  
-        return this.httpClient.get<Response>(getEndPoint)
+            `startDate=${startDate}&endDate=${endDate}&value=${encodeURIComponent(value)}`;  
+        return this.httpClient.get<Page<SuratMasuk>>(getEndPoint)
             .pipe(
                 map(response => {
                     return response;
@@ -50,6 +52,10 @@ export class SuratMasukService {
                 }),
                 catchError(errorResponse => {
                     let errorMessage =  this.message.errorGetData;
+                const apiMessage = ApiError.messageFor(errorResponse);
+                if (apiMessage) {
+                    return throwError(() => apiMessage);
+                }
                     if (!errorResponse.error) {
                         return throwError(() => errorMessage);
                     }
@@ -69,6 +75,10 @@ export class SuratMasukService {
         return this.httpClient.post<SuratMasuk>(this.endPoint, suratMasuk)
             .pipe(catchError(errorResponse => {
                 let errorMessage = this.message.errorConnection;
+                const apiMessage = ApiError.messageFor(errorResponse);
+                if (apiMessage) {
+                    return throwError(() => apiMessage);
+                }
                 if (!errorResponse.error) {
                     return throwError(() => errorMessage);
                 }
@@ -88,6 +98,10 @@ export class SuratMasukService {
         return this.httpClient.put<SuratMasuk>(putEndPoint, suratMasuk)
             .pipe(catchError(errorResponse => {
                 let errorMessage = this.message.errorConnection;
+                const apiMessage = ApiError.messageFor(errorResponse);
+                if (apiMessage) {
+                    return throwError(() => apiMessage);
+                }
                 if (!errorResponse.error) {
                     return throwError(() => errorMessage);
                 }
@@ -110,6 +124,10 @@ export class SuratMasukService {
         return this.httpClient.delete<SuratMasuk>(deleteEndPoint)
             .pipe(catchError(errorResponse => {
                 let errorMessage = this.message.errorConnection;;
+                const apiMessage = ApiError.messageFor(errorResponse);
+                if (apiMessage) {
+                    return throwError(() => apiMessage);
+                }
                 if (!errorResponse.error) {
                     return throwError(() => errorMessage);
                 }
@@ -126,10 +144,4 @@ export class SuratMasukService {
 
 }
 
-interface Response {
-    content: SuratMasuk[],
-    size: number,
-    totalElements: number,
-    totalPages: number,
-    number: number
-}
+

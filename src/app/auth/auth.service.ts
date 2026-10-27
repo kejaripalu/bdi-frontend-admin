@@ -5,6 +5,7 @@ import { environment } from 'src/environments/environment';
 import { User } from './user.model';
 import { Router } from '@angular/router';
 import { jwtDecode } from 'jwt-decode';
+import { isReadOnly, rolesFromToken } from './roles';
 
 @Injectable({
   providedIn: 'root'
@@ -78,6 +79,17 @@ export class AuthService {
       const expirationDuration = expireTime - timeNow;      
       this.autoLogout(expirationDuration)
     }
+  }
+
+  /** Roles from the JWT `scopes` claim of the current session (GET /user does not return roles). */
+  get roles(): string[] {
+    const user = this.user.value;
+    return user ? rolesFromToken(user.token) : [];
+  }
+
+  /** False only for a GUEST session; hides create/edit/delete actions. */
+  get canWrite(): boolean {
+    return !isReadOnly(this.roles);
   }
 
   logout() {

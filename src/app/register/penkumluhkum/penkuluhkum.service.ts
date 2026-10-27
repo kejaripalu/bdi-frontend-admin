@@ -1,3 +1,5 @@
+import { ApiError } from "src/app/shared/api-error";
+import { Page } from "src/app/shared/page";
 import { Injectable } from '@angular/core';
 import { RegisterPenkumLuhkum } from './penkumluhkum.model';
 import { environment } from 'src/environments/environment';
@@ -19,7 +21,7 @@ export class PenkuluhkumService {
     const endDate = this.monthConverterService.getEndDate(bulan, tahun);
     const getEndPoint = `${this.endPoint}?pages=${page}&sizes=${size}&jenisKegiatan=${jenisKegiatan}&` +
       `startDate=${startDate}&endDate=${endDate}`;
-    return this.httpClient.get<Response>(getEndPoint)
+    return this.httpClient.get<Page<RegisterPenkumLuhkum>>(getEndPoint)
       .pipe(
         map(response => {
           return response;
@@ -36,6 +38,10 @@ export class PenkuluhkumService {
         }),
         catchError(errorResponse => {
           let errorMessage = 'Aduh... Parah nih bos.. gagal ambil data dari server!!!';
+                const apiMessage = ApiError.messageFor(errorResponse);
+                if (apiMessage) {
+                    return throwError(() => apiMessage);
+                }
           if (!errorResponse.error) {
             return throwError(() => errorMessage);
           }
@@ -55,6 +61,10 @@ export class PenkuluhkumService {
     return this.httpClient.post<RegisterPenkumLuhkum>(this.endPoint, penkumluhkum)
       .pipe(catchError(errorResponse => {
         let errorMessage = 'Aduh!!!... Gawat nih bro... GAGAL terhubung ke server';
+                const apiMessage = ApiError.messageFor(errorResponse);
+                if (apiMessage) {
+                    return throwError(() => apiMessage);
+                }
         if (!errorResponse.error) {
           return throwError(() => errorMessage);
         }
@@ -74,6 +84,10 @@ export class PenkuluhkumService {
     return this.httpClient.put<RegisterPenkumLuhkum>(putEndPoint, penkumluhkum)
       .pipe(catchError(errorResponse => {
         let errorMessage = 'Aduh!!!... Gawat nih bro... GAGAL terhubung ke server';
+                const apiMessage = ApiError.messageFor(errorResponse);
+                if (apiMessage) {
+                    return throwError(() => apiMessage);
+                }
         if (!errorResponse.error) {
           return throwError(() => errorMessage);
         }
@@ -96,6 +110,10 @@ export class PenkuluhkumService {
     return this.httpClient.delete<RegisterPenkumLuhkum>(deleteEndPoint)
       .pipe(catchError(errorResponse => {
         let errorMessage = 'Aduh!!!... Gawat nih bro... GAGAL terhubung ke server';
+                const apiMessage = ApiError.messageFor(errorResponse);
+                if (apiMessage) {
+                    return throwError(() => apiMessage);
+                }
         if (!errorResponse.error) {
           return throwError(() => errorMessage);
         }
@@ -114,8 +132,8 @@ export class PenkuluhkumService {
     const startDate = tahun + '-01-01';
     const endDate = tahun + '-12-31';
     const getEndPoint = `${this.endPoint}/search?pages=${page}&sizes=${size}&jenisKegiatan=${jenisKegiatan}&` +
-      `startDate=${startDate}&endDate=${endDate}&value=${value}`;
-    return this.httpClient.get<Response>(getEndPoint)
+      `startDate=${startDate}&endDate=${endDate}&value=${encodeURIComponent(value)}`;
+    return this.httpClient.get<Page<RegisterPenkumLuhkum>>(getEndPoint)
       .pipe(
         map(response => {
           return response;
@@ -125,10 +143,4 @@ export class PenkuluhkumService {
   
 }
 
-interface Response {
-  content: RegisterPenkumLuhkum[],
-  size: number,
-  totalElements: number,
-  totalPages: number,
-  number: number
-}
+

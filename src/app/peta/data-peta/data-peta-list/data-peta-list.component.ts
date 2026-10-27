@@ -1,3 +1,4 @@
+import { PrintOptions, PrintService } from 'src/app/shared/print.service';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Message } from 'src/app/shared/message';
 import { DataPeta } from '../data-peta.model';
@@ -38,7 +39,12 @@ export class DataPetaListComponent implements OnInit, OnDestroy {
   isSearching: boolean = false;
   currentNotificationStatus: boolean = false;
 
+  outputMode: 'print' | 'excel' | null = null;
+  private printSub!: Subscription;
+  private searchedValue: string | null = null;
+
   constructor(
+    private printService: PrintService,
     private router: Router,
     private route: ActivatedRoute,
     private sektorPeta: BidangDirektoratSektorPetaService,
@@ -77,6 +83,7 @@ export class DataPetaListComponent implements OnInit, OnDestroy {
   }
 
   fetchDataPeta() {
+    this.searchedValue = null;
     this.dataPetaSub = this.dataPetaService.getAll(
       this.pageNumber - 1,
       this.pageSize,
@@ -173,6 +180,7 @@ export class DataPetaListComponent implements OnInit, OnDestroy {
     if (value.trim() === '') {
       return;
     }
+    this.searchedValue = value;
     this.isLoading = true;
     this.pageNumber = 1;
     this.dataPetaSub = this.dataPetaService.getBySearch(
@@ -209,7 +217,60 @@ export class DataPetaListComponent implements OnInit, OnDestroy {
       );
   }
 
+  onPrint() {
+    this.runOutput('print');
+  }
+
+  onExportExcel() {
+    this.runOutput('excel');
+  }
+
+  /** Loads every page for the current view, then prints it (PDF) or downloads it as Excel. */
+  private runOutput(mode: 'print' | 'excel') {
+    if (this.outputMode) {
+      return;
+    }
+    this.outputMode = mode;
+    const searchedValue = this.searchedValue;
+    const subtitle = ['Bidang: ' + this.namaBidang, searchedValue === null ? `Tahun ${this.currentYear}` : `Pencarian "${searchedValue}" - Tahun ${this.currentYear}`].join(' | ');
+    const p = this.printService;
+    this.printSub = p.fetchAll<DataPeta>((page, size) => searchedValue === null
+      ? this.dataPetaService.getAll(page, size, this.namaBidang, this.currentYear.toString())
+      : this.dataPetaService.getBySearch(searchedValue, page, size, this.namaBidang, this.currentYear.toString()))
+      .subscribe({
+        next: (rows) => {
+          this.outputMode = null;
+          if (rows.length === 0) {
+            this.toastService.show('Tidak ada data untuk dicetak.', { classname: 'bg-warning', delay: 5000 });
+            return;
+          }
+          const options: PrintOptions<DataPeta> = {
+            title: 'Data Peta',
+            subtitle,
+            rows,
+            columns: [
+          { header: 'Sektor', value: row => p.sektorPeta(row.sektor) },
+          { header: 'SIABIDIBAM / 5W + 1H', value: row => `Bahwa pada tanggal ${p.date(row.tanggal)}, bertempat di ${row.lokasi}. ${row.siapa}, ${row.apa}, ${row.mengapa}. ${row.bagaimana}.` },
+          { header: 'Keterangan', value: row => row.keterangan }
+            ]
+          };
+          if (mode === 'print') {
+            p.print(options);
+          } else {
+            p.exportExcel(options);
+          }
+        },
+        error: () => {
+          this.outputMode = null;
+          this.toastService.show(this.message.errorGetData, { classname: 'bg-danger text-light', delay: 5000 });
+        }
+      });
+  }
+
   ngOnDestroy(): void {
+    if (this.printSub) {
+      this.printSub.unsubscribe();
+    }
     if (this.dataPetaQueryParamSub) {
       this.dataPetaQueryParamSub.unsubscribe();
     }

@@ -1,4 +1,6 @@
 import { HttpClient } from "@angular/common/http";
+import { ApiError } from "src/app/shared/api-error";
+import { Page } from "src/app/shared/page";
 import { Injectable } from "@angular/core";
 import { catchError, map, throwError } from "rxjs";
 import { MonthConverterService } from "src/app/shared/month-converter.service";
@@ -18,7 +20,7 @@ export class RegisterKerjaIntelijenService {
         const endDate = this.monthConverterService.getEndDate(bulan, tahun);    
         const getEndPoint = `${this.endPoint}?pages=${page}&sizes=${size}&bidangDirektorat=${bidang}&` +
             `startDate=${startDate}&endDate=${endDate}`;        
-        return this.httpClient.get<Response>(getEndPoint)
+        return this.httpClient.get<Page<RegisterKerjaIntelijen>>(getEndPoint)
             .pipe(
                 map(response => {
                     return response;
@@ -35,6 +37,10 @@ export class RegisterKerjaIntelijenService {
                 }),
                 catchError(errorResponse => {
                     let errorMessage =  'Aduh... Parah nih bos.. gagal ambil data dari server!!!';
+                const apiMessage = ApiError.messageFor(errorResponse);
+                if (apiMessage) {
+                    return throwError(() => apiMessage);
+                }
                     if (!errorResponse.error) {
                         return throwError(() => errorMessage);
                     }
@@ -54,6 +60,10 @@ export class RegisterKerjaIntelijenService {
         return this.httpClient.post<RegisterKerjaIntelijen>(this.endPoint, rki)
             .pipe(catchError(errorResponse => {
                 let errorMessage = 'Aduh!!!... Gawat nih bro... GAGAL terhubung ke server';
+                const apiMessage = ApiError.messageFor(errorResponse);
+                if (apiMessage) {
+                    return throwError(() => apiMessage);
+                }
                 if (!errorResponse.error) {
                     return throwError(() => errorMessage);
                 }
@@ -73,6 +83,10 @@ export class RegisterKerjaIntelijenService {
         return this.httpClient.put<RegisterKerjaIntelijen>(putEndPoint, rki)
             .pipe(catchError(errorResponse => {
                 let errorMessage = 'Aduh!!!... Gawat nih bro... GAGAL terhubung ke server';
+                const apiMessage = ApiError.messageFor(errorResponse);
+                if (apiMessage) {
+                    return throwError(() => apiMessage);
+                }
                 if (!errorResponse.error) {
                     return throwError(() => errorMessage);
                 }
@@ -95,6 +109,10 @@ export class RegisterKerjaIntelijenService {
         return this.httpClient.delete<RegisterKerjaIntelijen>(deleteEndPoint)
             .pipe(catchError(errorResponse => {
                 let errorMessage = 'Aduh!!!... Gawat nih bro... GAGAL terhubung ke server';
+                const apiMessage = ApiError.messageFor(errorResponse);
+                if (apiMessage) {
+                    return throwError(() => apiMessage);
+                }
                 if (!errorResponse.error) {
                     return throwError(() => errorMessage);
                 }
@@ -113,8 +131,8 @@ export class RegisterKerjaIntelijenService {
         const startDate = tahun + '-01-01';        
         const endDate = tahun + '-12-31';    
         const getEndPoint = `${this.endPoint}/search?pages=${page}&sizes=${size}&bidangDirektorat=${bidang}&` +
-            `startDate=${startDate}&endDate=${endDate}&value=${value}`;  
-        return this.httpClient.get<Response>(getEndPoint)
+            `startDate=${startDate}&endDate=${endDate}&value=${encodeURIComponent(value)}`;  
+        return this.httpClient.get<Page<RegisterKerjaIntelijen>>(getEndPoint)
             .pipe(
                 map(response => {
                     return response;
@@ -124,10 +142,4 @@ export class RegisterKerjaIntelijenService {
 
 }
 
-interface Response {
-    content: RegisterKerjaIntelijen[],
-    size: number,
-    totalElements: number,
-    totalPages: number,
-    number: number
-}
+
