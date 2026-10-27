@@ -1,3 +1,4 @@
+import { PrintOptions, PrintService } from 'src/app/shared/print.service';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { RegisterPPHPPM } from '../pphppm.model';
 import { Month } from 'src/app/shared/month';
@@ -38,7 +39,12 @@ export class PphppmListComponent implements OnInit, OnDestroy {
   isAuthenticated: boolean = false;
   token = null as any;
 
+  outputMode: 'print' | 'excel' | null = null;
+  private printSub!: Subscription;
+  private searchedValue: string | null = null;
+
   constructor(
+    private printService: PrintService,
     private router: Router,
     private route: ActivatedRoute,
     private pphppmService: RegisterPPHPPMService,
@@ -56,6 +62,7 @@ export class PphppmListComponent implements OnInit, OnDestroy {
   }
 
   loadData() {
+    this.searchedValue = null;
     this.authService.user.subscribe(user => {
       this.isAuthenticated = !!user;
     });
@@ -154,6 +161,7 @@ export class PphppmListComponent implements OnInit, OnDestroy {
     if (value.trim() === '') {
       return;
     }
+    this.searchedValue = value;
     this.isLoading = true;
     this.pageNumber = 1;
     this.pphppmSub = this.pphppmService.getSearch(
@@ -196,7 +204,63 @@ export class PphppmListComponent implements OnInit, OnDestroy {
       );
   }
 
+  onPrint() {
+    this.runOutput('print');
+  }
+
+  onExportExcel() {
+    this.runOutput('excel');
+  }
+
+  /** Loads every page for the current view, then prints it (PDF) or downloads it as Excel. */
+  private runOutput(mode: 'print' | 'excel') {
+    if (this.outputMode) {
+      return;
+    }
+    this.outputMode = mode;
+    const searchedValue = this.searchedValue;
+    const subtitle = [searchedValue === null ? `${this.month[this.currentMonth - 1]} ${this.currentYear}` : `Pencarian "${searchedValue}" - Tahun ${this.currentYear}`].join(' | ');
+    const p = this.printService;
+    this.printSub = p.fetchAll<RegisterPPHPPM>((page, size) => searchedValue === null
+      ? this.pphppmService.getAll(page, size, +this.currentMonth, this.currentYear.toString())
+      : this.pphppmService.getSearch(searchedValue, page, size, this.currentYear.toString()))
+      .subscribe({
+        next: (rows) => {
+          this.outputMode = null;
+          if (rows.length === 0) {
+            this.toastService.show('Tidak ada data untuk dicetak.', { classname: 'bg-warning', delay: 5000 });
+            return;
+          }
+          const options: PrintOptions<RegisterPPHPPM> = {
+            title: 'Register PPH & PPM',
+            subtitle,
+            rows,
+            columns: [
+          { header: 'Nama Petugas', value: row => row.namaPetugasPenerima },
+          { header: 'Waktu', value: row => p.lines(p.date(row.tanggal), row.jam) },
+          { header: 'Jenis Pelayanan', value: row => row.jenisPelayanan === 'PPM' ? 'Pengaduan Masyarakat' : 'Pelayanan Hukum' },
+          { header: 'Identitas Pelapor', value: row => [row.namaTamu, row.tempatLahirTamu, p.date(row.tanggalLahirTamu), row.alamat, row.jenisKelamin === 'TIDAK_DITENTUKAN' ? 'jenis kelamin tidak disebutkan' : row.jenisKelamin?.toLowerCase(), row.nomorHandphone, row.email, row.pekerjaan, row.nomorIdentitas].filter(part => !!part).join(', ') },
+          { header: 'Nama Organisasi', value: row => row.namaOrganisasi },
+          { header: 'Informasi yang disampaikan', value: row => row.informasiYangDisampaikan }
+            ]
+          };
+          if (mode === 'print') {
+            p.print(options);
+          } else {
+            p.exportExcel(options);
+          }
+        },
+        error: () => {
+          this.outputMode = null;
+          this.toastService.show(this.message.errorGetData, { classname: 'bg-danger text-light', delay: 5000 });
+        }
+      });
+  }
+
   ngOnDestroy(): void {
+    if (this.printSub) {
+      this.printSub.unsubscribe();
+    }
     if (this.pphppmQueryParamSub) {
       this.pphppmQueryParamSub.unsubscribe();
     }

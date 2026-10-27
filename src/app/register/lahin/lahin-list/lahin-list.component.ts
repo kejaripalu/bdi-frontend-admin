@@ -1,3 +1,4 @@
+import { PrintOptions, PrintService } from 'src/app/shared/print.service';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { RegisterLahin } from '../lahin.model';
 import { Subscription } from 'rxjs';
@@ -33,7 +34,12 @@ export class LahinListComponent implements OnInit, OnDestroy {
   isSearching: boolean = false;
   currentNotificationStatus: boolean = false;
 
+  outputMode: 'print' | 'excel' | null = null;
+  private printSub!: Subscription;
+  private searchedValue: string | null = null;
+
   constructor(
+    private printService: PrintService,
     private router: Router,
     private route: ActivatedRoute,
     private lahinService: RegisterTelaahanIntelijenService,
@@ -50,6 +56,7 @@ export class LahinListComponent implements OnInit, OnDestroy {
   }
 
   loadData() {
+    this.searchedValue = null;
     this.lahinSub = this.lahinService.getAll(
       this.pageNumber - 1,
       this.pageSize,
@@ -144,6 +151,7 @@ export class LahinListComponent implements OnInit, OnDestroy {
     if (value.trim() === '') {
       return;
     }
+    this.searchedValue = value;
     this.isLoading = true;
     this.pageNumber = 1;
     this.lahinSub = this.lahinService.getSearch(
@@ -186,7 +194,61 @@ export class LahinListComponent implements OnInit, OnDestroy {
       );
   }
   
+  onPrint() {
+    this.runOutput('print');
+  }
+
+  onExportExcel() {
+    this.runOutput('excel');
+  }
+
+  /** Loads every page for the current view, then prints it (PDF) or downloads it as Excel. */
+  private runOutput(mode: 'print' | 'excel') {
+    if (this.outputMode) {
+      return;
+    }
+    this.outputMode = mode;
+    const searchedValue = this.searchedValue;
+    const subtitle = [searchedValue === null ? `${this.month[this.currentMonth - 1]} ${this.currentYear}` : `Pencarian "${searchedValue}" - Tahun ${this.currentYear}`].join(' | ');
+    const p = this.printService;
+    this.printSub = p.fetchAll<RegisterLahin>((page, size) => searchedValue === null
+      ? this.lahinService.getAll(page, size, +this.currentMonth, this.currentYear.toString())
+      : this.lahinService.getSearch(searchedValue, page, size, this.currentYear.toString()))
+      .subscribe({
+        next: (rows) => {
+          this.outputMode = null;
+          if (rows.length === 0) {
+            this.toastService.show('Tidak ada data untuk dicetak.', { classname: 'bg-warning', delay: 5000 });
+            return;
+          }
+          const options: PrintOptions<RegisterLahin> = {
+            title: 'Register Telaahan Intelijen',
+            subtitle,
+            rows,
+            columns: [
+          { header: 'Nomor dan Tanggal', value: row => p.lines(row.nomor, p.date(row.tanggal)) },
+          { header: 'Pembuat', value: row => row.pembuat },
+          { header: 'Perihal', value: row => row.perihal },
+          { header: 'Tindak Lanjut', value: row => row.tindakLanjut }
+            ]
+          };
+          if (mode === 'print') {
+            p.print(options);
+          } else {
+            p.exportExcel(options);
+          }
+        },
+        error: () => {
+          this.outputMode = null;
+          this.toastService.show(this.message.errorGetData, { classname: 'bg-danger text-light', delay: 5000 });
+        }
+      });
+  }
+
   ngOnDestroy(): void {
+    if (this.printSub) {
+      this.printSub.unsubscribe();
+    }
     if (this.lahinQueryParamSub) {
       this.lahinQueryParamSub.unsubscribe();
     }

@@ -42,6 +42,7 @@
 
   /* Status (text-safe colours on surface) */
   --bdi-success-text: #17714a;
+  --bdi-success-solid: #17714a;
   --bdi-warning-text: #8a5a00;
   --bdi-danger-text: #b42318;
   --bdi-info-text: #0b5f94;
@@ -115,6 +116,7 @@
   --bdi-border-strong: #3d4e67;
 
   --bdi-success-text: #55c795;
+  --bdi-success-solid: #1c7f53;
   --bdi-warning-text: #e8b94a;
   --bdi-danger-text: #f2877d;
   --bdi-info-text: #6fbcec;
@@ -792,4 +794,82 @@ select:not([class]) {
 
 .sb-sidenav .nav-link.active .sb-nav-code {
   color: inherit;
+}
+
+/* Print / Export Excel buttons on register lists */
+.btn-output {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.4375rem 0.875rem;
+  border: 1px solid var(--out-border);
+  border-radius: var(--bdi-radius);
+  background-color: var(--out-bg);
+  color: var(--out-color);
+  font-size: 0.9375rem;
+  font-weight: 500;
+  line-height: 1.5;
+  box-shadow: var(--bdi-shadow-sm);
+  transition: background-color var(--bdi-transition), border-color var(--bdi-transition),
+    color var(--bdi-transition), box-shadow var(--bdi-transition), transform var(--bdi-transition);
+}
+
+.btn-output .bi {
+  font-size: 1.0625rem;
+}
+
+.btn-output:hover:not(:disabled) {
+  border-color: var(--out-solid);
+  background-color: var(--out-solid);
+  color: #fff;
+  box-shadow: var(--bdi-shadow);
+  transform: translateY(-1px);
+}
+
+.btn-output:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.btn-output:disabled {
+  opacity: 0.65;
+  cursor: progress;
+}
+
+.btn-output-print {
+  --out-color: var(--bdi-primary-text);
+  --out-bg: var(--bdi-primary-subtle);
+  --out-border: color-mix(in srgb, var(--bdi-primary) 35%, transparent);
+  --out-solid: var(--bdi-primary);
+}
+
+.btn-output-excel {
+  --out-color: var(--bdi-success-text);
+  --out-bg: var(--bdi-success-subtle);
+  --out-border: color-mix(in srgb, var(--bdi-success-text) 35%, transparent);
+  --out-solid: var(--bdi-success-solid);
+}
+
+/* Row above register tables: add/print/export buttons, then month/year filters */
+.bdi-list-actions-row {
+  flex-wrap: wrap;
+}
+
+.bdi-list-actions {
+  flex: 1 1 100%;
+}
+
+@media (min-width: 992px) {
+  .bdi-list-actions-row {
+    flex-wrap: nowrap;
+  }
+
+  .bdi-list-actions {
+    flex: 0 0 auto;
+  }
+
+  .bdi-list-actions + div {
+    flex: 1 1 0;
+    width: auto !important;
+    min-width: 0;
+  }
 }

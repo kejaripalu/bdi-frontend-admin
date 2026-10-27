@@ -1,3 +1,4 @@
+import { PrintOptions, PrintService } from 'src/app/shared/print.service';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
@@ -52,7 +53,12 @@ export class SuratKeluarListComponent implements OnInit, OnDestroy {
   orderPerihal: boolean = false;
   isDesc: boolean = true;
   
+  outputMode: 'print' | 'excel' | null = null;
+  private printSub!: Subscription;
+  private searchedValue: string | null = null;
+
   constructor(
+    private printService: PrintService,
     private suratKeluarService: SuratKeluarService,
     private router: Router,
     private route: ActivatedRoute,
@@ -90,6 +96,7 @@ export class SuratKeluarListComponent implements OnInit, OnDestroy {
   }
 
   loadDataSuratKeluar() {
+    this.searchedValue = null;
     this.suratKeluarSub = this.suratKeluarService.getSuratKeluar(
       this.pageNumber - 1,
       this.pageSize,
@@ -160,6 +167,7 @@ export class SuratKeluarListComponent implements OnInit, OnDestroy {
     if (value.trim() === '') {
       return;
     }
+    this.searchedValue = value;
     this.isLoading = true;
     this.pageNumber = 1;
     this.suratKeluarSub = this.suratKeluarService.getSearchSuratKeluar(
@@ -263,7 +271,62 @@ export class SuratKeluarListComponent implements OnInit, OnDestroy {
     });
   }
 
+  onPrint() {
+    this.runOutput('print');
+  }
+
+  onExportExcel() {
+    this.runOutput('excel');
+  }
+
+  /** Loads every page for the current view, then prints it (PDF) or downloads it as Excel. */
+  private runOutput(mode: 'print' | 'excel') {
+    if (this.outputMode) {
+      return;
+    }
+    this.outputMode = mode;
+    const searchedValue = this.searchedValue;
+    const subtitle = ['Jenis Surat: ' + this.jenisSurat, searchedValue === null ? `${this.month[this.currentMonth - 1]} ${this.currentYear}` : `Pencarian "${searchedValue}" - Tahun ${this.currentYear}`].join(' | ');
+    const p = this.printService;
+    this.printSub = p.fetchAll<SuratKeluar>((page, size) => searchedValue === null
+      ? this.suratKeluarService.getSuratKeluar(page, size, this.jenisSurat, +this.currentMonth, this.currentYear.toString())
+      : this.suratKeluarService.getSearchSuratKeluar(searchedValue, page, size, this.jenisSurat, this.currentYear.toString()))
+      .subscribe({
+        next: (rows) => {
+          this.outputMode = null;
+          if (rows.length === 0) {
+            this.toastService.show('Tidak ada data untuk dicetak.', { classname: 'bg-warning', delay: 5000 });
+            return;
+          }
+          const options: PrintOptions<SuratKeluar> = {
+            title: 'Register Surat Keluar',
+            subtitle,
+            rows,
+            columns: [
+          { header: 'Tgl & No. Surat', value: row => p.lines(p.date(row.tanggalSurat), row.nomorSurat) },
+          { header: 'Kepada', value: row => row.kepada },
+          { header: 'Perihal', value: row => row.perihal },
+          { header: 'Lampiran', value: row => row.lampiran || '-' },
+          { header: 'Keterangan', value: row => row.keterangan || '-' }
+            ]
+          };
+          if (mode === 'print') {
+            p.print(options);
+          } else {
+            p.exportExcel(options);
+          }
+        },
+        error: () => {
+          this.outputMode = null;
+          this.toastService.show(this.message.errorGetData, { classname: 'bg-danger text-light', delay: 5000 });
+        }
+      });
+  }
+
   ngOnDestroy(): void {
+    if (this.printSub) {
+      this.printSub.unsubscribe();
+    }
     if (this.suratKeluarSub) {
       this.suratKeluarSub.unsubscribe();
     }
